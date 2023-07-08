@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import MainPage from './pages/main-page/main-page';
+
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 
 root.render(
 	<React.StrictMode>
-		<h1>Hello, World!</h1>
+		<MainPage />
 	</React.StrictMode>
 );
