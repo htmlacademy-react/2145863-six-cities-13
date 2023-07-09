@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import App from './components/app/app';
 
-import MainPage from './pages/main-page/main-page';
+const Settings = {
+	totalPlaces: 312,
+	favoriteCount: 3,
+} as const;
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -9,6 +13,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<MainPage />
+		<App totalPlaces={Settings.totalPlaces} favoriteCount={Settings.favoriteCount} />
 	</React.StrictMode>
 );

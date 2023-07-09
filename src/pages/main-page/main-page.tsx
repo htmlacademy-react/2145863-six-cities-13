@@ -1,8 +1,18 @@
+import React from 'react';
+
 type MainPageProps = {
-	// props...
+	totalPlaces: number;
+	favoriteCount: number;
 };
 
-export default function MainPage(): JSX.Element {
+/**
+ * Компонент главного экрана
+ * @component
+ * @param placesCount общее количество найденный мест
+ * @param favoriteCount Количество избранных
+ */
+
+function MainPage({ totalPlaces, favoriteCount }: MainPageProps): React.JSX.Element {
 	return (
 		<div className="page page--gray page--main">
 			<header className="header">
@@ -20,7 +30,7 @@ export default function MainPage(): JSX.Element {
 										<div className="header__avatar-wrapper user__avatar-wrapper">
 										</div>
 										<span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-										<span className="header__favorite-count">3</span>
+										<span className="header__favorite-count">{favoriteCount}</span>
 									</a>
 								</li>
 								<li className="header__nav-item">
@@ -76,7 +86,7 @@ export default function MainPage(): JSX.Element {
 					<div className="cities__places-container container">
 						<section className="cities__places places">
 							<h2 className="visually-hidden">Places</h2>
-							<b className="places__found">312 places to stay in Amsterdam</b>
+							<b className="places__found">{totalPlaces} places to stay in Amsterdam</b>
 							<form className="places__sorting" action="#" method="get">
 								<span className="places__sorting-caption">Sort by</span>
 								<span className="places__sorting-type" tabIndex={0}>
@@ -117,7 +127,7 @@ export default function MainPage(): JSX.Element {
 										</div>
 										<div className="place-card__rating rating">
 											<div className="place-card__stars rating__stars">
-												<span style={{width: "80%"}}></span>
+												<span style={{width: '80%'}}></span>
 												<span className="visually-hidden">Rating</span>
 											</div>
 										</div>
@@ -149,7 +159,7 @@ export default function MainPage(): JSX.Element {
 										</div>
 										<div className="place-card__rating rating">
 											<div className="place-card__stars rating__stars">
-												<span style={{width: "80%"}}></span>
+												<span style={{width: '80%'}}></span>
 												<span className="visually-hidden">Rating</span>
 											</div>
 										</div>
@@ -181,7 +191,7 @@ export default function MainPage(): JSX.Element {
 										</div>
 										<div className="place-card__rating rating">
 											<div className="place-card__stars rating__stars">
-												<span style={{width: "80%"}}></span>
+												<span style={{width: '80%'}}></span>
 												<span className="visually-hidden">Rating</span>
 											</div>
 										</div>
@@ -216,7 +226,7 @@ export default function MainPage(): JSX.Element {
 										</div>
 										<div className="place-card__rating rating">
 											<div className="place-card__stars rating__stars">
-												<span style={{width: "100%"}}></span>
+												<span style={{width: '100%'}}></span>
 												<span className="visually-hidden">Rating</span>
 											</div>
 										</div>
@@ -248,7 +258,7 @@ export default function MainPage(): JSX.Element {
 										</div>
 										<div className="place-card__rating rating">
 											<div className="place-card__stars rating__stars">
-												<span style={{width: "80%"}}></span>
+												<span style={{width: '80%'}}></span>
 												<span className="visually-hidden">Rating</span>
 											</div>
 										</div>
@@ -269,3 +279,5 @@ export default function MainPage(): JSX.Element {
 		</div>
 	);
 }
+
+export default MainPage;
