@@ -1,5 +1,3 @@
-import React from 'react';
-
 function OfferPage(): React.JSX.Element {
 	return (
 		<div className="page">

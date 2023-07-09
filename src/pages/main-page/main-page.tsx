@@ -1,5 +1,3 @@
-import React from 'react';
-
 type MainPageProps = {
 	totalPlaces: number;
 	favoriteCount: number;

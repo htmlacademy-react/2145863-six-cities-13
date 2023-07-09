@@ -1,5 +1,3 @@
-import React from 'react';
-
 function FavoritesPage(): React.JSX.Element {
 	return (
 		<div className="page">

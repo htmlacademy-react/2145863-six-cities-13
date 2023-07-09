@@ -1,5 +1,3 @@
-import React from 'react';
-
 function OfferNotLoggedPage(): React.JSX.Element {
 	return (
 		<div className="page">

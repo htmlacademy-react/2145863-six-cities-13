@@ -1,3 +1,4 @@
+import React from 'react';
 import MainPage from '../../pages/main-page/main-page';
 
 type AppProps = {
@@ -5,8 +6,9 @@ type AppProps = {
 	favoriteCount: number;
 };
 
-function App({totalPlaces, favoriteCount} : AppProps) {
+function App({totalPlaces, favoriteCount} : AppProps): React.JSX.Element {
 	return (
+
 		<MainPage
 			totalPlaces={totalPlaces}
 			favoriteCount={favoriteCount}
