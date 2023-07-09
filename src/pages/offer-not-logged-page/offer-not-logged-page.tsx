@@ -99,7 +99,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 							</div>
 							<div className="offer__rating rating">
 								<div className="offer__stars rating__stars">
-									<span style={{ width: "80%" }} />
+									<span style={{ width: '80%' }} />
 									<span className="visually-hidden">Rating</span>
 								</div>
 								<span className="offer__rating-value rating__value">4.8</span>
@@ -118,7 +118,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 								<span className="offer__price-text">&nbsp;night</span>
 							</div>
 							<div className="offer__inside">
-								<h2 className="offer__inside-title">What's inside</h2>
+								<h2 className="offer__inside-title">What&aposs inside</h2>
 								<ul className="offer__inside-list">
 									<li className="offer__inside-item">Wi-Fi</li>
 									<li className="offer__inside-item">Washing machine</li>
@@ -181,7 +181,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 										<div className="reviews__info">
 											<div className="reviews__rating rating">
 												<div className="reviews__stars rating__stars">
-													<span style={{ width: "80%" }} />
+													<span style={{ width: '80%' }} />
 													<span className="visually-hidden">Rating</span>
 												</div>
 											</div>
@@ -241,7 +241,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 									</div>
 									<div className="place-card__rating rating">
 										<div className="place-card__stars rating__stars">
-											<span style={{ width: "80%" }} />
+											<span style={{ width: '80%' }} />
 											<span className="visually-hidden">Rating</span>
 										</div>
 									</div>
@@ -285,7 +285,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 									</div>
 									<div className="place-card__rating rating">
 										<div className="place-card__stars rating__stars">
-											<span style={{ width: "80%" }} />
+											<span style={{ width: '80%' }} />
 											<span className="visually-hidden">Rating</span>
 										</div>
 									</div>
@@ -332,7 +332,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 									</div>
 									<div className="place-card__rating rating">
 										<div className="place-card__stars rating__stars">
-											<span style={{ width: "100%" }} />
+											<span style={{ width: '100%' }} />
 											<span className="visually-hidden">Rating</span>
 										</div>
 									</div>

@@ -2,10 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 
-const Settings = {
-	totalPlaces: 312,
-	favoriteCount: 3,
-} as const;
+import {Settings} from './const';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
