@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, BrowserRouter, Routes, Link} from 'react-router-dom';
+import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import MainPage from '../../pages/main-page/main-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import LoginPage from '../../pages/login-page/login-page';
@@ -23,8 +23,7 @@ function App({totalPlaces, favoriteCount} : AppProps): React.JSX.Element {
 				<Routes>
 					<Route
 						path={AppRoute.root}
-						element={<MainPage totalPlaces={totalPlaces} favoriteCount={favoriteCount}
-						/>}
+						element={<MainPage totalPlaces={totalPlaces} favoriteCount={favoriteCount}/>}
 					/>
 					<Route
 						path={AppRoute.login}

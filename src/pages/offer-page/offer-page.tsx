@@ -10,7 +10,7 @@ function OfferPage(): React.JSX.Element {
 			<Helmet>
 				<title>6 Cities. Offer details.</title>
 			</Helmet>
-			<h3 style={{textAlign: "center"}}>offerId = {id}</h3>
+			<h3 style={{textAlign: 'center'}}>offerId = {id}</h3>
 			<header className="header">
 				<div className="container">
 					<div className="header__wrapper">
