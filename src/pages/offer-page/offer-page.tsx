@@ -1,19 +1,21 @@
+import { useParams } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
+import { Helmet } from 'react-helmet-async';
+
 function OfferPage(): React.JSX.Element {
+	const { id } = useParams();
+
 	return (
 		<div className="page">
+			<Helmet>
+				<title>6 Cities. Offer details.</title>
+			</Helmet>
+			<h3 style={{textAlign: "center"}}>offerId = {id}</h3>
 			<header className="header">
 				<div className="container">
 					<div className="header__wrapper">
 						<div className="header__left">
-							<a className="header__logo-link" href="main.html">
-								<img
-									className="header__logo"
-									src="img/logo.svg"
-									alt="6 cities logo"
-									width={81}
-									height={41}
-								/>
-							</a>
+							<Logo />
 						</div>
 						<nav className="header__nav">
 							<ul className="header__nav-list">
@@ -124,7 +126,7 @@ function OfferPage(): React.JSX.Element {
 								<span className="offer__price-text">&nbsp;night</span>
 							</div>
 							<div className="offer__inside">
-								<h2 className="offer__inside-title">What&aposs inside</h2>
+								<h2 className="offer__inside-title">What&apos;s inside</h2>
 								<ul className="offer__inside-list">
 									<li className="offer__inside-item">Wi-Fi</li>
 									<li className="offer__inside-item">Washing machine</li>
