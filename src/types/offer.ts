@@ -4,7 +4,7 @@ type CityName = typeof CITIES[number];
 type OfferType = typeof OFFER_TYPES[number];
 type Rating = 1 | 2 | 3 | 4 | 5;
 
-type Location = {
+type ServerLocation = {
 	latitude: number;
 	longitude: number;
 	zoom: number;
@@ -17,9 +17,9 @@ type ServerOffer = {
 	price: number;
 	city: {
 		name: CityName;
-		location: Location;
+		location: ServerLocation;
 	};
-	location: Location;
+	location: ServerLocation;
 	isFavorite: boolean;
 	isPremium: boolean;
 	rating: Rating;
@@ -39,4 +39,27 @@ type ServerFullOffer = Omit<ServerOffer, 'previewImage'> & {
 	maxAdults: number;
 };
 
-export type {ServerOffer, ServerFullOffer};
+type ServerComment = {
+	id: string;
+	date: string;
+	user: {
+		name: string;
+		avatarUrl: string;
+		isPro: boolean;
+	};
+	comment: string,
+	rating: Rating;
+}
+
+type ServerCommentWithOfferId = ServerComment & {offerId: string};
+
+export type {
+	ServerOffer,
+	ServerFullOffer,
+	ServerLocation,
+	ServerComment,
+	ServerCommentWithOfferId,
+	CityName,
+	OfferType,
+	Rating,
+};
