@@ -1,0 +1,28 @@
+.container {
+	display: flex;
+	padding: 50px;
+	flex-direction: column;
+	align-items: center;
+}
+
+.image {
+	margin-bottom: 30px;
+}
+
+.title {
+	font-size: 24px;
+	line-height: 1.1667;
+	font-weight: 700;
+	font-style: oblique;
+	color: #000;
+}
+
+.desctription {
+	font-family: rubik,arial,sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 16px;
+	line-height: 1.15;
+	-webkit-font-smoothing: antialiased;
+	color: rgba(0, 0, 0, 0.45);
+}
