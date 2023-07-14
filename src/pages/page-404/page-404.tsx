@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import css from './page-404.module.css';
-console.log(css);
 
 function Page404(): React.JSX.Element {
 	return (

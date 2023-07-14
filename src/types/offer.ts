@@ -22,7 +22,7 @@ type ServerOffer = {
 	location: ServerLocation;
 	isFavorite: boolean;
 	isPremium: boolean;
-	rating: Rating;
+	rating: number;
 	previewImage: string;
 };
 

@@ -8,22 +8,22 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import OfferNotLoggedPage from '../../pages/offer-not-logged-page/offer-not-logged-page';
 import PrivateRoute from '../private-route/private-route';
-import { HelmetProvider } from 'react-helmet-async';
+import {HelmetProvider} from 'react-helmet-async';
 import Page404 from '../../pages/page-404/page-404';
+import type { ServerOffer } from '../../types/offer';
 
 type AppProps = {
-	totalPlaces: number;
-	favoriteCount: number;
+	offers: ServerOffer[];
 };
 
-function App({totalPlaces, favoriteCount} : AppProps): React.JSX.Element {
+function App({offers} : AppProps): React.JSX.Element {
 	return (
 		<HelmetProvider>
 			<BrowserRouter>
 				<Routes>
 					<Route
 						path={AppRoute.root}
-						element={<MainPage totalPlaces={totalPlaces} favoriteCount={favoriteCount}/>}
+						element={<MainPage offers={offers}/>}
 					/>
 					<Route
 						path={AppRoute.login}

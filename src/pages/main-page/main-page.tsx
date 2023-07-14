@@ -1,10 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import Card from '../../components/card/card';
+import { ServerOffer } from '../../types/offer';
+import { map } from 'leaflet';
 
 type MainPageProps = {
-	totalPlaces: number;
-	favoriteCount: number;
+	offers: ServerOffer[];
 };
 
 /**
@@ -14,7 +15,7 @@ type MainPageProps = {
  * @param favoriteCount Количество избранных
  */
 
-function MainPage({ totalPlaces, favoriteCount }: MainPageProps): React.JSX.Element {
+function MainPage({offers}: MainPageProps): React.JSX.Element {
 	return (
 		<div className="page page--gray page--main">
 			<Helmet>
@@ -33,7 +34,7 @@ function MainPage({ totalPlaces, favoriteCount }: MainPageProps): React.JSX.Elem
 										<div className="header__avatar-wrapper user__avatar-wrapper">
 										</div>
 										<span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-										<span className="header__favorite-count">{favoriteCount}</span>
+										<span className="header__favorite-count">{offers.filter((offer) => offer.isFavorite).length}</span>
 									</a>
 								</li>
 								<li className="header__nav-item">
@@ -89,7 +90,7 @@ function MainPage({ totalPlaces, favoriteCount }: MainPageProps): React.JSX.Elem
 					<div className="cities__places-container container">
 						<section className="cities__places places">
 							<h2 className="visually-hidden">Places</h2>
-							<b className="places__found">{totalPlaces} places to stay in Amsterdam</b>
+							<b className="places__found">{offers.length} places to stay in Amsterdam</b>
 							<form className="places__sorting" action="#" method="get">
 								<span className="places__sorting-caption">Sort by</span>
 								<span className="places__sorting-type" tabIndex={0}>
@@ -106,11 +107,7 @@ function MainPage({ totalPlaces, favoriteCount }: MainPageProps): React.JSX.Elem
 								</ul>
 							</form>
 							<div className="cities__places-list places__list tabs__content">
-								<Card />
-								<Card />
-								<Card />
-								<Card />
-								<Card />
+								{offers.map((offer) => <Card offer={offer} key={offer.id}/>)}
 							</div>
 						</section>
 						<div className="cities__right-section">

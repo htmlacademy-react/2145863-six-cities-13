@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker';
 import {
 	ServerOffer,
 	ServerFullOffer,
@@ -6,7 +7,6 @@ import {
 	Rating,
 	ServerComment,
 	ServerCommentWithOfferId} from '../types/offer';
-import {faker} from '@faker-js/faker';
 import { CITIES, CitiesGPS, OFFER_TYPES, LOCATION_RADIUS } from '../constants';
 import { TemporalData } from '../constants';
 
@@ -20,8 +20,8 @@ function getMockLocation(city: CityName, isOffer: boolean = true): ServerLocatio
 		});
 
 		return {
-			latitude: placeLocation.at(0) as number,
-			longitude: placeLocation.at(1) as number,
+			latitude: placeLocation[0],
+			longitude: placeLocation[1],
 			zoom: faker.number.int({min: 1, max: 16}),
 		}
 	}
@@ -51,8 +51,8 @@ function createMockOffer(): ServerOffer {
 			location: getMockLocation(city),
 			isFavorite: faker.datatype.boolean(),
 			isPremium: faker.datatype.boolean(),
-			rating: faker.number.int({min: 1, max: 5}) as Rating,
-			previewImage: faker.image.urlLoremFlickr({category: 'interior,room'}),
+			rating: faker.number.float({min: 1, max: 5, precision: 0.1}) as Rating,
+			previewImage: faker.image.urlLoremFlickr({width: 260, height: 200, category: 'interior,room,modern,apartment'}),
 	}
 }
 
@@ -68,7 +68,7 @@ function createFullMockOffer(mockOffer: ServerOffer): ServerFullOffer {
         isPro: faker.datatype.boolean(),
     },
     images: Array(faker.number.int({min: 0, max: 5}))
-							.map(() => faker.image.urlLoremFlickr({category: 'apartment'})),
+							.map(() => faker.image.urlLoremFlickr({category: 'interior,room,modern,apartment'})),
     maxAdults: faker.number.int({min: 1, max: 5}),
 	}
 }
@@ -98,7 +98,6 @@ offers.forEach((offer) => {
 
 	for (let i=0; i < commnetsAmoutn + 1; i++) {
 		comments.push({...createMockComents(), offerId: offer.id});
-		console.log();
 	}
 });
 

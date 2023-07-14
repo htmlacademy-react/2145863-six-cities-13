@@ -2,12 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 
-
-import {TemporalData} from './constants';
-import { offers, fullOffers, comments } from './mocks/offers';
-console.log(offers);
-console.log(fullOffers);
-console.log(comments);
+import { offers } from './mocks/mocks';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -15,6 +10,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<App totalPlaces={TemporalData.offerAmount as number} favoriteCount={TemporalData.favoriteCount as number} />
+		<App offers={offers} />
 	</React.StrictMode>
 );
