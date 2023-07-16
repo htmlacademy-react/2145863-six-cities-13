@@ -27,7 +27,7 @@ type ServerOffer = {
 };
 
 type ServerFullOffer = Omit<ServerOffer, 'previewImage'> & {
-	description: string;
+	description: string[];
 	bedrooms: number;
 	goods: string[];
 	host: {
@@ -39,7 +39,7 @@ type ServerFullOffer = Omit<ServerOffer, 'previewImage'> & {
 	maxAdults: number;
 };
 
-type ServerComment = {
+type ServerRewiew = {
 	id: string;
 	date: string;
 	user: {
@@ -51,13 +51,13 @@ type ServerComment = {
 	rating: Rating;
 }
 
-type ServerCommentWithOfferId = ServerComment & {offerId: string};
+type ServerCommentWithOfferId = ServerRewiew & {offerId: string};
 
 export type {
 	ServerOffer,
 	ServerFullOffer,
 	ServerLocation,
-	ServerComment,
+	ServerRewiew,
 	ServerCommentWithOfferId,
 	CityName,
 	OfferType,

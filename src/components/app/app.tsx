@@ -10,13 +10,16 @@ import OfferNotLoggedPage from '../../pages/offer-not-logged-page/offer-not-logg
 import PrivateRoute from '../private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
 import Page404 from '../../pages/page-404/page-404';
-import type { ServerOffer } from '../../types/offer';
+import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
+import { reviews } from '../../mocks/mocks';
 
 type AppProps = {
 	offers: ServerOffer[];
+	fullOffers: ServerFullOffer[];
+	reviews: ServerRewiew[];
 };
 
-function App({offers} : AppProps): React.JSX.Element {
+function App({offers, fullOffers} : AppProps): React.JSX.Element {
 	return (
 		<HelmetProvider>
 			<BrowserRouter>
@@ -31,7 +34,7 @@ function App({offers} : AppProps): React.JSX.Element {
 					/>
 					<Route
 						path={AppRoute.offer}
-						element={<OfferPage />}
+						element={<OfferPage fullOffers={fullOffers} reviews={reviews} />}
 					/>
 					{/* test offer-not-logged */}
 					<Route

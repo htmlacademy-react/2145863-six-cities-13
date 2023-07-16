@@ -5,7 +5,7 @@ import {
 	ServerLocation,
 	CityName,
 	Rating,
-	ServerComment,
+	ServerRewiew,
 	ServerCommentWithOfferId} from '../types/offer';
 import { CITIES, CitiesGPS, OFFER_TYPES, LOCATION_RADIUS } from '../constants';
 import { TemporalData } from '../constants';
@@ -59,22 +59,22 @@ function createMockOffer(): ServerOffer {
 function createFullMockOffer(mockOffer: ServerOffer): ServerFullOffer {
 	return {
 		...mockOffer,
-		description: faker.commerce.productDescription(),
+		description: faker.helpers.multiple(faker.commerce.productDescription, {count: {min: 1, max: 4}}),
     bedrooms: faker.number.int({min: 1, max: 5}),
-    goods: Array.from({length: faker.number.int({min: 0, max: 10})}, faker.commerce.product),
+    goods: Array.from({length: faker.number.int({min: 4, max: 10})}, faker.commerce.product),
     host: {
         name: faker.person.fullName(),
         avatarUrl: faker.image.avatar(),
         isPro: faker.datatype.boolean(),
     },
-    images: Array(faker.number.int({min: 0, max: 5}))
+    images: Array(faker.number.int({min: 1, max: 6}))
 			.fill(null)
 			.map(() => faker.image.urlLoremFlickr({width: 260, height: 200, category: 'interior,room,modern,apartment'})),
     maxAdults: faker.number.int({min: 1, max: 5}),
 	}
 }
 
-function createMockComents(): ServerComment {
+function createMockReviw(): ServerRewiew {
 	return {
 		id: faker.string.nanoid(),
     date: faker.date.between(
@@ -92,14 +92,24 @@ function createMockComents(): ServerComment {
 
 const offers: ServerOffer[] = Array.from({length: TemporalData.offerAmount as number}, createMockOffer);
 const fullOffers: ServerFullOffer[] = offers.map((offer) => createFullMockOffer(offer));
-const comments: ServerCommentWithOfferId[] = [];
+const reviews: ServerCommentWithOfferId[] = [];
 
 offers.forEach((offer) => {
 	const commnetsAmoutn = faker.number.int({min: 0, max: TemporalData.comment_max_amount as number});
 
-	for (let i=0; i < commnetsAmoutn + 1; i++) {
-		comments.push({...createMockComents(), offerId: offer.id});
+	for (let i=0; i < commnetsAmoutn; i++) {
+		reviews.push({...createMockReviw(), offerId: offer.id});
 	}
 });
 
-export {offers, fullOffers, comments};
+function getMockNeighbourPlaces(): ServerOffer[] {
+	const placesAmount = faker.number.int({min: 3, max: 6});
+	const places = Array.from(
+		{length: placesAmount},
+		(): ServerOffer => ({...offers[Math.floor(Math.random() * offers.length)]})
+	);
+
+	return places;
+}
+
+export {offers, fullOffers, reviews, getMockNeighbourPlaces};
