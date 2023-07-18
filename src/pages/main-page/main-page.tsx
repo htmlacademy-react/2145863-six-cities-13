@@ -19,8 +19,8 @@ type MainPageProps = {
  */
 
 function MainPage({offers}: MainPageProps): React.JSX.Element {
-	const [activeCard, setActiveCard] = useState(offers[0]?.id);
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
+
 	return (
 		<div className="page page--gray page--main">
 			<Helmet>
@@ -41,7 +41,7 @@ function MainPage({offers}: MainPageProps): React.JSX.Element {
 							<h2 className="visually-hidden">Places</h2>
 							<b className="places__found">{offers.length} places to stay in Amsterdam</b>
 							<Sort />
-							<OfferList offers={offers} activeCard={activeCard} />
+							<OfferList offers={offers} />
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map"></section>

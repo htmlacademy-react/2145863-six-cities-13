@@ -13,10 +13,12 @@ type CardProps = {
 		'isPremium' |
 		'rating' |
 		'previewImage'
-	>;
+		>;
+		onActiveCardPointerEnter: (offerId: string) => void;
+		onActiveCardPointerLeave: () => void;
 }
 
-function Card({offer}: CardProps): React.JSX.Element {
+function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardProps): React.JSX.Element {
 	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
 	const favoriteClass = classNames(
 		'place-card__bookmark-button',
@@ -25,7 +27,11 @@ function Card({offer}: CardProps): React.JSX.Element {
 	);
 
 	return (
-		<article className="cities__card place-card">
+		<article
+			className="cities__card place-card"
+			onPointerEnter={()=>onActiveCardPointerEnter(offer.id)}
+			onPointerLeave={()=>onActiveCardPointerLeave()}
+		>
 			{offer.isPremium && (
 				<div className="place-card__mark">
 					<span>Premium</span>
