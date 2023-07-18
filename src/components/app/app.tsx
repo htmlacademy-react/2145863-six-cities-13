@@ -45,7 +45,7 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 						path={AppRoute.favorites}
 						element={
 							<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-								<FavoritesPage />
+								<FavoritesPage offers={offers} />
 							</PrivateRoute>
 						}
 					/>

@@ -1,6 +1,6 @@
 function getReviewDateString(dateISO: string): string {
 	const date: Date = new Date(dateISO);
-	console.log('ok - ', `${date.getMonth()} ${date.getFullYear()}`);
+
 	return `${date.toLocaleString('en', { month: 'long' })} ${date.getFullYear()}`;
 }
 
