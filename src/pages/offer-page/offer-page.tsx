@@ -8,6 +8,7 @@ import GalleryImage from '../../components/gallery-image/gallery-image';
 import { getMockNeighbourPlaces, reviews } from '../../mocks/mocks';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
+import { AppRoute } from '../../constants';
 
 type OfferPageProps = {
 	fullOffers: ServerFullOffer[];
@@ -183,7 +184,7 @@ function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
 									{neighbourPlaces.map((place, index) =>
 										<article className="near-places__card place-card" key={place.id+index}>
 											<div className="near-places__image-wrapper place-card__image-wrapper">
-												<Link to={`/offer/${place.id}`}>
+												<Link to={AppRoute.offer.replace(':id', place.id)}>
 													<img
 														className="place-card__image"
 														src={place.previewImage}

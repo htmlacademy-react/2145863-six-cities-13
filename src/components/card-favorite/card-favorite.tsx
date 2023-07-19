@@ -1,6 +1,7 @@
 import React from "react";
 import type { ServerOffer } from "../../types/offer";
 import { Link } from "react-router-dom";
+import { AppRoute } from "../../constants";
 
 type CardFavotireProps = {
 	offer: Pick<ServerOffer,
@@ -26,7 +27,7 @@ function CardFavorite({offer}: CardFavotireProps): React.JSX.Element   {
 				</div>
 			}
 			<div className="favorites__image-wrapper place-card__image-wrapper">
-				<Link to={`/offer/${offer.id}`}>
+				<Link to={AppRoute.offer.replace(':id', offer.id)}>
 					<img
 						className="place-card__image"
 						src={offer.previewImage}
@@ -65,7 +66,7 @@ function CardFavorite({offer}: CardFavotireProps): React.JSX.Element   {
 					</div>
 				</div>
 				<h2 className="place-card__name">
-				<Link to={`/offer/${offer.id}`}>{offer.title} </Link>
+				<Link to={AppRoute.offer.replace(':id', offer.id)}>{offer.title} </Link>
 				</h2>
 				<p className="place-card__type">{offer.type}</p>
 			</div>
