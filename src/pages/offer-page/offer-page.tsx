@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import type { ServerFullOffer, ServerRewiew } from '../../types/offer';
 import Page404 from '../page-404/page-404';
@@ -9,6 +8,7 @@ import { getMockNeighbourPlaces, reviews } from '../../mocks/mocks';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
 import { AppRoute } from '../../constants';
+import { useDocumentTitle } from '../../hooks';
 
 type OfferPageProps = {
 	fullOffers: ServerFullOffer[];
@@ -35,11 +35,10 @@ function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
 
 	const neighbourPlaces = getMockNeighbourPlaces();
 
+	useDocumentTitle(`Place: ${offer?.title}`);
+
 	return (
 		<div className="page">
-			<Helmet>
-				<title>6 Cities. Offer details.</title>
-			</Helmet>
 			<Header favoriteAmount={favoriteAmount} />
 
 			{ offer === undefined &&

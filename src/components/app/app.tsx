@@ -8,7 +8,6 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import OfferNotLoggedPage from '../../pages/offer-not-logged-page/offer-not-logged-page';
 import PrivateRoute from '../private-route/private-route';
-import {HelmetProvider} from 'react-helmet-async';
 import Page404 from '../../pages/page-404/page-404';
 import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
 import { reviews } from '../../mocks/mocks';
@@ -21,7 +20,6 @@ type AppProps = {
 
 function App({offers, fullOffers} : AppProps): React.JSX.Element {
 	return (
-		<HelmetProvider>
 			<BrowserRouter>
 				<Routes>
 					<Route
@@ -60,7 +58,6 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 					/>
 				</Routes>
 			</BrowserRouter>
-		</HelmetProvider>
 	);
 }
 

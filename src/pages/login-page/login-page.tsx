@@ -1,12 +1,11 @@
-import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
+import { useDocumentTitle } from '../../hooks';
 
 function LoginPage(): React.JSX.Element {
+	useDocumentTitle('Login');
+
 	return (
 		<div className="page page--gray page--login">
-			<Helmet>
-				<title>6 Cities. Login.</title>
-			</Helmet>
 			<header className="header">
 				<div className="container">
 					<div className="header__wrapper">

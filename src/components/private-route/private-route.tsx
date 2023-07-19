@@ -1,6 +1,5 @@
 import { Navigate } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants';
-import { Helmet } from 'react-helmet-async';
 
 type PrivateRoutProps = {
 	authorizationStatus: AuthorizationStatus;

@@ -55,3 +55,7 @@ export {
 	LOCATION_RADIUS,
 }
 
+export {PROJECT_NAME} from './common'
+
+
+

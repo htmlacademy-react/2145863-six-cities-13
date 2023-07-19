@@ -5,6 +5,7 @@ import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import { useState } from 'react';
+import { useDocumentTitle } from '../../hooks';
 
 
 type MainPageProps = {
@@ -21,11 +22,11 @@ type MainPageProps = {
 function MainPage({offers}: MainPageProps): React.JSX.Element {
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
 
+	useDocumentTitle('Main');
+
 	return (
 		<div className="page page--gray page--main">
-			<Helmet>
-				<title>6 Cities</title>
-			</Helmet>
+
 			<Header favoriteAmount={favoriteAmount} />
 
 			<main className="page__main page__main--index">

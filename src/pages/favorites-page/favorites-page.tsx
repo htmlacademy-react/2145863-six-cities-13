@@ -3,6 +3,7 @@ import type { ServerOffer } from '../../types/offer';
 import CardFavorite from '../../components/card-favorite/card-favorite';
 import { filterDuplicates, stringCompare } from '../../utils/common';
 import Header from '../../components/header/header';
+import { useDocumentTitle } from '../../hooks';
 
 type FavoritesPageProps = {
 	offers: ServerOffer[];
@@ -10,17 +11,16 @@ type FavoritesPageProps = {
 
 function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
 	const favoriteOffers = offers
-		.filter((offer) => offer.isFavorite)
-		.sort((a, b) => stringCompare(a.city.name, b.city.name));
+	.filter((offer) => offer.isFavorite)
+	.sort((a, b) => stringCompare(a.city.name, b.city.name));
 	const cities = favoriteOffers
-		.map((offer) => offer.city.name)
-		.filter(filterDuplicates);
+	.map((offer) => offer.city.name)
+	.filter(filterDuplicates);
+
+	useDocumentTitle(`Favorite places: ${favoriteOffers.length}` );
 
 	return (
 		<div className="page">
-			<Helmet>
-				<title>6 Cities. Favorite places.</title>
-			</Helmet>
 			<Header favoriteAmount={favoriteOffers.length} />
 
 			<main className="page__main page__main--favorites">
