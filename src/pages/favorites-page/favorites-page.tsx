@@ -17,7 +17,7 @@ function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
 	.map((offer) => offer.city.name)
 	.filter(filterDuplicates);
 
-	useDocumentTitle(`Favorite places: ${favoriteOffers.length}` );
+	useDocumentTitle(`favorite places (${favoriteOffers.length})` );
 
 	return (
 		<div className="page">
