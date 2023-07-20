@@ -27,19 +27,23 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 		},
 		{
 			path: AppRoute.favorites,
-			element: (
-				<PrivateRoute status={authorizationStatus}>
-					<FavoritesPage offers={offers} status={authorizationStatus} />
-				</PrivateRoute>
-			)
+			element: (<PrivateRoute status={authorizationStatus} />),
+			children: [
+				{
+					index: true,
+					element: <FavoritesPage offers={offers} status={authorizationStatus} />
+				}
+			]
 		},
 		{
 			path: AppRoute.login,
-			element: (
-					<PublicRoute status={authorizationStatus}>
-						<LoginPage />
-					</PublicRoute>
-			)
+			element: <PublicRoute status={authorizationStatus} />,
+			children: [
+				{
+					index: true,
+					element: <LoginPage />,
+				}
+			]
 		},
 		{
 			path: AppRoute.offer,
