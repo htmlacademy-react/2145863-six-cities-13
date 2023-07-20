@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import type { ServerOffer } from "../../types/offer";
-import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 
@@ -20,6 +19,7 @@ type CardProps = {
 		onActiveCardPointerLeave: () => void;
 }
 
+
 function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardProps): React.JSX.Element {
 	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
 	const favoriteClass = classNames(
@@ -27,6 +27,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 		{'place-card__bookmark-button--active': offer.isFavorite},
 		'button'
 	);
+	const offerHref = AppRoute.offer.replace(':id', offer.id)
 
 	return (
 		<article
@@ -40,7 +41,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 				</div>)
 			}
 			<div className="cities__image-wrapper place-card__image-wrapper">
-				<ULink href={AppRoute.offer.replace(':id', offer.id)}>
+				<ULink href={offerHref}>
 					<img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
 				</ULink>
 			</div>
@@ -64,7 +65,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					<ULink href={`/offer/${offer.id}`}>{offer.title}{offer.title}</ULink>
+					<ULink href={offerHref}>{offer.title}</ULink>
 				</h2>
 				<p className="place-card__type">{offer.type}</p>
 			</div>

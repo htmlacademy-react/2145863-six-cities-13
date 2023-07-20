@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
 import type { ServerFullOffer, ServerRewiew } from '../../types/offer';
 import Page404 from '../page-404/page-404';

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import css from './page-404.module.css';
 import { AppRoute } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
