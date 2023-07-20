@@ -1,13 +1,13 @@
 // Максимальный радиус от точки вокруг которой создаются моковые локации
 const LOCATION_RADIUS = 5;
 
-const enum TemporalData {
-	offerAmount = 15,
-	favoriteCount = 5,
-	comment_max_amount = 5,
-	comment_min_date = '2023-01-01T00:00:00.000Z',
-	comment_max_date = '2023-07-13T21:04:55.781Z',
-};
+const TemporalData = {
+	offerAmount: 15,
+	favoriteCount: 5,
+	comment_max_amount: 5,
+	comment_min_date: '2023-01-01T00:00:00.000Z',
+	comment_max_date: '2023-07-13T21:04:55.781Z',
+} as const;
 
 const CitiesGPS = {
 	Paris: 			{latitude: 48.8588255, longitude: 2.2646344},

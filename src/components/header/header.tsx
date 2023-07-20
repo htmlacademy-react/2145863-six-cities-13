@@ -4,15 +4,15 @@ import { ULink } from '../u-link/u-link';
 import { useLocation } from 'react-router-dom';
 
 type HeaderPops = {
-	favoriteAmount: number;
+	favoriteAmount?: number;
 	hideNavigation?: boolean;
-	isAthorized?: boolean;
+	isAuthorized?: boolean;
 }
 
 function Header({
 	favoriteAmount,
 	hideNavigation = false,
-	isAthorized = false
+	isAuthorized = false
 } : HeaderPops) {
 
 	const pathname = useLocation();
@@ -27,7 +27,7 @@ function Header({
 						</div>
 						{!hideNavigation && (
 							<nav className="header__nav">
-								{ isAthorized ? (
+								{ isAuthorized ? (
 									<ul className="header__nav-list">
 										<li className="header__nav-item user">
 											<ULink href={AppRoute.favorites} className="header__nav-link header__nav-link--profile">

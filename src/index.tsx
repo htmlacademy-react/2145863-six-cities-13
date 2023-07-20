@@ -10,6 +10,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<App offers={offers} fullOffers={fullOffers} reviews={reviews}/>
+		<App offers={offers} fullOffers={fullOffers} />
 	</React.StrictMode>
 );

@@ -1,22 +1,22 @@
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
-import type { ServerFullOffer, ServerRewiew } from '../../types/offer';
+import type { ServerFullOffer } from '../../types/offer';
 import Page404 from '../page-404/page-404';
 import classNames from 'classnames';
 import GalleryImage from '../../components/gallery-image/gallery-image';
 import { getMockNeighbourPlaces, reviews } from '../../mocks/mocks';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
-import { AppRoute } from '../../constants';
+import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
 
 type OfferPageProps = {
 	fullOffers: ServerFullOffer[];
-	reviews: ServerRewiew[];
+	status: AuthorizationStatus;
 };
 
-function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
+function OfferPage({fullOffers, status}: OfferPageProps ): React.JSX.Element {
 	const {id: offerId} = useParams();
 	const favoriteAmount = fullOffers.filter((offer) => offer.isFavorite)?.length;
 	const offer = fullOffers.find((offer) => {
@@ -35,12 +35,13 @@ function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
 		.filter((review) => review.offerId === offerId)
 
 	const neighbourPlaces = getMockNeighbourPlaces();
+	const isAuthorized = status === AuthorizationStatus.Auth ;
 
 	useDocumentTitle(`Place: ${offer?.title}`);
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteAmount} />
+			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized}/>
 
 			{ offer === undefined &&
 				<Page404 />

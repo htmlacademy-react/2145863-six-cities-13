@@ -1,57 +1,63 @@
 import React from 'react';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import MainPage from '../../pages/main-page/main-page';
 import { AppRoute, AuthorizationStatus } from '../../constants';
+import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import OfferNotLoggedPage from '../../pages/offer-not-logged-page/offer-not-logged-page';
-import PrivateRoute from '../private-route/private-route';
 import Page404 from '../../pages/page-404/page-404';
-import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
-import { reviews } from '../../mocks/mocks';
+import { PrivateRoute, PublicRoute } from '../../pages/access-rout/access-rout';
+import type { ServerFullOffer, ServerOffer } from '../../types/offer';
+
+
 
 type AppProps = {
 	offers: ServerOffer[];
 	fullOffers: ServerFullOffer[];
-	reviews: ServerRewiew[];
 };
 
 function App({offers, fullOffers} : AppProps): React.JSX.Element {
+	const authorizationStatus = AuthorizationStatus.Auth;
+
 	return (
 			<BrowserRouter>
 				<Routes>
+						{/* main-page */}
 					<Route
 						path={AppRoute.root}
-						element={<MainPage offers={offers}/>}
+						element={<MainPage status={authorizationStatus} offers={offers}/> }
 					/>
-					<Route
-						path={AppRoute.login}
-						element={<LoginPage />}
-					/>
-					<Route
-						path={AppRoute.offer}
-						element={<OfferPage fullOffers={fullOffers} reviews={reviews} />}
-					/>
-					{/* test offer-not-logged */}
-					<Route
-						path={'/offer-not-logged'}
-						element={<OfferNotLoggedPage />}
-					/>
+						{/* favirites */}
 					<Route
 						path={AppRoute.favorites}
 						element={
-							<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+							<PrivateRoute status={authorizationStatus}>
 								<FavoritesPage offers={offers} />
 							</PrivateRoute>
 						}
 					/>
-					{/* test - favorites-empty */}
+						{/* login */}
+					<Route
+						path={AppRoute.login}
+						element={
+							<PublicRoute status={authorizationStatus}>
+								<LoginPage />
+							</PublicRoute>
+						}
+					/>
+						{/* offer-page */}
+					<Route
+						path={AppRoute.offer}
+						element={<OfferPage fullOffers={fullOffers} status={authorizationStatus}/>}
+					/>
+						{/* test - favorites-empty */}
 					<Route
 						path={'/favorites-empty'}
 						element={<FavoritesEmptyPage />}
 					/>
+						{/* 404 */}
 					<Route
 						path='*'
 						element={<Page404 />}

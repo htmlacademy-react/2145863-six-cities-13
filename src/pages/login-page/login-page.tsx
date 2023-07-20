@@ -1,5 +1,6 @@
-import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
 import { ULink } from '../../components/u-link/u-link';
+import { TemporalData } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 
 function LoginPage(): React.JSX.Element {
@@ -7,15 +8,8 @@ function LoginPage(): React.JSX.Element {
 
 	return (
 		<div className="page page--gray page--login">
-			<header className="header">
-				<div className="container">
-					<div className="header__wrapper">
-						<div className="header__left">
-							<Logo />
-						</div>
-					</div>
-				</div>
-			</header>
+			<Header favoriteAmount={TemporalData.favoriteCount} hideNavigation/>
+
 			<main className="page__main page__main--login">
 				<div className="page__login-container container">
 					<section className="login">
