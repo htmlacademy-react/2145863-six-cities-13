@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { PROJECT_NAME } from "../constants";
+import { useEffect } from 'react';
+import { PROJECT_NAME } from '../constants';
 
 export function useDocumentTitle(title: string) {
 	useEffect(() => {

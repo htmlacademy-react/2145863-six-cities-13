@@ -14,13 +14,13 @@ type FavoritesPageProps = {
 function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element {
 	const isAuthorized = status === AuthorizationStatus.Auth;
 	const favoriteOffers = offers
-	.filter((offer) => offer.isFavorite)
-	.sort((a, b) => stringCompare(a.city.name, b.city.name));
+		.filter((offer) => offer.isFavorite)
+		.sort((a, b) => stringCompare(a.city.name, b.city.name));
 	const cities = favoriteOffers
-	.map((offer) => offer.city.name)
-	.filter(filterDuplicates);
+		.map((offer) => offer.city.name)
+		.filter(filterDuplicates);
 
-	useDocumentTitle(`favorite places (${favoriteOffers.length})` );
+	useDocumentTitle(`favorite places (${favoriteOffers.length})`);
 
 	return (
 		<div className="page">
@@ -35,7 +35,7 @@ function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element 
 
 							{ cities.length &&
 								cities.map((city) => (
-										// TODO: Добавить текущий <div className="favorites__locations locations locations--current">
+									// TODO: Добавить текущий <div className="favorites__locations locations locations--current">
 									<li className="favorites__locations-items" key={city}>
 										<div className="favorites__locations locations">
 											<div className="locations__item">
@@ -47,22 +47,19 @@ function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element 
 										<div className="favorites__places">
 											{favoriteOffers
 												.filter((offer) => offer.city.name === city)
-												.map((offer) => {
-												return (
+												.map((offer) => (
 													<CardFavorite offer={offer} key={offer.id} />
-												);
-											})}
+												))}
 										</div>
 									</li>
-								))
-							}
+								))}
 
 						</ul>
 					</section>
 				</div>
 			</main>
 			<footer className="footer container">
-				<ULink className="footer__logo-link" href={AppRoute.root}>
+				<ULink className="footer__logo-link" href={AppRoute.Root}>
 					<img
 						className="footer__logo"
 						src="img/logo.svg"

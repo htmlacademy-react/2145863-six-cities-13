@@ -1,4 +1,4 @@
-import { CITIES, OFFER_TYPES } from "../constants";
+import { CITIES, OFFER_TYPES } from '../constants';
 
 type CityName = typeof CITIES[number];
 type OfferType = typeof OFFER_TYPES[number];
@@ -47,7 +47,7 @@ type ServerRewiew = {
 		avatarUrl: string;
 		isPro: boolean;
 	};
-	comment: string,
+	comment: string;
 	rating: Rating;
 }
 

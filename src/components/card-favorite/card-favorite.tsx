@@ -1,8 +1,7 @@
-import React from "react";
-import type { ServerOffer } from "../../types/offer";
-import { Link } from "react-router-dom";
-import { AppRoute } from "../../constants";
-import { ULink } from "../u-link/u-link";
+import React from 'react';
+import type { ServerOffer } from '../../types/offer';
+import { AppRoute } from '../../constants';
+import { ULink } from '../u-link/u-link';
 
 type CardFavotireProps = {
 	offer: Pick<ServerOffer,
@@ -18,7 +17,7 @@ type CardFavotireProps = {
 		>;
 }
 
-function CardFavorite({offer}: CardFavotireProps): React.JSX.Element   {
+function CardFavorite({offer}: CardFavotireProps): React.JSX.Element {
 	return (
 		<article className="favorites__card place-card">
 			{
@@ -28,7 +27,7 @@ function CardFavorite({offer}: CardFavotireProps): React.JSX.Element   {
 				</div>
 			}
 			<div className="favorites__image-wrapper place-card__image-wrapper">
-				<ULink href={AppRoute.offer.replace(':id', offer.id)}>
+				<ULink href={AppRoute.Offer.replace(':id', offer.id)}>
 					<img
 						className="place-card__image"
 						src={offer.previewImage}
@@ -67,7 +66,7 @@ function CardFavorite({offer}: CardFavotireProps): React.JSX.Element   {
 					</div>
 				</div>
 				<h2 className="place-card__name">
-				<ULink href={AppRoute.offer.replace(':id', offer.id)}>{offer.title} </ULink>
+					<ULink href={AppRoute.Offer.replace(':id', offer.id)}>{offer.title}</ULink>
 				</h2>
 				<p className="place-card__type">{offer.type}</p>
 			</div>

@@ -20,13 +20,13 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 
 	const router = createBrowserRouter([
 		{
-			path: AppRoute.root,
+			path: AppRoute.Root,
 			element: (
 				<MainPage status={authorizationStatus} offers={offers} />
 			),
 		},
 		{
-			path: AppRoute.favorites,
+			path: AppRoute.Favorites,
 			element: (<PrivateRoute status={authorizationStatus} />),
 			children: [
 				{
@@ -36,7 +36,7 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 			]
 		},
 		{
-			path: AppRoute.login,
+			path: AppRoute.Login,
 			element: <PublicRoute status={authorizationStatus} />,
 			children: [
 				{
@@ -46,7 +46,7 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 			]
 		},
 		{
-			path: AppRoute.offer,
+			path: AppRoute.Offer,
 			element: (
 				<OfferPage fullOffers={fullOffers} status={authorizationStatus}/>
 			)
@@ -65,7 +65,7 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 		}
 	]);
 
-	return <RouterProvider router={router}/>
+	return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -2,11 +2,11 @@
 const LOCATION_RADIUS = 5;
 
 const TemporalData = {
-	offerAmount: 15,
-	favoriteCount: 5,
-	comment_max_amount: 5,
-	comment_min_date: '2023-01-01T00:00:00.000Z',
-	comment_max_date: '2023-07-13T21:04:55.781Z',
+	OfferAmount: 15,
+	FavoriteCount: 5,
+	CommentMaxAmount: 5,
+	CommentMinDate: '2023-01-01T00:00:00.000Z',
+	CommentMaxDate: '2023-07-13T21:04:55.781Z',
 } as const;
 
 const CitiesGPS = {

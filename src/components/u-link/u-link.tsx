@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes } from "react";
+import type { AnchorHTMLAttributes } from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 
 type ULinkProps = Pick<
@@ -18,7 +18,7 @@ function ULink({children, href, ...props}: ULinkProps) {
 
 	if (isExternal) {
 		return (
-			<a href={href} rel="noopener noreffer" target="_blank" {...props}>
+			<a href={href} rel="noreferrer noopener" target="_blank" {...props}>
 				{children}
 			</a>
 		);

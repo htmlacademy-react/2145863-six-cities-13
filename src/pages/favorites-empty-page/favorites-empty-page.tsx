@@ -1,4 +1,4 @@
-import { ULink } from "../../components/u-link/u-link";
+import { ULink } from '../../components/u-link/u-link';
 
 function FavoritesEmptyPage(): React.JSX.Element {
 	return (

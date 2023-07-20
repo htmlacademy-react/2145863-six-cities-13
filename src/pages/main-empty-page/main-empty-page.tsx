@@ -1,4 +1,4 @@
-import { ULink } from "../../components/u-link/u-link";
+import { ULink } from '../../components/u-link/u-link';
 
 function MainEmptyPage(): React.JSX.Element {
 	return (
@@ -62,7 +62,7 @@ function MainEmptyPage(): React.JSX.Element {
 								</ULink>
 							</li>
 							<li className="locations__item">
-								<ULink className="locations__item-link tabs__item" href={""}>
+								<ULink className="locations__item-link tabs__item" href={''}>
 									<span>Amsterdam</span>
 								</ULink>
 							</li>

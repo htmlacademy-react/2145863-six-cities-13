@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import type { ServerOffer } from "../../types/offer";
+import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 
@@ -27,7 +27,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 		{'place-card__bookmark-button--active': offer.isFavorite},
 		'button'
 	);
-	const offerHref = AppRoute.offer.replace(':id', offer.id)
+	const offerHref = AppRoute.Offer.replace(':id', offer.id);
 
 	return (
 		<article
@@ -38,8 +38,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 			{offer.isPremium && (
 				<div className="place-card__mark">
 					<span>Premium</span>
-				</div>)
-			}
+				</div>)}
 			<div className="cities__image-wrapper place-card__image-wrapper">
 				<ULink href={offerHref}>
 					<img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
@@ -60,7 +59,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 				</div>
 				<div className="place-card__rating rating">
 					<div className="place-card__stars rating__stars">
-						<span style={{ width: `${Math.round(offer.rating)  * 20}%` }}></span>
+						<span style={{ width: `${Math.round(offer.rating) * 20}%` }}></span>
 						<span className="visually-hidden">Rating</span>
 					</div>
 				</div>

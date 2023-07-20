@@ -5,16 +5,17 @@ type RatingProps = {
 
 function Rating({rating, setRating}: RatingProps) {
 	return (
-		<div className="reviews__rating-form form__rating"
-		>
+		<div className="reviews__rating-form form__rating">
 			<input
 				className="form__rating-input visually-hidden"
 				name="rating"
 				defaultValue={5}
 				id="5-stars"
 				type="radio"
-				defaultChecked = {rating===5}
-				onChange={()=> {setRating(5)}}
+				defaultChecked = {rating === 5}
+				onChange={()=> {
+					setRating(5);
+				}}
 			/>
 			<label
 				htmlFor="5-stars"
@@ -31,8 +32,10 @@ function Rating({rating, setRating}: RatingProps) {
 				defaultValue={4}
 				id="4-stars"
 				type="radio"
-				defaultChecked = {rating===4}
-				onChange={()=> {setRating(4)}}
+				defaultChecked = {rating === 4}
+				onChange={()=> {
+					setRating(4);
+				}}
 			/>
 			<label
 				htmlFor="4-stars"
@@ -49,8 +52,10 @@ function Rating({rating, setRating}: RatingProps) {
 				defaultValue={3}
 				id="3-stars"
 				type="radio"
-				defaultChecked = {rating===3}
-				onChange={()=> {setRating(3)}}
+				defaultChecked = {rating === 3}
+				onChange={()=> {
+					setRating(3);
+				}}
 			/>
 			<label
 				htmlFor="3-stars"
@@ -67,8 +72,10 @@ function Rating({rating, setRating}: RatingProps) {
 				defaultValue={2}
 				id="2-stars"
 				type="radio"
-				defaultChecked = {rating===2}
-				onChange={()=> {setRating(2)}}
+				defaultChecked = {rating === 2}
+				onChange={()=> {
+					setRating(2);
+				}}
 			/>
 			<label
 				htmlFor="2-stars"
@@ -85,8 +92,10 @@ function Rating({rating, setRating}: RatingProps) {
 				defaultValue={1}
 				id="1-star"
 				type="radio"
-				defaultChecked = {rating===1}
-				onChange={()=> {setRating(1)}}
+				defaultChecked = {rating === 1}
+				onChange={()=> {
+					setRating(1);
+				}}
 			/>
 			<label
 				htmlFor="1-star"

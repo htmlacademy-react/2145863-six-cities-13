@@ -11,24 +11,28 @@ function OfferList({offers}: OfferListProps): React.JSX.Element {
 
 	function onActiveCardPointerEnter(offerId: string): void {
 		setActiveCard(offerId);
+		// eslint-disable-next-line
 		console.log(offerId, 'set');
 	}
 
 	function onActiveCardPointerLeave(): void {
 		setActiveCard(null);
+		// eslint-disable-next-line
 		console.log(activeCard, 'unset');
 	}
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
 			{offers.map((offer) =>
-				<Card
-					key={offer.id}
-					offer={offer}
-					onActiveCardPointerEnter={onActiveCardPointerEnter}
-					onActiveCardPointerLeave={onActiveCardPointerLeave}
-				/>)
-			}
+				(
+					<Card
+						key={offer.id}
+						offer={offer}
+						onActiveCardPointerEnter={onActiveCardPointerEnter}
+						onActiveCardPointerLeave={onActiveCardPointerLeave}
+					/>
+				)
+			)}
 		</div>
 	);
 }

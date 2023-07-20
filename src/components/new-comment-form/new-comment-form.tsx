@@ -18,7 +18,6 @@ function NewCommentForm() {
 		<form className="reviews__form form" action="#" method="post"
 			onSubmit={(event) => {
 				event.preventDefault();
-				console.log(formData)
 			}}
 		>
 			<label className="reviews__label form__label" htmlFor="review">
@@ -35,7 +34,7 @@ function NewCommentForm() {
 					setFormData({
 						...formData,
 						text: event.target.value,
-					})
+					});
 				}}
 			/>
 			<div className="reviews__button-wrapper">

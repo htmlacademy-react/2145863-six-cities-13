@@ -1,8 +1,8 @@
 const AppRoute = {
-	root: '/',
-	login: '/login',
-	offer: '/offer/:id',
-	favorites: '/favorites',
+	Root: '/',
+	Login: '/login',
+	Offer: '/offer/:id',
+	Favorites: '/favorites',
 } as const;
 
 export {AppRoute};
