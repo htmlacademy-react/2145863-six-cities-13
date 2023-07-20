@@ -1,3 +1,5 @@
+import { ULink } from "../../components/u-link/u-link";
+
 function FavoritesEmptyPage(): React.JSX.Element {
 	return (
 		<div className="page page--favorites-empty">
@@ -5,7 +7,7 @@ function FavoritesEmptyPage(): React.JSX.Element {
 				<div className="container">
 					<div className="header__wrapper">
 						<div className="header__left">
-							<a className="header__logo-link" href="main.html">
+							<ULink className="header__logo-link" href="main.html">
 								<img
 									className="header__logo"
 									src="img/logo.svg"
@@ -13,7 +15,7 @@ function FavoritesEmptyPage(): React.JSX.Element {
 									width={81}
 									height={41}
 								/>
-							</a>
+							</ULink>
 						</div>
 						<nav className="header__nav">
 							<ul className="header__nav-list">
@@ -30,9 +32,9 @@ function FavoritesEmptyPage(): React.JSX.Element {
 									</a>
 								</li>
 								<li className="header__nav-item">
-									<a className="header__nav-link" href="#">
+									<ULink className="header__nav-link" href="#">
 										<span className="header__signout">Sign out</span>
-									</a>
+									</ULink>
 								</li>
 							</ul>
 						</nav>
@@ -53,7 +55,7 @@ function FavoritesEmptyPage(): React.JSX.Element {
 				</div>
 			</main>
 			<footer className="footer">
-				<a className="footer__logo-link" href="main.html">
+				<ULink className="footer__logo-link" href="main.html">
 					<img
 						className="footer__logo"
 						src="img/logo.svg"
@@ -61,7 +63,7 @@ function FavoritesEmptyPage(): React.JSX.Element {
 						width={64}
 						height={33}
 					/>
-				</a>
+				</ULink>
 			</footer>
 		</div>
 	);

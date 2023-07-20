@@ -1,3 +1,5 @@
+import { ULink } from "../../components/u-link/u-link";
+
 function MainEmptyPage(): React.JSX.Element {
 	return (
 		<div className="page page--gray page--main">
@@ -5,7 +7,7 @@ function MainEmptyPage(): React.JSX.Element {
 				<div className="container">
 					<div className="header__wrapper">
 						<div className="header__left">
-							<a className="header__logo-link header__logo-link--active">
+							<ULink className="header__logo-link header__logo-link--active">
 								<img
 									className="header__logo"
 									src="img/logo.svg"
@@ -13,7 +15,7 @@ function MainEmptyPage(): React.JSX.Element {
 									width={81}
 									height={41}
 								/>
-							</a>
+							</ULink>
 						</div>
 						<nav className="header__nav">
 							<ul className="header__nav-list">
@@ -30,9 +32,9 @@ function MainEmptyPage(): React.JSX.Element {
 									</a>
 								</li>
 								<li className="header__nav-item">
-									<a className="header__nav-link" href="#">
+									<ULink className="header__nav-link" href="#">
 										<span className="header__signout">Sign out</span>
-									</a>
+									</ULink>
 								</li>
 							</ul>
 						</nav>
@@ -45,37 +47,37 @@ function MainEmptyPage(): React.JSX.Element {
 					<section className="locations container">
 						<ul className="locations__list tabs__list">
 							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
+								<ULink className="locations__item-link tabs__item" href="#">
 									<span>Paris</span>
-								</a>
+								</ULink>
 							</li>
 							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
+								<ULink className="locations__item-link tabs__item" href="#">
 									<span>Cologne</span>
-								</a>
+								</ULink>
 							</li>
 							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
+								<ULink className="locations__item-link tabs__item" href="#">
 									<span>Brussels</span>
-								</a>
+								</ULink>
 							</li>
 							<li className="locations__item">
-								<a className="locations__item-link tabs__item">
+								<ULink className="locations__item-link tabs__item" href={""}>
 									<span>Amsterdam</span>
-								</a>
+								</ULink>
 							</li>
 							<li className="locations__item">
-								<a className="locations__item-link tabs__item" href="#">
+								<ULink className="locations__item-link tabs__item" href="#">
 									<span>Hamburg</span>
-								</a>
+								</ULink>
 							</li>
 							<li className="locations__item">
-								<a
+								<ULink
 									className="locations__item-link tabs__item tabs__item--active"
 									href="#"
 								>
 									<span>Dusseldorf</span>
-								</a>
+								</ULink>
 							</li>
 						</ul>
 					</section>

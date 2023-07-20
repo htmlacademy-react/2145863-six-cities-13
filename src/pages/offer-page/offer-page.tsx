@@ -9,6 +9,7 @@ import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
 import { AppRoute } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
+import { ULink } from '../../components/u-link/u-link';
 
 type OfferPageProps = {
 	fullOffers: ServerFullOffer[];
@@ -183,7 +184,7 @@ function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
 									{neighbourPlaces.map((place, index) =>
 										<article className="near-places__card place-card" key={place.id+index}>
 											<div className="near-places__image-wrapper place-card__image-wrapper">
-												<Link to={AppRoute.offer.replace(':id', place.id)}>
+												<ULink href={AppRoute.offer.replace(':id', place.id)}>
 													<img
 														className="place-card__image"
 														src={place.previewImage}
@@ -191,7 +192,7 @@ function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
 														height={200}
 														alt="Place image"
 													/>
-												</Link>
+												</ULink>
 											</div>
 											<div className="place-card__info">
 												<div className="place-card__price-wrapper">
@@ -220,7 +221,7 @@ function OfferPage({fullOffers}: OfferPageProps ): React.JSX.Element {
 													</div>
 												</div>
 												<h2 className="place-card__name">
-													<a href="#">{place.title}</a>
+													<ULink href="#">{place.title}</ULink>
 												</h2>
 												<p className="place-card__type">{place.type}</p>
 											</div>

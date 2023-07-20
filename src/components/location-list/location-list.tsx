@@ -1,4 +1,5 @@
 import { CITIES } from "../../constants";
+import { ULink } from "../u-link/u-link";
 
 function LocationsList() {
 	return (
@@ -6,9 +7,9 @@ function LocationsList() {
 			{/* tabs__item--active */}
 			{CITIES.map((city) =>
 				<li className="locations__item" key={city}>
-					<a className="locations__item-link tabs__item" href="#">
+					<ULink className="locations__item-link tabs__item" href="#">
 						<span>{city}</span>
-					</a>
+					</ULink>
 				</li>
 			)}
 		</ul>

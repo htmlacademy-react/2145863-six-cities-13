@@ -1,3 +1,5 @@
+import { ULink } from "../../components/u-link/u-link";
+
 function OfferNotLoggedPage(): React.JSX.Element {
 	return (
 		<div className="page">
@@ -5,7 +7,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 				<div className="container">
 					<div className="header__wrapper">
 						<div className="header__left">
-							<a className="header__logo-link" href="main.html">
+							<ULink className="header__logo-link" href="main.html">
 								<img
 									className="header__logo"
 									src="img/logo.svg"
@@ -13,18 +15,18 @@ function OfferNotLoggedPage(): React.JSX.Element {
 									width={81}
 									height={41}
 								/>
-							</a>
+							</ULink>
 						</div>
 						<nav className="header__nav">
 							<ul className="header__nav-list">
 								<li className="header__nav-item user">
-									<a
+									<ULink
 										className="header__nav-link header__nav-link--profile"
 										href="#"
 									>
 										<div className="header__avatar-wrapper user__avatar-wrapper"></div>
 										<span className="header__login">Sign in</span>
-									</a>
+									</ULink>
 								</li>
 							</ul>
 						</nav>
@@ -207,7 +209,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 						<div className="near-places__list places__list">
 							<article className="near-places__card place-card">
 								<div className="near-places__image-wrapper place-card__image-wrapper">
-									<a href="#">
+									<ULink href="#">
 										<img
 											className="place-card__image"
 											src="img/room.jpg"
@@ -215,7 +217,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 											height={200}
 											alt="Place image"
 										/>
-									</a>
+									</ULink>
 								</div>
 								<div className="place-card__info">
 									<div className="place-card__price-wrapper">
@@ -244,14 +246,14 @@ function OfferNotLoggedPage(): React.JSX.Element {
 										</div>
 									</div>
 									<h2 className="place-card__name">
-										<a href="#">Wood and stone place</a>
+										<ULink href="#">Wood and stone place</ULink>
 									</h2>
 									<p className="place-card__type">Private room</p>
 								</div>
 							</article>
 							<article className="near-places__card place-card">
 								<div className="near-places__image-wrapper place-card__image-wrapper">
-									<a href="#">
+									<ULink href="#">
 										<img
 											className="place-card__image"
 											src="img/apartment-02.jpg"
@@ -259,7 +261,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 											height={200}
 											alt="Place image"
 										/>
-									</a>
+									</ULink>
 								</div>
 								<div className="place-card__info">
 									<div className="place-card__price-wrapper">
@@ -288,7 +290,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 										</div>
 									</div>
 									<h2 className="place-card__name">
-										<a href="#">Canal View Prinsengracht</a>
+										<ULink href="#">Canal View Prinsengracht</ULink>
 									</h2>
 									<p className="place-card__type">Apartment</p>
 								</div>
@@ -298,7 +300,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 									<span>Premium</span>
 								</div>
 								<div className="near-places__image-wrapper place-card__image-wrapper">
-									<a href="#">
+									<ULink href="#">
 										<img
 											className="place-card__image"
 											src="img/apartment-03.jpg"
@@ -306,7 +308,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 											height={200}
 											alt="Place image"
 										/>
-									</a>
+									</ULink>
 								</div>
 								<div className="place-card__info">
 									<div className="place-card__price-wrapper">
@@ -335,7 +337,7 @@ function OfferNotLoggedPage(): React.JSX.Element {
 										</div>
 									</div>
 									<h2 className="place-card__name">
-										<a href="#">Nice, cozy, warm big bed apartment</a>
+										<ULink href="#">Nice, cozy, warm big bed apartment</ULink>
 									</h2>
 									<p className="place-card__type">Apartment</p>
 								</div>

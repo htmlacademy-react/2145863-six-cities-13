@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import type { ServerOffer } from "../../types/offer";
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
+import { ULink } from '../u-link/u-link';
 
 type CardProps = {
 	offer: Pick<ServerOffer,
@@ -39,9 +40,9 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 				</div>)
 			}
 			<div className="cities__image-wrapper place-card__image-wrapper">
-				<Link to={AppRoute.offer.replace(':id', offer.id)}>
+				<ULink href={AppRoute.offer.replace(':id', offer.id)}>
 					<img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
-				</Link>
+				</ULink>
 			</div>
 			<div className="place-card__info">
 				<div className="place-card__price-wrapper">
@@ -63,7 +64,7 @@ function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardP
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					<Link to={`/offer/${offer.id}`}>{offer.title}{offer.title}</Link>
+					<ULink href={`/offer/${offer.id}`}>{offer.title}{offer.title}</ULink>
 				</h2>
 				<p className="place-card__type">{offer.type}</p>
 			</div>

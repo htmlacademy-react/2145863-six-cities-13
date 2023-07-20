@@ -4,6 +4,8 @@ import CardFavorite from '../../components/card-favorite/card-favorite';
 import { filterDuplicates, stringCompare } from '../../utils/common';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks';
+import { ULink } from '../../components/u-link/u-link';
+import { AppRoute } from '../../constants';
 
 type FavoritesPageProps = {
 	offers: ServerOffer[];
@@ -36,9 +38,9 @@ function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
 									<li className="favorites__locations-items" key={city}>
 										<div className="favorites__locations locations">
 											<div className="locations__item">
-												<a className="locations__item-link" href="#">
+												<ULink className="locations__item-link" href="#">
 													<span>{city}</span>
-												</a>
+												</ULink>
 											</div>
 										</div>
 										<div className="favorites__places">
@@ -59,7 +61,7 @@ function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
 				</div>
 			</main>
 			<footer className="footer container">
-				<a className="footer__logo-link" href="main.html">
+				<ULink className="footer__logo-link" href={AppRoute.root}>
 					<img
 						className="footer__logo"
 						src="img/logo.svg"
@@ -67,7 +69,7 @@ function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
 						width={64}
 						height={33}
 					/>
-				</a>
+				</ULink>
 			</footer>
 		</div>
 	);
