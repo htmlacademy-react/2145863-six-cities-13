@@ -1,17 +1,18 @@
-import { Helmet } from 'react-helmet-async';
 import type { ServerOffer } from '../../types/offer';
 import CardFavorite from '../../components/card-favorite/card-favorite';
 import { filterDuplicates, stringCompare } from '../../utils/common';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
-import { AppRoute } from '../../constants';
+import { AppRoute, AuthorizationStatus } from '../../constants';
 
 type FavoritesPageProps = {
 	offers: ServerOffer[];
+	status: AuthorizationStatus;
 }
 
-function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
+function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element {
+	const isAuthorized = status === AuthorizationStatus.Auth;
 	const favoriteOffers = offers
 	.filter((offer) => offer.isFavorite)
 	.sort((a, b) => stringCompare(a.city.name, b.city.name));
@@ -23,7 +24,7 @@ function FavoritesPage({offers}: FavoritesPageProps): React.JSX.Element {
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteOffers.length} />
+			<Header favoriteAmount={favoriteOffers.length} isAuthorized={isAuthorized} />
 
 			<main className="page__main page__main--favorites">
 				<div className="page__favorites-container container">
