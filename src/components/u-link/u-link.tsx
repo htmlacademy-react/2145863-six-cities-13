@@ -11,7 +11,6 @@ type ULinkProps = Pick<
 
 /**
  * ULink (Universal Link) - универсальная ссылка (обрабатывает внешний и внутренний роутинг)
- * @component
  */
 function ULink({children, href, ...props}: ULinkProps) {
 	const isExternal = href?.startsWith('http');
