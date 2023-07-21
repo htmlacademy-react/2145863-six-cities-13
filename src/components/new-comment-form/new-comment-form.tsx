@@ -5,7 +5,7 @@ import Rating from '../rating/rating';
 function NewCommentForm() {
 	const [formData, setFormData] = useState({
 		rating: 0,
-		text: '',
+		review: '',
 	});
 
 	function handleFormChange(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -28,7 +28,7 @@ function NewCommentForm() {
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
-				defaultValue={formData.text}
+				defaultValue={formData.review}
 				onChange={handleFormChange}
 			/>
 			<div className="reviews__button-wrapper">
