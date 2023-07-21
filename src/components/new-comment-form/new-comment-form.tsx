@@ -1,3 +1,4 @@
+import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import Rating from '../rating/rating';
 
@@ -7,11 +8,9 @@ function NewCommentForm() {
 		text: '',
 	});
 
-	function setRating(amount: number) {
-		setFormData({
-			...formData,
-			rating: amount,
-		});
+	function handleFormChange(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+		const {name, value} = evt.target;
+		setFormData({...formData, [name]: value});
 	}
 
 	return (
@@ -23,19 +22,14 @@ function NewCommentForm() {
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<Rating rating={formData.rating} setRating={setRating}/>
+			<Rating rating={formData.rating} handleFormChange={handleFormChange}/>
 			<textarea
 				className="reviews__textarea form__textarea"
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
-				value={formData.text}
-				onChange={(event) => {
-					setFormData({
-						...formData,
-						text: event.target.value,
-					});
-				}}
+				defaultValue={formData.text}
+				onChange={handleFormChange}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">

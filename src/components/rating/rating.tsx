@@ -1,9 +1,11 @@
+import type { ChangeEvent } from 'react';
+
 type RatingProps = {
 	rating: number;
-	setRating: (amount: number) => void;
+	handleFormChange: (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-function Rating({rating, setRating}: RatingProps) {
+function Rating({rating, handleFormChange}: RatingProps) {
 	return (
 		<div className="reviews__rating-form form__rating">
 			<input
@@ -13,9 +15,7 @@ function Rating({rating, setRating}: RatingProps) {
 				id="5-stars"
 				type="radio"
 				defaultChecked = {rating === 5}
-				onChange={()=> {
-					setRating(5);
-				}}
+				onChange={handleFormChange}
 			/>
 			<label
 				htmlFor="5-stars"
@@ -33,9 +33,7 @@ function Rating({rating, setRating}: RatingProps) {
 				id="4-stars"
 				type="radio"
 				defaultChecked = {rating === 4}
-				onChange={()=> {
-					setRating(4);
-				}}
+				onChange={handleFormChange}
 			/>
 			<label
 				htmlFor="4-stars"
@@ -53,9 +51,7 @@ function Rating({rating, setRating}: RatingProps) {
 				id="3-stars"
 				type="radio"
 				defaultChecked = {rating === 3}
-				onChange={()=> {
-					setRating(3);
-				}}
+				onChange={handleFormChange}
 			/>
 			<label
 				htmlFor="3-stars"
@@ -73,9 +69,7 @@ function Rating({rating, setRating}: RatingProps) {
 				id="2-stars"
 				type="radio"
 				defaultChecked = {rating === 2}
-				onChange={()=> {
-					setRating(2);
-				}}
+				onChange={handleFormChange}
 			/>
 			<label
 				htmlFor="2-stars"
@@ -93,9 +87,7 @@ function Rating({rating, setRating}: RatingProps) {
 				id="1-star"
 				type="radio"
 				defaultChecked = {rating === 1}
-				onChange={()=> {
-					setRating(1);
-				}}
+				onChange={handleFormChange}
 			/>
 			<label
 				htmlFor="1-star"

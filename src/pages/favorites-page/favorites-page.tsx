@@ -1,4 +1,4 @@
-import type { ServerOffer } from '../../types/offer';
+import type { CityName, OfferType, ServerOffer } from '../../types/offer';
 import CardFavorite from '../../components/card-favorite/card-favorite';
 import { filterDuplicates, stringCompare } from '../../utils/common';
 import Header from '../../components/header/header';
