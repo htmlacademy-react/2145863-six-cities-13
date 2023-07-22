@@ -4,12 +4,13 @@ import type { ServerFullOffer } from '../../types/offer';
 import Page404 from '../page-404/page-404';
 import classNames from 'classnames';
 import GalleryImage from '../../components/gallery-image/gallery-image';
-import { getMockNeighbourPlaces, reviews } from '../../mocks/mocks';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
+import { getNeighbourPlaces, getReviews } from '../../model';
+
 
 type OfferPageProps = {
 	fullOffers: ServerFullOffer[];
@@ -18,6 +19,8 @@ type OfferPageProps = {
 
 function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 	const { id: offerId } = useParams();
+	const reviews = getReviews()
+	const neighbourPlaces = getNeighbourPlaces();
 	const favoriteAmount = fullOffers.filter((offer) => offer.isFavorite)?.length;
 	const offer = fullOffers.find((offerItem) => offerItem.id === offerId);
 	const favorireLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
@@ -30,9 +33,8 @@ function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 		{ 'offer__avatar-wrapper--pro': offer?.host.isPro },
 		'user__avatar-wrapper');
 	const offerReviwes = reviews
-		.filter((review) => review.offerId === offerId);
+		?.filter((review) => review.offerId === offerId);
 
-	const neighbourPlaces = getMockNeighbourPlaces();
 	const isAuthorized = status === AuthorizationStatus.Auth;
 
 	useDocumentTitle(`Place: ${offer?.title || ''}`);
@@ -129,11 +131,11 @@ function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 								<section className="offer__reviews reviews">
 									<h2 className="reviews__title">
 										Reviews
-										{offerReviwes.length > 0 &&
+										{offerReviwes &&
 											<> · <span className="reviews__amount">{offerReviwes.length}</span></>}
 									</h2>
 									<ul className="reviews__list">
-										{offerReviwes.map((review) => (
+										{offerReviwes?.map((review) => (
 											<li className="reviews__item" key={review.id}>
 												<div className="reviews__user user">
 													<div className="reviews__avatar-wrapper user__avatar-wrapper">

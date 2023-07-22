@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-
-import { offers, fullOffers } from './mocks/mocks';
+import { fullOffers, offers } from './mocks';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
