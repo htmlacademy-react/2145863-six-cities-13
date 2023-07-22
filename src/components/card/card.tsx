@@ -1,37 +1,72 @@
-function Card(): React.JSX.Element {
+import classNames from 'classnames';
+import type { ServerOffer } from '../../types/offer';
+import { AppRoute } from '../../constants';
+import { ULink } from '../u-link/u-link';
+
+type CardProps = {
+	offer: Pick<ServerOffer,
+		'id' |
+		'title' |
+		'type' |
+		'price' |
+		'city' |
+		'isFavorite' |
+		'isPremium' |
+		'rating' |
+		'previewImage'
+		>;
+		onActiveCardPointerEnter: (offerId: string) => void;
+		onActiveCardPointerLeave: () => void;
+}
+
+
+function Card({offer, onActiveCardPointerEnter, onActiveCardPointerLeave}: CardProps): React.JSX.Element {
+	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
+	const favoriteClass = classNames(
+		'place-card__bookmark-button',
+		{'place-card__bookmark-button--active': offer.isFavorite},
+		'button'
+	);
+	const offerHref = AppRoute.Offer.replace(':id', offer.id);
+
 	return (
-		<article className="cities__card place-card">
-			<div className="place-card__mark">
-				<span>Premium</span>
-			</div>
+		<article
+			className="cities__card place-card"
+			onPointerEnter={()=>onActiveCardPointerEnter(offer.id)}
+			onPointerLeave={()=>onActiveCardPointerLeave()}
+		>
+			{offer.isPremium && (
+				<div className="place-card__mark">
+					<span>Premium</span>
+				</div>)}
 			<div className="cities__image-wrapper place-card__image-wrapper">
-				<a href="#">
-					<img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
-				</a>
+				<ULink href={offerHref}>
+					<img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
+				</ULink>
 			</div>
 			<div className="place-card__info">
 				<div className="place-card__price-wrapper">
 					<div className="place-card__price">
-						<b className="place-card__price-value">&euro;120</b>
+						<b className="place-card__price-value">&euro;{offer.price}</b>
 						<span className="place-card__price-text">&#47;&nbsp;night</span>
 					</div>
-					<button className="place-card__bookmark-button button" type="button">
+					<button className={favoriteClass} type="button">
 						<svg className="place-card__bookmark-icon" width="18" height="19">
 							<use xlinkHref="#icon-bookmark"></use>
 						</svg>
-						<span className="visually-hidden">To bookmarks</span>
+						<span className="visually-hidden">{favorireLabel}</span>
 					</button>
 				</div>
 				<div className="place-card__rating rating">
 					<div className="place-card__stars rating__stars">
-						<span style={{ width: '80%' }}></span>
+						<span style={{ width: `${Math.round(offer.rating) * 20}%` }}></span>
 						<span className="visually-hidden">Rating</span>
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					<a href="#">Beautiful &amp; luxurious apartment at great location</a>
+					<ULink href={offerHref}>{offer.title}</ULink>
 				</h2>
-				<p className="place-card__type">Apartment</p>
+				<p className="place-card__type">{offer.type}</p>
 			</div>
 		</article>
 	);

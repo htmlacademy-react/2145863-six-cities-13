@@ -1,15 +1,15 @@
-.container-error-404 {
+.container {
 	display: flex;
 	padding: 50px;
 	flex-direction: column;
 	align-items: center;
 }
 
-.error__image {
+.image {
 	margin-bottom: 30px;
 }
 
-.error__title {
+.title {
 	font-size: 24px;
 	line-height: 1.1667;
 	font-weight: 700;
@@ -17,7 +17,7 @@
 	color: #000;
 }
 
-.error__desctription {
+.desctription {
 	font-family: rubik,arial,sans-serif;
 	font-weight: 400;
 	font-style: normal;

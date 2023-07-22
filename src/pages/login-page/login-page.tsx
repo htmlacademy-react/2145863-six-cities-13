@@ -1,21 +1,15 @@
-import { Helmet } from 'react-helmet-async';
-import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
+import { ULink } from '../../components/u-link/u-link';
+import { TemporalData } from '../../constants';
+import { useDocumentTitle } from '../../hooks';
 
 function LoginPage(): React.JSX.Element {
+	useDocumentTitle('Login');
+
 	return (
 		<div className="page page--gray page--login">
-			<Helmet>
-				<title>6 Cities. Login.</title>
-			</Helmet>
-			<header className="header">
-				<div className="container">
-					<div className="header__wrapper">
-						<div className="header__left">
-							<Logo />
-						</div>
-					</div>
-				</div>
-			</header>
+			<Header favoriteAmount={TemporalData.FavoriteCount} hideNavigation/>
+
 			<main className="page__main page__main--login">
 				<div className="page__login-container container">
 					<section className="login">
@@ -48,9 +42,9 @@ function LoginPage(): React.JSX.Element {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							<a className="locations__item-link" href="#">
+							<ULink className="locations__item-link" href="#">
 								<span>Amsterdam</span>
-							</a>
+							</ULink>
 						</div>
 					</section>
 				</div>

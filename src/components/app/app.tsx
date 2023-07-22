@@ -1,64 +1,71 @@
+import type { ServerFullOffer, ServerOffer } from '../../types/offer';
 import React from 'react';
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import MainPage from '../../pages/main-page/main-page';
-import { AppRoute, AuthorizationStatus } from '../../const';
 import LoginPage from '../../pages/login-page/login-page';
-import OfferPage from '../../pages/offer-page/offer-page';
-import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
-import OfferNotLoggedPage from '../../pages/offer-not-logged-page/offer-not-logged-page';
-import PrivateRoute from '../private-route/private-route';
-import { HelmetProvider } from 'react-helmet-async';
 import Page404 from '../../pages/page-404/page-404';
+import { PrivateRoute, PublicRoute } from '../../pages/access-rout/access-rout';
+import { AppRoute, AuthorizationStatus } from '../../constants';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import FavoritesPage from '../../pages/favorites-page/favorites-page';
+import OfferPage from '../../pages/offer-page/offer-page';
 
 type AppProps = {
-	totalPlaces: number;
-	favoriteCount: number;
+	offers: ServerOffer[];
+	fullOffers: ServerFullOffer[];
 };
 
-function App({totalPlaces, favoriteCount} : AppProps): React.JSX.Element {
-	return (
-		<HelmetProvider>
-			<BrowserRouter>
-				<Routes>
-					<Route
-						path={AppRoute.root}
-						element={<MainPage totalPlaces={totalPlaces} favoriteCount={favoriteCount}/>}
-					/>
-					<Route
-						path={AppRoute.login}
-						element={<LoginPage />}
-					/>
-					<Route
-						path={AppRoute.offer}
-						element={<OfferPage />}
-					/>
-					{/* test offer-not-logged */}
-					<Route
-						path={'/offer-not-logged'}
-						element={<OfferNotLoggedPage />}
-					/>
-					<Route
-						path={AppRoute.favorites}
-						element={
-							<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-								<FavoritesPage />
-							</PrivateRoute>
-						}
-					/>
-					{/* test - favorites-empty */}
-					<Route
-						path={'/favorites-empty'}
-						element={<FavoritesEmptyPage />}
-					/>
-					<Route
-						path='*'
-						element={<Page404 />}
-					/>
-				</Routes>
-			</BrowserRouter>
-		</HelmetProvider>
-	);
+function App({offers, fullOffers} : AppProps): React.JSX.Element {
+	const authorizationStatus = AuthorizationStatus.Auth;
+
+	const router = createBrowserRouter([
+		{
+			path: AppRoute.Root,
+			element: (
+				<MainPage status={authorizationStatus} offers={offers} />
+			),
+		},
+		{
+			path: AppRoute.Favorites,
+			element: (<PrivateRoute status={authorizationStatus} />),
+			children: [
+				{
+					index: true,
+					element: <FavoritesPage offers={offers} status={authorizationStatus} />
+				}
+			]
+		},
+		{
+			path: AppRoute.Login,
+			element: <PublicRoute status={authorizationStatus} />,
+			children: [
+				{
+					index: true,
+					element: <LoginPage />,
+				}
+			]
+		},
+		{
+			path: AppRoute.Offer,
+			element: (
+				<OfferPage fullOffers={fullOffers} status={authorizationStatus}/>
+			)
+		},
+		{
+			path: '/favorites-empty',
+			element: (
+				<FavoritesEmptyPage />
+			)
+		},
+		{
+			path: '*', // 404
+			element: (
+				<Page404 />
+			)
+		}
+	]);
+
+	return <RouterProvider router={router} />;
 }
 
 export default App;
