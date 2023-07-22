@@ -2,7 +2,7 @@ import { CITIES, OFFER_TYPES } from '../constants';
 
 type CityName = typeof CITIES[number];
 type OfferType = typeof OFFER_TYPES[number];
-type Rating = 1 | 2 | 3 | 4 | 5;
+type Rating = 0 | 1 | 2 | 3 | 4 | 5;
 
 type ServerLocation = {
 	latitude: number;
