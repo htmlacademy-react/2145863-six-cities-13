@@ -1,30 +1,32 @@
-import type { ServerOffer } from '../../types/offer';
+import type { OffersByCity } from '../../types/offer';
 import CardFavorite from '../../components/card-favorite/card-favorite';
-import { filterDuplicates, stringCompare } from '../../utils/common';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
 import { AppRoute, AuthorizationStatus } from '../../constants';
+import { getOfferList } from '../../model';
+import { converOffersToOffersByCity } from '../../utils/convert';
+import { useLoaderData } from 'react-router-dom';
 
 type FavoritesPageProps = {
-	offers: ServerOffer[];
 	status: AuthorizationStatus;
 }
 
-function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element {
-	const isAuthorized = status === AuthorizationStatus.Auth;
-	const favoriteOffers = offers
-		.filter((offer) => offer.isFavorite)
-		.sort((a, b) => stringCompare(a.city.name, b.city.name));
-	const cities = favoriteOffers
-		.map((offer) => offer.city.name)
-		.filter(filterDuplicates);
+type LoaderResponse = {
+	offersByCity: OffersByCity;
+	favoriteAmount: number;
+	cities: string[];
+}
 
-	useDocumentTitle(`favorite places (${favoriteOffers.length})`);
+function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
+	const isAuthorized = status === AuthorizationStatus.Auth;
+	const {offersByCity, favoriteAmount, cities} = useLoaderData() as LoaderResponse;
+
+	useDocumentTitle(`favorite places (${favoriteAmount})`);
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteOffers.length} isAuthorized={isAuthorized} />
+			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized} />
 
 			<main className="page__main page__main--favorites">
 				<div className="page__favorites-container container">
@@ -32,24 +34,19 @@ function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element 
 						<h1 className="favorites__title">Saved listing</h1>
 						<ul className="favorites__list">
 
-
-							{ cities.length &&
-								cities.map((city) => (
-									// TODO: Добавить текущий <div className="favorites__locations locations locations--current">
+							{ cities.map((city) => (
 									<li className="favorites__locations-items" key={city}>
-										<div className="favorites__locations locations">
+										<div className="favorites__locations locations locations--current">
 											<div className="locations__item">
-												<ULink className="locations__item-link" href="#">
+												<ULink className="locations__item-link" href={`${AppRoute.Root}?filter=${city}`}>
 													<span>{city}</span>
 												</ULink>
 											</div>
 										</div>
 										<div className="favorites__places">
-											{favoriteOffers
-												.filter((offer) => offer.city.name === city)
-												.map((offer) => (
-													<CardFavorite offer={offer} key={offer.id} />
-												))}
+											{offersByCity[city].map((offer) => (
+												<CardFavorite offer={offer} key={offer.id} />
+											))}
 										</div>
 									</li>
 								))}
@@ -73,4 +70,18 @@ function FavoritesPage({offers, status}: FavoritesPageProps): React.JSX.Element 
 	);
 }
 
+function loader(): LoaderResponse | Response {
+	const offers = getOfferList();
+	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
+	const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+	const favoriteOffersByCities = converOffersToOffersByCity(favoriteOffers);
+
+	return {
+		offersByCity: favoriteOffersByCities,
+		favoriteAmount,
+		cities: Object.keys(favoriteOffersByCities),
+	};
+}
+
 export default FavoritesPage;
+export {loader};

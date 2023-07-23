@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { fullOffers, offers } from './mocks';
+import { fullOffers } from './mocks';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -9,6 +9,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<App offers={offers} fullOffers={fullOffers} />
+		<App fullOffers={fullOffers} />
 	</React.StrictMode>
 );

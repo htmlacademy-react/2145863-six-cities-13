@@ -1,4 +1,4 @@
-import type { OffersByCity, ServerOffer } from '../../types/offer';
+import type { OffersByCity } from '../../types/offer';
 import Header from '../../components/header/header';
 import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
@@ -73,7 +73,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	);
 }
 
-function loader(): LoaderResponse {
+function loader(): LoaderResponse | Response {
 	const offers = getOfferList();
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
 

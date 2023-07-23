@@ -1,21 +1,20 @@
-import type { ServerFullOffer, ServerOffer } from '../../types/offer';
+import type { ServerFullOffer } from '../../types/offer';
 import React from 'react';
-import MainPage, { loader as mainPageLoader} from '../../pages/main-page/main-page';
+import MainPage, { loader as mainPageLoader } from '../../pages/main-page/main-page';
+import FavoritesPage, { loader as favoritesPageLoader } from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import Page404 from '../../pages/page-404/page-404';
 import { PrivateRoute, PublicRoute } from '../../pages/access-rout/access-rout';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 
 type AppProps = {
-	offers: ServerOffer[];
 	fullOffers: ServerFullOffer[];
 };
 
-function App({offers, fullOffers} : AppProps): React.JSX.Element {
+function App({fullOffers} : AppProps): React.JSX.Element {
 	const authorizationStatus = AuthorizationStatus.Auth;
 
 	const router = createBrowserRouter([
@@ -32,7 +31,8 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 			children: [
 				{
 					index: true,
-					element: <FavoritesPage offers={offers} status={authorizationStatus} />
+					element: (<FavoritesPage status={authorizationStatus} />),
+					loader: favoritesPageLoader,
 				}
 			]
 		},
