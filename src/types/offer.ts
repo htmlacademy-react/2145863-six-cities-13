@@ -51,6 +51,7 @@ type ServerRewiew = {
 }
 
 type ServerCommentWithOfferId = ServerRewiew & {offerId: string};
+type OffersByCity = Record<string, ServerOffer[]>;
 
 export type {
 	ServerOffer,
@@ -60,4 +61,5 @@ export type {
 	ServerCommentWithOfferId,
 	OfferType,
 	Rating,
+	OffersByCity,
 };

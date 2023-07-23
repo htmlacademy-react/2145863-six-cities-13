@@ -1,4 +1,4 @@
-import type { ServerOffer } from '../../types/offer';
+import type { OffersByCity, ServerOffer } from '../../types/offer';
 import Header from '../../components/header/header';
 import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
@@ -8,10 +8,11 @@ import { AuthorizationStatus, CITIES } from '../../constants';
 import { getOfferList } from '../../model';
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
+import { converOffersToOffersByCity } from '../../utils/convert';
 
 type LoaderResponse = {
 	cities: string[];
-	offersByCity: Record<string, ServerOffer[]>;
+	offersByCity: OffersByCity;
 	favoriteAmount: number;
 }
 
@@ -75,22 +76,10 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 function loader(): LoaderResponse {
 	const offers = getOfferList();
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-	const offersByCity: Record<string, ServerOffer[]> = {};
-
-	for (const offer of offers) {
-		const city = offer.city.name;
-
-		if (city in offersByCity) {
-			offersByCity[city].push(offer);
-			continue;
-		}
-
-		offersByCity[city] = [offer];
-	}
 
 	return {
 		cities: Array.from(CITIES),
-		offersByCity,
+		offersByCity: converOffersToOffersByCity(offers),
 		favoriteAmount,
 	};
 
