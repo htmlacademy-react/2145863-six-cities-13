@@ -1,6 +1,6 @@
 import type { ServerFullOffer, ServerOffer } from '../../types/offer';
 import React from 'react';
-import MainPage from '../../pages/main-page/main-page';
+import MainPage, { loader as mainPageLoader} from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import Page404 from '../../pages/page-404/page-404';
@@ -22,8 +22,9 @@ function App({offers, fullOffers} : AppProps): React.JSX.Element {
 		{
 			path: AppRoute.Root,
 			element: (
-				<MainPage status={authorizationStatus} offers={offers} />
+				<MainPage status={authorizationStatus} />
 			),
+			loader: mainPageLoader,
 		},
 		{
 			path: AppRoute.Favorites,

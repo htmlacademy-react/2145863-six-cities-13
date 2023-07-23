@@ -1,8 +1,8 @@
 import { CitiesGPS, LOCATION_RADIUS } from '../constants';
-import type { ServerLocation, CityName } from '../types/offer';
+import type { ServerLocation } from '../types/offer';
 import { faker } from '@faker-js/faker';
 
-function getMockLocation(city: CityName, isOffer = true): ServerLocation {
+function getMockLocation(city: string, isOffer = true): ServerLocation {
 
 	if (isOffer) {
 		const placeLocation = faker.location.nearbyGPSCoordinate({

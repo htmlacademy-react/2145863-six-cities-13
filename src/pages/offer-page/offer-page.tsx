@@ -19,7 +19,7 @@ type OfferPageProps = {
 
 function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 	const { id: offerId } = useParams();
-	const reviews = getReviews()
+	const reviews = getReviews();
 	const neighbourPlaces = getNeighbourPlaces();
 	const favoriteAmount = fullOffers.filter((offer) => offer.isFavorite)?.length;
 	const offer = fullOffers.find((offerItem) => offerItem.id === offerId);

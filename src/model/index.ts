@@ -1,20 +1,20 @@
-import { fullOffers, offers, reviews, getMockNeighbourPlaces } from "../mocks";
-import type { ServerFullOffer, ServerOffer, ServerCommentWithOfferId } from "../types/offer";
+import { fullOffers, offers, reviews, getMockNeighbourPlaces } from '../mocks';
+import type { ServerFullOffer, ServerOffer, ServerCommentWithOfferId } from '../types/offer';
 
 
-function getOffersList(): ServerOffer[] | undefined {
+function getOfferList(): ServerOffer[] {
 	return offers;
 }
 
-function getFullOffer(offerId: string): ServerFullOffer | undefined {
+function getFullOffer(offerId: string): undefined | ServerFullOffer {
 	return fullOffers.find((offer) => offer.id === offerId);
 }
 
-function getFavorites(): ServerOffer[] | undefined {
-	return getOffersList()?.filter((offer) => offer.isFavorite);
+function getFavorites(): ServerOffer[] {
+	return getOfferList()?.filter((offer) => offer.isFavorite);
 }
 
-function getReviews(): ServerCommentWithOfferId[] | undefined {
+function getReviews(): ServerCommentWithOfferId[] {
 	return reviews;
 }
 
@@ -23,7 +23,7 @@ function getNeighbourPlaces(): ServerOffer[] {
 }
 
 export {
-	getOffersList,
+	getOfferList,
 	getFullOffer,
 	getFavorites,
 	getReviews,

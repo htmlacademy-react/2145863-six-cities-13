@@ -1,27 +1,42 @@
-import { ServerOffer } from '../../types/offer';
+import type { ServerOffer } from '../../types/offer';
 import Header from '../../components/header/header';
 import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import { useDocumentTitle } from '../../hooks';
-import { AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus, CITIES } from '../../constants';
+import { getOfferList } from '../../model';
+import { useLoaderData, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 
+type LoaderResponse = {
+	cities: string[];
+	offersByCity: Record<string, ServerOffer[]>;
+	favoriteAmount: number;
+}
 
 type MainPageProps = {
 	/** статус авторизации */
 	status: AuthorizationStatus;
-	/** список оферов для карточек */
-	offers: ServerOffer[];
 };
 
 /**
  * Компонент главного экрана
  */
-function MainPage({status, offers}: MainPageProps): React.JSX.Element {
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
+function MainPage({status}: MainPageProps): React.JSX.Element {
+
 	const isAuthorized = status === AuthorizationStatus.Auth;
+	const {cities, offersByCity, favoriteAmount} = useLoaderData() as LoaderResponse;
+	const [searchParams, setSearchParams] = useSearchParams();
+	const initialCity = searchParams.get('filter') || cities[0];
+	const [currentCity, setCurrentCity] = useState(initialCity);
 
 	useDocumentTitle('Main');
+
+	function handleTabClick(city: string) {
+		setSearchParams({...searchParams, filter: city});
+		setCurrentCity(city);
+	}
 
 	return (
 		<div className="page page--gray page--main">
@@ -32,16 +47,20 @@ function MainPage({status, offers}: MainPageProps): React.JSX.Element {
 				<h1 className="visually-hidden">Cities</h1>
 				<div className="tabs">
 					<section className="locations container">
-						<LocationsList />
+						<LocationsList
+							cities={cities}
+							currentCity={currentCity}
+							handleTabClick={handleTabClick}
+						/>
 					</section>
 				</div>
 				<div className="cities">
 					<div className="cities__places-container container">
 						<section className="cities__places places">
 							<h2 className="visually-hidden">Places</h2>
-							<b className="places__found">{offers.length} places to stay in Amsterdam</b>
+							<b className="places__found">{offersByCity[currentCity].length} places to stay in {currentCity}</b>
 							<Sort />
-							<OfferList offers={offers} />
+							<OfferList offers={offersByCity[currentCity]} />
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map"></section>
@@ -53,4 +72,29 @@ function MainPage({status, offers}: MainPageProps): React.JSX.Element {
 	);
 }
 
+function loader(): LoaderResponse {
+	const offers = getOfferList();
+	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
+	const offersByCity: Record<string, ServerOffer[]> = {};
+
+	for (const offer of offers) {
+		const city = offer.city.name;
+
+		if (city in offersByCity) {
+			offersByCity[city].push(offer);
+			continue;
+		}
+
+		offersByCity[city] = [offer];
+	}
+
+	return {
+		cities: Array.from(CITIES),
+		offersByCity,
+		favoriteAmount,
+	};
+
+}
+
 export default MainPage;
+export {loader};

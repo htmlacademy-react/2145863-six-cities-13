@@ -2,7 +2,7 @@
 const LOCATION_RADIUS = 5;
 
 const TemporalData = {
-	OfferAmount: 15,
+	OfferAmount: 50,
 	FavoriteCount: 5,
 	CommentMaxAmount: 5,
 	CommentMinDate: '2023-01-01T00:00:00.000Z',

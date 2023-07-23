@@ -1,14 +1,29 @@
-import { CITIES } from '../../constants';
 import { ULink } from '../u-link/u-link';
+import classNames from 'classnames';
 
-function LocationsList() {
+type LocationsListProps = {
+	cities: string[];
+	currentCity: string;
+	handleTabClick: (city: string) => void;
+}
+
+function LocationsList({cities, currentCity, handleTabClick}: LocationsListProps) {
+
 	return (
 		<ul className="locations__list tabs__list">
-			{/* tabs__item--active */}
-			{CITIES.map((city) =>
+			{cities.map((city) =>
 				(
 					<li className="locations__item" key={city}>
-						<ULink className="locations__item-link tabs__item" href="#">
+						<ULink href="#" className={classNames(
+							'locations__item-link',
+							{'tabs__item--active': city === currentCity},
+							'tabs__item',
+						)}
+						onClick={(evt) => {
+							evt.preventDefault();
+							handleTabClick(city);
+						}}
+						>
 							<span>{city}</span>
 						</ULink>
 					</li>

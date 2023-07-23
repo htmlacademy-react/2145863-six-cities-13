@@ -32,4 +32,4 @@ function getMockNeighbourPlaces(): ServerOffer[] {
 	return places;
 }
 
-export {offers, fullOffers, reviews, getMockNeighbourPlaces}
+export {offers, fullOffers, reviews, getMockNeighbourPlaces};

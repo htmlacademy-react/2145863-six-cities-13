@@ -1,6 +1,6 @@
 import { CITIES, OFFER_TYPES } from '../constants';
 import type { ServerOffer,	Rating } from '../types/offer';
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 import { getMockLocation } from './mock-locations';
 
 function createMockOffer(): ServerOffer {
