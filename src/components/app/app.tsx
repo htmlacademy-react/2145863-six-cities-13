@@ -8,11 +8,14 @@ import Page404 from '../../pages/page-404/page-404';
 import { PrivateRoute, PublicRoute } from '../../pages/access-rout/access-rout';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
+
 
 function App(): React.JSX.Element {
 	const authorizationStatus = AuthorizationStatus.Auth;
 
 	const router = createBrowserRouter([{
+			element: <ScrollToTop />,
 			errorElement: <Page404/>,
 			children: [
 				{
