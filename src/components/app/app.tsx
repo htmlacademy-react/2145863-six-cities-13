@@ -10,6 +10,7 @@ import { AppRoute, AuthorizationStatus } from '../../constants';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
+import './stable-width.css';
 
 function App(): React.JSX.Element {
 	const authorizationStatus = AuthorizationStatus.Auth;
