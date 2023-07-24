@@ -35,7 +35,8 @@ function Rating({rating, handleFormChange}: RatingProps) {
 							className="reviews__rating-label form__rating-label"
 							title={title}
 						>
-							<svg className="form__star-image" width={37} height={33}>
+							<svg className="form__star-image" width={37} height={33} role="img" aria-labelledby={`${n}-title`}>
+								<title id={`${n}-title`}>{title}</title>
 								<use xlinkHref="#icon-star" />
 							</svg>
 						</label>
