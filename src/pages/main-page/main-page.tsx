@@ -25,14 +25,14 @@ type MainPageProps = {
  * Компонент главного экрана
  */
 function MainPage({status}: MainPageProps): React.JSX.Element {
+	useDocumentTitle('Main');
+	const [activeCard, setActiveCard] = useState<null|string>(null);
 
 	const isAuthorized = status === AuthorizationStatus.Auth;
 	const {cities, offersByCity, favoriteAmount} = useLoaderData() as LoaderResponse;
 	const [searchParams, setSearchParams] = useSearchParams();
 	const initialCity = searchParams.get('filter') || cities[0];
 	const [currentCity, setCurrentCity] = useState(initialCity);
-
-	useDocumentTitle('Main');
 
 	function handleTabClick(city: string) {
 		setSearchParams({...searchParams, filter: city});
@@ -61,7 +61,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 							<h2 className="visually-hidden">Places</h2>
 							<b className="places__found">{offersByCity[currentCity].length} places to stay in {currentCity}</b>
 							<Sort />
-							<OfferList offers={offersByCity[currentCity]} />
+							<OfferList offers={offersByCity[currentCity]} setActiveCard={setActiveCard} />
 						</section>
 						<div className="cities__right-section">
 							<section className="cities__map map"></section>
