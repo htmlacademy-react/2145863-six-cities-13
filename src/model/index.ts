@@ -6,7 +6,7 @@ function getOfferList(): ServerOffer[] {
 	return offers;
 }
 
-function getFullOffer(offerId: string ): undefined | ServerFullOffer {
+function getFullOffer(offerId: string): undefined | ServerFullOffer {
 	return fullOffers.find((offer) => offer.id === offerId);
 }
 

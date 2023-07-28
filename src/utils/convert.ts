@@ -1,4 +1,4 @@
-import type { OffersByCity, ServerOffer } from "../types/offer";
+import type { OffersByCity, ServerOffer } from '../types/offer';
 
 function converOffersToOffersByCity(offers: ServerOffer[]) {
 	const offersByCity: OffersByCity = {};

@@ -16,52 +16,52 @@ function App(): React.JSX.Element {
 	const authorizationStatus = AuthorizationStatus.Auth;
 
 	const router = createBrowserRouter([{
-			element: <ScrollToTop />,
-			errorElement: <Page404/>,
-			children: [
-				{
-					path: AppRoute.Root,
-					element: (
-						<MainPage status={authorizationStatus} />
-					),
-					loader: mainPageLoader,
-				},
-				{
-					path: AppRoute.Favorites,
-					element: (<PrivateRoute status={authorizationStatus} />),
-					children: [
-						{
-							index: true,
-							element: (<FavoritesPage status={authorizationStatus} />),
-							loader: favoritesPageLoader,
-						}
-					]
-				},
-				{
-					path: AppRoute.Login,
-					element: <PublicRoute status={authorizationStatus} />,
-					children: [
-						{
-							index: true,
-							element: <LoginPage />,
-						}
-					]
-				},
-				{
-					path: AppRoute.Offer,
-					element: (
-						<OfferPage status={authorizationStatus}/>
-					),
-					loader: offerPageLoader,
-				},
-				{
-					path: '/favorites-empty',
-					element: (
-						<FavoritesEmptyPage />
-					)
-				},
-			]
-		}
+		element: <ScrollToTop />,
+		errorElement: <Page404/>,
+		children: [
+			{
+				path: AppRoute.Root,
+				element: (
+					<MainPage status={authorizationStatus} />
+				),
+				loader: mainPageLoader,
+			},
+			{
+				path: AppRoute.Favorites,
+				element: (<PrivateRoute status={authorizationStatus} />),
+				children: [
+					{
+						index: true,
+						element: (<FavoritesPage status={authorizationStatus} />),
+						loader: favoritesPageLoader,
+					}
+				]
+			},
+			{
+				path: AppRoute.Login,
+				element: <PublicRoute status={authorizationStatus} />,
+				children: [
+					{
+						index: true,
+						element: <LoginPage />,
+					}
+				]
+			},
+			{
+				path: AppRoute.Offer,
+				element: (
+					<OfferPage status={authorizationStatus}/>
+				),
+				loader: offerPageLoader,
+			},
+			{
+				path: '/favorites-empty',
+				element: (
+					<FavoritesEmptyPage />
+				)
+			},
+		]
+	}
 	]);
 
 	return <RouterProvider router={router} />;

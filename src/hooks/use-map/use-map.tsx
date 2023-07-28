@@ -1,6 +1,6 @@
 import type { ServerLocation } from '../../types/offer';
 import { Map as LeafletMap, TileLayer } from 'leaflet';
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { TILE_COPYRIGHT, TILE_LAYER } from '../../constants';
 
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, location: ServerLocation) {
@@ -17,7 +17,7 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, location: ServerLo
 				zoom: location.zoom,
 			});
 
-			const layer = new TileLayer( TILE_LAYER, {
+			const layer = new TileLayer(TILE_LAYER, {
 				attribution: TILE_COPYRIGHT,
 			});
 

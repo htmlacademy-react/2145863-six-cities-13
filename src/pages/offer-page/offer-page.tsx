@@ -241,10 +241,11 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	);
 }
 
-function loader({params}: LoaderFunctionArgs ): LoaderResponse | Response {
+function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
 	const offerId = params.id;
-	if (offerId === undefined)
+	if (offerId === undefined) {
 		throw new Response('Not found', {status: 404});
+	}
 
 	const offers = getOfferList();
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
@@ -253,15 +254,16 @@ function loader({params}: LoaderFunctionArgs ): LoaderResponse | Response {
 	const offerReviwes = getReviews()
 		?.filter((review) => review.offerId === offerId);
 
-	if (offer === undefined)
+	if (offer === undefined) {
 		throw new Response('Not found', {status: 404});
+	}
 
 	return {
-			offer,
-			offerReviwes,
-			neighbourPlaces: getNeighbourPlaces(offer.id),
-			favoriteAmount,
-	}
+		offer,
+		offerReviwes,
+		neighbourPlaces: getNeighbourPlaces(offer.id),
+		favoriteAmount,
+	};
 }
 
 export default OfferPage;

@@ -31,11 +31,11 @@ function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): Rea
 	useEffect(() => {
 		if (mapInstance) {
 			mapInstance.setView([
-					location.latitude,
-					location.longitude,
-				],
-				// location.zoom,
-				(block==='offer' ? 12 : 11),
+				location.latitude,
+				location.longitude,
+			],
+			// location.zoom,
+			(block === 'offer' ? 12 : 11),
 			);
 		}
 	}, [mapInstance, location]);
@@ -49,7 +49,7 @@ function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): Rea
 				const marker = new Marker({
 					lat: offer.location.latitude,
 					lng: offer.location.longitude,
-				})
+				});
 
 				marker
 					.setIcon(
@@ -59,14 +59,14 @@ function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): Rea
 					)
 					.addTo(markerLayer);
 
-			})
+			});
 
 			return () => {
 				mapInstance.removeLayer(markerLayer);
-			}
+			};
 		}
 
-  }, [mapInstance, offers, location, activeCard]);
+	}, [mapInstance, offers, location, activeCard]);
 
 	return (
 		<section

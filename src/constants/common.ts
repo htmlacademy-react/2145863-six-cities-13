@@ -1,4 +1,4 @@
-import { ServerLocation } from "../types/offer";
+import { ServerLocation } from '../types/offer';
 
 const PROJECT_NAME = '6 Cities';
 const DEFAULT_CITY = 'Paris';

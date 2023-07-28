@@ -35,21 +35,21 @@ function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
 						<ul className="favorites__list">
 
 							{ cities.map((city) => (
-									<li className="favorites__locations-items" key={city}>
-										<div className="favorites__locations locations locations--current">
-											<div className="locations__item">
-												<ULink className="locations__item-link" href={`${AppRoute.Root}?filter=${city}`}>
-													<span>{city}</span>
-												</ULink>
-											</div>
+								<li className="favorites__locations-items" key={city}>
+									<div className="favorites__locations locations locations--current">
+										<div className="locations__item">
+											<ULink className="locations__item-link" href={`${AppRoute.Root}?filter=${city}`}>
+												<span>{city}</span>
+											</ULink>
 										</div>
-										<div className="favorites__places">
-											{offersByCity[city].map((offer) => (
-												<CardFavorite offer={offer} key={offer.id} />
-											))}
-										</div>
-									</li>
-								))}
+									</div>
+									<div className="favorites__places">
+										{offersByCity[city].map((offer) => (
+											<CardFavorite offer={offer} key={offer.id} />
+										))}
+									</div>
+								</li>
+							))}
 
 						</ul>
 					</section>
