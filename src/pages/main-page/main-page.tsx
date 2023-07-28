@@ -3,8 +3,9 @@ import Header from '../../components/header/header';
 import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
+import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useDocumentTitle } from '../../hooks';
-import { AuthorizationStatus, CITIES } from '../../constants';
+import { AuthorizationStatus, CITIES, CitiesGPS } from '../../constants';
 import { getOfferList } from '../../model';
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
@@ -26,18 +27,21 @@ type MainPageProps = {
  */
 function MainPage({status}: MainPageProps): React.JSX.Element {
 	useDocumentTitle('Main');
+	const {cities, offersByCity, favoriteAmount} = useLoaderData() as LoaderResponse;
+	const isAuthorized = status === AuthorizationStatus.Auth;
 	const [activeCard, setActiveCard] = useState<null|string>(null);
 
-	const isAuthorized = status === AuthorizationStatus.Auth;
-	const {cities, offersByCity, favoriteAmount} = useLoaderData() as LoaderResponse;
 	const [searchParams, setSearchParams] = useSearchParams();
 	const initialCity = searchParams.get('filter') || cities[0];
 	const [currentCity, setCurrentCity] = useState(initialCity);
 
 	function handleTabClick(city: string) {
+		// TODO: вызывает двойную перерисовку страницы
 		setSearchParams({...searchParams, filter: city});
 		setCurrentCity(city);
 	}
+
+	console.log('re-draw. current city: ', currentCity);
 
 	return (
 		<div className="page page--gray page--main">
@@ -64,11 +68,17 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 							<OfferList offers={offersByCity[currentCity]} setActiveCard={setActiveCard} />
 						</section>
 						<div className="cities__right-section">
-							<section className="cities__map map"></section>
+							<LeafletMap
+								block="cities"
+								location={CitiesGPS[currentCity]}
+								offers={offersByCity[currentCity]}
+								activeCard={activeCard}
+							/>
 						</div>
 					</div>
 				</div>
 			</main>
+
 		</div>
 	);
 }
@@ -82,7 +92,6 @@ function loader(): LoaderResponse | Response {
 		offersByCity: converOffersToOffersByCity(offers),
 		favoriteAmount,
 	};
-
 }
 
 export default MainPage;

@@ -130,7 +130,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 								<section className="offer__reviews reviews">
 									<h2 className="reviews__title">
 										Reviews
-										{offerReviwes &&
+										{offerReviwes?.length > 0 &&
 											<> · <span className="reviews__amount">{offerReviwes.length}</span></>}
 									</h2>
 									<ul className="reviews__list">

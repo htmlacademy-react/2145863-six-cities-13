@@ -28,7 +28,7 @@ function NewCommentForm() {
 				id="review"
 				name="review"
 				placeholder="Tell how was your stay, what you like and what can be improved"
-				defaultValue={formData.review}
+				value={formData.review}
 				onChange={handleFormChange}
 			/>
 			<div className="reviews__button-wrapper">

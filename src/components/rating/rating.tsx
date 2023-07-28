@@ -24,10 +24,10 @@ function Rating({rating, handleFormChange}: RatingProps) {
 						<input
 							className="form__rating-input visually-hidden"
 							name="rating"
-							defaultValue={n}
+							value={n}
 							id={`${n}-stars`}
 							type="radio"
-							defaultChecked = {rating === n}
+							checked = {rating === n}
 							onChange={handleFormChange}
 						/>
 						<label
