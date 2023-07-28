@@ -1,25 +1,31 @@
-import { useParams } from 'react-router-dom';
+import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
+import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import Header from '../../components/header/header';
-import type { ServerFullOffer } from '../../types/offer';
 import Page404 from '../page-404/page-404';
 import classNames from 'classnames';
 import GalleryImage from '../../components/gallery-image/gallery-image';
-import { getMockNeighbourPlaces, reviews } from '../../mocks/mocks';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
+import { getFullOffer, getNeighbourPlaces, getOfferList, getReviews } from '../../model';
+import LeafletMap from '../../components/leaflet-map/leaflet-map';
+
 
 type OfferPageProps = {
-	fullOffers: ServerFullOffer[];
 	status: AuthorizationStatus;
 };
 
-function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
-	const { id: offerId } = useParams();
-	const favoriteAmount = fullOffers.filter((offer) => offer.isFavorite)?.length;
-	const offer = fullOffers.find((offerItem) => offerItem.id === offerId);
+type LoaderResponse = {
+	offer: ServerFullOffer;
+	offerReviwes: ServerRewiew[];
+	neighbourPlaces: ServerOffer[];
+	favoriteAmount: number;
+}
+
+function OfferPage({ status }: OfferPageProps): React.JSX.Element {
+	const {offer, offerReviwes, neighbourPlaces, favoriteAmount} = useLoaderData() as LoaderResponse;
 	const favorireLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = classNames(
 		'offer__bookmark-button',
@@ -29,10 +35,6 @@ function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 		'offer__avatar-wrapper',
 		{ 'offer__avatar-wrapper--pro': offer?.host.isPro },
 		'user__avatar-wrapper');
-	const offerReviwes = reviews
-		.filter((review) => review.offerId === offerId);
-
-	const neighbourPlaces = getMockNeighbourPlaces();
 	const isAuthorized = status === AuthorizationStatus.Auth;
 
 	useDocumentTitle(`Place: ${offer?.title || ''}`);
@@ -129,11 +131,11 @@ function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 								<section className="offer__reviews reviews">
 									<h2 className="reviews__title">
 										Reviews
-										{offerReviwes.length > 0 &&
+										{offerReviwes?.length > 0 &&
 											<> · <span className="reviews__amount">{offerReviwes.length}</span></>}
 									</h2>
 									<ul className="reviews__list">
-										{offerReviwes.map((review) => (
+										{offerReviwes?.map((review) => (
 											<li className="reviews__item" key={review.id}>
 												<div className="reviews__user user">
 													<div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -169,7 +171,11 @@ function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 								</section>
 							</div>
 						</div>
-						<section className="offer__map map" />
+						<LeafletMap
+							block="offer"
+							location={offer.location}
+							offers={neighbourPlaces}
+						/>
 					</section>
 					<div className="container">
 						{neighbourPlaces &&
@@ -231,10 +237,34 @@ function OfferPage({ fullOffers, status }: OfferPageProps): React.JSX.Element {
 							</section>}
 					</div>
 				</main>}
-
-
 		</div>
 	);
 }
 
+function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
+	const offerId = params.id;
+	if (offerId === undefined) {
+		throw new Response('Not found', {status: 404});
+	}
+
+	const offers = getOfferList();
+	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
+
+	const offer = getFullOffer(offerId ?? '');
+	const offerReviwes = getReviews()
+		?.filter((review) => review.offerId === offerId);
+
+	if (offer === undefined) {
+		throw new Response('Not found', {status: 404});
+	}
+
+	return {
+		offer,
+		offerReviwes,
+		neighbourPlaces: getNeighbourPlaces(offer.id),
+		favoriteAmount,
+	};
+}
+
 export default OfferPage;
+export {loader};

@@ -1,8 +1,7 @@
-import { CITIES, OFFER_TYPES } from '../constants';
+import { OFFER_TYPES } from '../constants';
 
-type CityName = typeof CITIES[number];
 type OfferType = typeof OFFER_TYPES[number];
-type Rating = 1 | 2 | 3 | 4 | 5;
+type Rating = 0 | 1 | 2 | 3 | 4 | 5;
 
 type ServerLocation = {
 	latitude: number;
@@ -16,7 +15,7 @@ type ServerOffer = {
 	type: OfferType;
 	price: number;
 	city: {
-		name: CityName;
+		name: string;
 		location: ServerLocation;
 	};
 	location: ServerLocation;
@@ -52,6 +51,7 @@ type ServerRewiew = {
 }
 
 type ServerCommentWithOfferId = ServerRewiew & {offerId: string};
+type OffersByCity = Record<string, ServerOffer[]>;
 
 export type {
 	ServerOffer,
@@ -59,7 +59,7 @@ export type {
 	ServerLocation,
 	ServerRewiew,
 	ServerCommentWithOfferId,
-	CityName,
 	OfferType,
 	Rating,
+	OffersByCity,
 };

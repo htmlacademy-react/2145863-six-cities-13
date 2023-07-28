@@ -14,7 +14,7 @@ type CardFavotireProps = {
 		'isPremium' |
 		'rating' |
 		'previewImage'
-		>;
+	>;
 }
 
 function CardFavorite({offer}: CardFavotireProps): React.JSX.Element {

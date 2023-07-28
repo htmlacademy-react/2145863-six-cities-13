@@ -1,25 +1,12 @@
 import Card from '../card/card';
 import { ServerOffer } from '../../types/offer';
-import { useState } from 'react';
 
 type OfferListProps = {
 	offers: ServerOffer[];
+	setActiveCard: (offerId: string | null) => void;
 }
 
-function OfferList({offers}: OfferListProps): React.JSX.Element {
-	const [activeCard, setActiveCard] = useState<null|string>(null);
-
-	function onActiveCardPointerEnter(offerId: string): void {
-		setActiveCard(offerId);
-		// eslint-disable-next-line
-		console.log(offerId, 'set');
-	}
-
-	function onActiveCardPointerLeave(): void {
-		setActiveCard(null);
-		// eslint-disable-next-line
-		console.log(activeCard, 'unset');
-	}
+function OfferList({offers, setActiveCard}: OfferListProps): React.JSX.Element {
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
@@ -28,8 +15,7 @@ function OfferList({offers}: OfferListProps): React.JSX.Element {
 					<Card
 						key={offer.id}
 						offer={offer}
-						onActiveCardPointerEnter={onActiveCardPointerEnter}
-						onActiveCardPointerLeave={onActiveCardPointerLeave}
+						setActiveCard={setActiveCard}
 					/>
 				)
 			)}
