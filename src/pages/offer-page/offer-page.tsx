@@ -10,6 +10,7 @@ import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
 import { getFullOffer, getNeighbourPlaces, getOfferList, getReviews } from '../../model';
+import LeafletMap from '../../components/leaflet-map/leaflet-map';
 
 
 type OfferPageProps = {
@@ -170,7 +171,11 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 								</section>
 							</div>
 						</div>
-						<section className="offer__map map" />
+						<LeafletMap
+							block="offer"
+							location={offer.location}
+							offers={neighbourPlaces}
+						/>
 					</section>
 					<div className="container">
 						{neighbourPlaces &&
@@ -254,7 +259,7 @@ function loader({params}: LoaderFunctionArgs ): LoaderResponse | Response {
 	return {
 			offer,
 			offerReviwes,
-			neighbourPlaces: getNeighbourPlaces(),
+			neighbourPlaces: getNeighbourPlaces(offer.id),
 			favoriteAmount,
 	}
 }

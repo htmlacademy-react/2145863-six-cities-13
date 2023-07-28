@@ -8,7 +8,7 @@ type LeafletMapProps = {
 	block: string;
 	location: ServerLocation;
 	offers: ServerOffer[];
-	activeCard: null | string;
+	activeCard?: null | string;
 }
 
 const pinIcon = new Icon({
@@ -34,7 +34,8 @@ function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): Rea
 					location.latitude,
 					location.longitude,
 				],
-				location.zoom,
+				// location.zoom,
+				(block==='offer' ? 12 : 11),
 			);
 		}
 	}, [mapInstance, location]);
@@ -58,25 +59,26 @@ function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): Rea
 					)
 					.addTo(markerLayer);
 
-				return () => {
-					mapInstance.removeLayer(markerLayer);
-				}
 			})
+
+			return () => {
+				mapInstance.removeLayer(markerLayer);
+			}
 		}
 
-  }, [mapInstance, offers, activeCard]);
+  }, [mapInstance, offers, location, activeCard]);
 
 	return (
-    // *** Карта ***
 		<section
-			className={`map__${block} map`}
+			className={`${block}__map map`}
 			ref={mapRef}
 			style={{
 				height: '100%',
 				minHeight: '500px',
 				width: '100%',
 				maxWidth: '1144px',
-				margin: '0 auto',
+				marginRight: 'auto',
+				marginLeft: 'auto',
 			}}
 		/>
 	);

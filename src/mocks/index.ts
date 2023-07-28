@@ -21,15 +21,5 @@ offers.forEach((offer) => {
 	}
 });
 
-/** Моковый список предложений по соседству */
-function getMockNeighbourPlaces(): ServerOffer[] {
-	const placesAmount = faker.number.int({min: 3, max: 6});
-	const places = Array.from(
-		{length: placesAmount},
-		(): ServerOffer => ({...offers[Math.floor(Math.random() * offers.length)]})
-	);
-
-	return places;
-}
-
-export {offers, fullOffers, reviews, getMockNeighbourPlaces};
+export {offers, fullOffers, reviews};
+export {getMockNeighbourPlaces} from './mock-neigborhoods-places';

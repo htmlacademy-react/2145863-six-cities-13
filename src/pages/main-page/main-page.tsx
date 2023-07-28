@@ -86,7 +86,6 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 function loader(): LoaderResponse | Response {
 	const offers = getOfferList();
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-
 	return {
 		cities: Array.from(CITIES),
 		offersByCity: converOffersToOffersByCity(offers),

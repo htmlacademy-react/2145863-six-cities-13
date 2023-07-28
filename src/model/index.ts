@@ -18,8 +18,8 @@ function getReviews(): ServerCommentWithOfferId[] {
 	return reviews;
 }
 
-function getNeighbourPlaces(): ServerOffer[] {
-	return getMockNeighbourPlaces();
+function getNeighbourPlaces(offerId: string): ServerOffer[] {
+	return getMockNeighbourPlaces(offerId);
 }
 
 export {
