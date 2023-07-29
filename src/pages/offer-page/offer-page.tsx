@@ -11,6 +11,7 @@ import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
 import { getFullOffer, getNeighbourPlaces, getOfferList, getReviews } from '../../model';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
+import { useState } from 'react';
 
 
 type OfferPageProps = {
@@ -25,6 +26,7 @@ type LoaderResponse = {
 }
 
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
+	const [activeCard, setActiveCard] = useState<null|string>(null);
 	const {offer, offerReviwes, neighbourPlaces, favoriteAmount} = useLoaderData() as LoaderResponse;
 	const favorireLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = classNames(
@@ -175,6 +177,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 							block="offer"
 							location={offer.location}
 							offers={neighbourPlaces}
+							activeCard={activeCard}
 						/>
 					</section>
 					<div className="container">
@@ -186,7 +189,12 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 								<div className="near-places__list places__list">
 									{neighbourPlaces.map((place, index) =>
 										(
-											<article className="near-places__card place-card" key={place.id + index.toString()}>
+											<article
+												className="near-places__card place-card"
+												key={place.id + index.toString()}
+												onPointerEnter={() => setActiveCard(place.id)}
+												onPointerLeave={() => setActiveCard(null)}
+											>
 												<div className="near-places__image-wrapper place-card__image-wrapper">
 													<ULink href={AppRoute.Offer.replace(':id', place.id)}>
 														<img
@@ -243,6 +251,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 
 function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
 	const offerId = params.id;
+
 	if (offerId === undefined) {
 		throw new Response('Not found', {status: 404});
 	}
