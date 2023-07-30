@@ -1,21 +1,13 @@
-import type { OffersByCity } from '../../types/offer';
+import type { LoaderResponse } from './main-page-loader';
 import Header from '../../components/header/header';
 import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useDocumentTitle } from '../../hooks';
-import { AuthorizationStatus, CITIES, CitiesGPS } from '../../constants';
-import { getOfferList } from '../../model';
+import { AuthorizationStatus, CitiesGPS } from '../../constants';
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
-import { converOffersToOffersByCity } from '../../utils/convert';
-
-type LoaderResponse = {
-	cities: string[];
-	offersByCity: OffersByCity;
-	favoriteAmount: number;
-}
 
 type MainPageProps = {
 	/** статус авторизации */
@@ -41,6 +33,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 		setCurrentCity(city);
 	}
 
+	// eslint-disable-next-line no-console
 	console.log('re-draw. current city: ', currentCity);
 
 	return (
@@ -83,15 +76,4 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	);
 }
 
-function loader(): LoaderResponse | Response {
-	const offers = getOfferList();
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-	return {
-		cities: Array.from(CITIES),
-		offersByCity: converOffersToOffersByCity(offers),
-		favoriteAmount,
-	};
-}
-
 export default MainPage;
-export {loader};

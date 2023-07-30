@@ -29,11 +29,15 @@ function Card({offer, setActiveCard}: CardProps): React.JSX.Element {
 	const offerHref = AppRoute.Offer.replace(':id', offer.id);
 
 	function handleCardPointerEnter() {
-		setActiveCard!(offer.id);
+		if (setActiveCard) {
+			setActiveCard(offer.id);
+		}
 	}
 
 	function handleCardPointerLeave() {
-		setActiveCard!(null);
+		if (setActiveCard) {
+			setActiveCard(null);
+		}
 	}
 
 	return (

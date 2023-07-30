@@ -1,5 +1,4 @@
-import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
-import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import Header from '../../components/header/header';
 import Page404 from '../page-404/page-404';
 import classNames from 'classnames';
@@ -9,21 +8,13 @@ import NewCommentForm from '../../components/new-comment-form/new-comment-form';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
-import { getFullOffer, getNeighbourPlaces, getOfferList, getReviews } from '../../model';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useState } from 'react';
-
+import type {LoaderResponse} from './offer-page-loader';
 
 type OfferPageProps = {
 	status: AuthorizationStatus;
 };
-
-type LoaderResponse = {
-	offer: ServerFullOffer;
-	offerReviwes: ServerRewiew[];
-	neighbourPlaces: ServerOffer[];
-	favoriteAmount: number;
-}
 
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	const [activeCard, setActiveCard] = useState<null|string>(null);
@@ -169,7 +160,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 										))}
 
 									</ul>
-									<NewCommentForm />
+									{isAuthorized && <NewCommentForm />}
 								</section>
 							</div>
 						</div>
@@ -249,31 +240,4 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	);
 }
 
-function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
-	const offerId = params.id;
-
-	if (offerId === undefined) {
-		throw new Response('Not found', {status: 404});
-	}
-
-	const offers = getOfferList();
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-
-	const offer = getFullOffer(offerId ?? '');
-	const offerReviwes = getReviews()
-		?.filter((review) => review.offerId === offerId);
-
-	if (offer === undefined) {
-		throw new Response('Not found', {status: 404});
-	}
-
-	return {
-		offer,
-		offerReviwes,
-		neighbourPlaces: getNeighbourPlaces(offer.id),
-		favoriteAmount,
-	};
-}
-
 export default OfferPage;
-export {loader};

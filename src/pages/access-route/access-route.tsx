@@ -7,7 +7,7 @@ type AccessRoutProps = {
 }
 
 // eslint-disable-next-line react/display-name
-const createAccessRout = (accessStatus: AuthorizationStatus, navigateRout: string) => ({status}: AccessRoutProps) => {
+const createAccessRoute = (accessStatus: AuthorizationStatus, navigateRout: string) => ({status}: AccessRoutProps) => {
 	if (status === accessStatus) {
 		return <Outlet/>;
 	}
@@ -15,6 +15,6 @@ const createAccessRout = (accessStatus: AuthorizationStatus, navigateRout: strin
 	return <Navigate to={navigateRout} />;
 };
 
-export const PrivateRoute = createAccessRout(AuthorizationStatus.Auth, AppRoute.Login);
-export const PublicRoute = createAccessRout(AuthorizationStatus.NoAuth, AppRoute.Root);
+export const PrivateRoute = createAccessRoute(AuthorizationStatus.Auth, AppRoute.Login);
+export const PublicRoute = createAccessRoute(AuthorizationStatus.NoAuth, AppRoute.Root);
 

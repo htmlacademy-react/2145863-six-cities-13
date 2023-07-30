@@ -13,7 +13,9 @@ function getMockNeighbourPlaces(offerId: string): ServerOffer[] {
 		.map((offer) => ({
 			... offer,
 			distance: haversineDistance(
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						baseOffer!.location.latitude,
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						baseOffer!.location.longitude,
 						offer.location.latitude,
 						offer.location.longitude,

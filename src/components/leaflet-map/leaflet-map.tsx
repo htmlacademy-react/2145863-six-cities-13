@@ -38,7 +38,7 @@ function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): Rea
 			(block === 'offer' ? 12 : 11),
 			);
 		}
-	}, [mapInstance, location]);
+	}, [mapInstance, location, block]);
 
 	// отрисовка пинов
 	useEffect(() => {

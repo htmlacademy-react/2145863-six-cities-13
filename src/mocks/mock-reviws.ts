@@ -13,7 +13,7 @@ function createMockReviw(): ServerRewiew {
 			avatarUrl: faker.image.avatar(),
 			isPro: faker.datatype.boolean(),
 		},
-		comment: Array.from({length: faker.number.int({min: 1, max: 5})}, faker.company.buzzPhrase).join(' '),
+		comment: Array.from({length: faker.number.int({min: 1, max: 5})}, faker.company.buzzPhrase.bind(null)).join(' '),
 		rating: faker.number.int({min: 1, max: 5}) as Rating,
 	};
 }
