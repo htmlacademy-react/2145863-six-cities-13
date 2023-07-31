@@ -1,14 +1,16 @@
 import 'leaflet/dist/leaflet.css';
-import type { ServerLocation, ServerOffer } from '../../types/offer';
+import type { ServerOffer } from '../../types/offer';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import { useEffect, useRef } from 'react';
-import { useMap } from '../../hooks';
+import { useAppSelector, useMap } from '../../hooks';
+import { CitiesGPS } from '../../constants';
 
 type LeafletMapProps = {
 	block: string;
-	location: ServerLocation;
-	offers: ServerOffer[];
-	activeCard?: null | string;
+	neighborhoodOffers?: ServerOffer[];
+	// location: ServerLocation;
+	// offers: ServerOffer[];
+	// activeCard?: null | string;
 }
 
 const pinIcon = new Icon({
@@ -23,9 +25,22 @@ const pinIconActive = new Icon({
 	iconAnchor: [13, 39],
 });
 
-function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): React.JSX.Element {
+// function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): React.JSX.Element {
+function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Element {
+	// added
+	const currentCity = useAppSelector((state) => state.city);
+	const location = CitiesGPS[currentCity];
+	let offers = useAppSelector((state) => state.offerList);
+
 	const mapRef = useRef(null);
 	const mapInstance = useMap(mapRef, location);
+
+	const activeCard = useAppSelector((state) => state.activeCard);
+
+	if (block === 'offer' && neighborhoodOffers) {
+		offers = neighborhoodOffers;
+	}
+
 
 	// смена вида при смене города
 	useEffect(() => {

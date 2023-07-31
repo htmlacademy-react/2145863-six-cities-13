@@ -5,20 +5,18 @@ import classNames from 'classnames';
 import GalleryImage from '../../components/gallery-image/gallery-image';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
-import { AppRoute, AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
-import { ULink } from '../../components/u-link/u-link';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import { useState } from 'react';
 import type {LoaderResponse} from './offer-page-loader';
+import Card from '../../components/card/card';
 
 type OfferPageProps = {
 	status: AuthorizationStatus;
 };
 
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
-	const [activeCard, setActiveCard] = useState<null|string>(null);
-	const {offer, offerReviwes, neighbourPlaces, favoriteAmount} = useLoaderData() as LoaderResponse;
+	const {offer, offerReviwes, neighbourPlaces} = useLoaderData() as LoaderResponse;
 	const favorireLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = classNames(
 		'offer__bookmark-button',
@@ -34,7 +32,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized} />
+			<Header isAuthorized={isAuthorized} />
 
 			{offer === undefined &&
 				<Page404 />}
@@ -166,9 +164,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 						</div>
 						<LeafletMap
 							block="offer"
-							location={offer.location}
-							offers={neighbourPlaces}
-							activeCard={activeCard}
+							neighborhoodOffers={neighbourPlaces}
 						/>
 					</section>
 					<div className="container">
@@ -178,58 +174,8 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 									Other places in the neighbourhood
 								</h2>
 								<div className="near-places__list places__list">
-									{neighbourPlaces.map((place, index) =>
-										(
-											<article
-												className="near-places__card place-card"
-												key={place.id + index.toString()}
-												onPointerEnter={() => setActiveCard(place.id)}
-												onPointerLeave={() => setActiveCard(null)}
-											>
-												<div className="near-places__image-wrapper place-card__image-wrapper">
-													<ULink href={AppRoute.Offer.replace(':id', place.id)}>
-														<img
-															className="place-card__image"
-															src={place.previewImage}
-															width={260}
-															height={200}
-															alt="Place image"
-														/>
-													</ULink>
-												</div>
-												<div className="place-card__info">
-													<div className="place-card__price-wrapper">
-														<div className="place-card__price">
-															<b className="place-card__price-value">€{place.price}</b>
-															<span className="place-card__price-text">/&nbsp;night</span>
-														</div>
-														<button
-															className={`place-card__bookmark-button ${place.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
-															type="button"
-														>
-															<svg
-																className="place-card__bookmark-icon"
-																width={18}
-																height={19}
-															>
-																<use xlinkHref="#icon-bookmark" />
-															</svg>
-															<span className="visually-hidden">{`${place.isFavorite ? 'In' : 'To'} bookmarks`}</span>
-														</button>
-													</div>
-													<div className="place-card__rating rating">
-														<div className="place-card__stars rating__stars">
-															<span style={{ width: `${place.rating * 20}%` }} />
-															<span className="visually-hidden">Rating</span>
-														</div>
-													</div>
-													<h2 className="place-card__name">
-														<ULink href="#">{place.title}</ULink>
-													</h2>
-													<p className="place-card__type">{place.type}</p>
-												</div>
-											</article>
-										)
+									{neighbourPlaces.map((place) =>
+										<Card block='near-places' offer={place} key={place.id} />
 									)}
 
 								</div>

@@ -1,18 +1,21 @@
 import Logo from '../logo/logo';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
+import { useAppSelector } from '../../hooks';
 
 type HeaderPops = {
-	favoriteAmount?: number;
+	// favoriteAmount?: number;
 	hideNavigation?: boolean;
 	isAuthorized?: boolean;
 }
 
 function Header({
-	favoriteAmount,
+	// favoriteAmount,
 	hideNavigation = false,
 	isAuthorized = false
 } : HeaderPops) {
+
+	const favoriteAmount = useAppSelector((state) => state.favoriteAmount);
 
 	return (
 		<header className="header">

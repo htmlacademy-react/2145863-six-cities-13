@@ -1,4 +1,4 @@
-import { getFullOffer, getNeighbourPlaces, getOfferList, getReviews } from '../../model';
+import { getFullOffer, getNeighbourPlaces, getReviews } from '../../model';
 import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
@@ -6,7 +6,6 @@ export type LoaderResponse = {
 	offer: ServerFullOffer;
 	offerReviwes: ServerRewiew[];
 	neighbourPlaces: ServerOffer[];
-	favoriteAmount: number;
 }
 
 function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
@@ -15,9 +14,6 @@ function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
 	if (offerId === undefined) {
 		throw new Response('Not found', {status: 404});
 	}
-
-	const offers = getOfferList();
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
 
 	const offer = getFullOffer(offerId ?? '');
 	const offerReviwes = getReviews()
@@ -31,7 +27,6 @@ function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
 		offer,
 		offerReviwes,
 		neighbourPlaces: getNeighbourPlaces(offer.id),
-		favoriteAmount,
 	};
 }
 

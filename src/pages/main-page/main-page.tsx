@@ -4,10 +4,9 @@ import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import { useDocumentTitle } from '../../hooks';
-import { AuthorizationStatus, CitiesGPS } from '../../constants';
-import { useLoaderData, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useAppSelector, useDocumentTitle } from '../../hooks';
+import { AuthorizationStatus } from '../../constants';
+import { useLoaderData } from 'react-router-dom';
 
 type MainPageProps = {
 	/** статус авторизации */
@@ -19,19 +18,20 @@ type MainPageProps = {
  */
 function MainPage({status}: MainPageProps): React.JSX.Element {
 	useDocumentTitle('Main');
-	const {cities, offersByCity, favoriteAmount} = useLoaderData() as LoaderResponse;
+	const {cities, offersByCity} = useLoaderData() as LoaderResponse;
 	const isAuthorized = status === AuthorizationStatus.Auth;
-	const [activeCard, setActiveCard] = useState<null|string>(null);
 
-	const [searchParams, setSearchParams] = useSearchParams();
-	const initialCity = searchParams.get('filter') || cities[0];
-	const [currentCity, setCurrentCity] = useState(initialCity);
+	// const [searchParams, setSearchParams] = useSearchParams();
+	// TODO: надо переделать инициализацию с учтом store.city
+	// const initialCity = searchParams.get('filter') || cities[0];
+	const currentCity = useAppSelector((state) => state.city);
 
-	function handleTabClick(city: string) {
-		// TODO: вызывает двойную перерисовку страницы
-		setSearchParams({...searchParams, filter: city});
-		setCurrentCity(city);
-	}
+	// На данный момент не вызывается
+	// function handleTabClick(city: string) {
+	// TODO: вызывает двойную перерисовку страницы
+	// setSearchParams({...searchParams, filter: city});
+	// setCurrentCity(city);
+	// }
 
 	// eslint-disable-next-line no-console
 	console.log('re-draw. current city: ', currentCity);
@@ -39,7 +39,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	return (
 		<div className="page page--gray page--main">
 
-			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized}/>
+			<Header isAuthorized={isAuthorized}/>
 
 			<main className="page__main page__main--index">
 				<h1 className="visually-hidden">Cities</h1>
@@ -47,8 +47,6 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 					<section className="locations container">
 						<LocationsList
 							cities={cities}
-							currentCity={currentCity}
-							handleTabClick={handleTabClick}
 						/>
 					</section>
 				</div>
@@ -58,14 +56,11 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 							<h2 className="visually-hidden">Places</h2>
 							<b className="places__found">{offersByCity[currentCity].length} places to stay in {currentCity}</b>
 							<Sort />
-							<OfferList offers={offersByCity[currentCity]} setActiveCard={setActiveCard} />
+							<OfferList />
 						</section>
 						<div className="cities__right-section">
 							<LeafletMap
 								block="cities"
-								location={CitiesGPS[currentCity]}
-								offers={offersByCity[currentCity]}
-								activeCard={activeCard}
 							/>
 						</div>
 					</div>

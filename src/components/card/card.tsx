@@ -2,8 +2,11 @@ import classNames from 'classnames';
 import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
+import { useAppDispatch } from '../../hooks';
+import { setActiveCard } from '../../store/action';
 
 type CardProps = {
+	block: string;
 	offer: Pick<ServerOffer,
 		'id' |
 		'title' |
@@ -15,11 +18,10 @@ type CardProps = {
 		'rating' |
 		'previewImage'
 		>;
-		setActiveCard?: (offerId: string | null) => void;
 }
 
-
-function Card({offer, setActiveCard}: CardProps): React.JSX.Element {
+function Card({block, offer}: CardProps): React.JSX.Element {
+	const dispatch = useAppDispatch();
 	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
 	const favoriteClass = classNames(
 		'place-card__bookmark-button',
@@ -29,22 +31,18 @@ function Card({offer, setActiveCard}: CardProps): React.JSX.Element {
 	const offerHref = AppRoute.Offer.replace(':id', offer.id);
 
 	function handleCardPointerEnter() {
-		if (setActiveCard) {
-			setActiveCard(offer.id);
-		}
+		dispatch(setActiveCard(offer.id));
 	}
 
 	function handleCardPointerLeave() {
-		if (setActiveCard) {
-			setActiveCard(null);
-		}
+		dispatch(setActiveCard(''));
 	}
 
 	return (
 		<article
-			className="cities__card place-card"
-			onPointerEnter={setActiveCard && handleCardPointerEnter}
-			onPointerLeave={setActiveCard && handleCardPointerLeave}
+			className={`${block}__card place-card`}
+			onPointerEnter={handleCardPointerEnter}
+			onPointerLeave={handleCardPointerLeave}
 		>
 			{offer.isPremium && (
 				<div className="place-card__mark">
