@@ -1,21 +1,13 @@
-import type { OffersByCity } from '../../types/offer';
+import type {LoaderResponse} from './favorites-page-loader';
 import CardFavorite from '../../components/card-favorite/card-favorite';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
 import { AppRoute, AuthorizationStatus } from '../../constants';
-import { getOfferList } from '../../model';
-import { converOffersToOffersByCity } from '../../utils/convert';
 import { useLoaderData } from 'react-router-dom';
 
 type FavoritesPageProps = {
 	status: AuthorizationStatus;
-}
-
-type LoaderResponse = {
-	offersByCity: OffersByCity;
-	favoriteAmount: number;
-	cities: string[];
 }
 
 function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
@@ -70,18 +62,4 @@ function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
 	);
 }
 
-function loader(): LoaderResponse | Response {
-	const offers = getOfferList();
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-	const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-	const favoriteOffersByCities = converOffersToOffersByCity(favoriteOffers);
-
-	return {
-		offersByCity: favoriteOffersByCities,
-		favoriteAmount,
-		cities: Object.keys(favoriteOffersByCities),
-	};
-}
-
 export default FavoritesPage;
-export {loader};

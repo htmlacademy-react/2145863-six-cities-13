@@ -1,21 +1,17 @@
 import Card from '../card/card';
-import { ServerOffer } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 
-type OfferListProps = {
-	offers: ServerOffer[];
-	setActiveCard: (offerId: string | null) => void;
-}
-
-function OfferList({offers, setActiveCard}: OfferListProps): React.JSX.Element {
+function OfferList(): React.JSX.Element {
+	const offers = useAppSelector((state) => state.offerList);
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
 			{offers.map((offer) =>
 				(
 					<Card
+						block='cities'
 						key={offer.id}
 						offer={offer}
-						setActiveCard={setActiveCard}
 					/>
 				)
 			)}

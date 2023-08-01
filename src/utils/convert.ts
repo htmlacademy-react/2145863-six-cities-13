@@ -1,6 +1,6 @@
 import type { OffersByCity, ServerOffer } from '../types/offer';
 
-function converOffersToOffersByCity(offers: ServerOffer[]) {
+function convertOffersToOffersByCity(offers: ServerOffer[]): Record<string, ServerOffer[]> {
 	const offersByCity: OffersByCity = {};
 
 	for (const offer of offers) {
@@ -17,4 +17,4 @@ function converOffersToOffersByCity(offers: ServerOffer[]) {
 	return offersByCity;
 }
 
-export {converOffersToOffersByCity};
+export {convertOffersToOffersByCity};

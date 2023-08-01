@@ -1,39 +1,28 @@
-import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
-import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import Header from '../../components/header/header';
 import Page404 from '../page-404/page-404';
 import classNames from 'classnames';
 import GalleryImage from '../../components/gallery-image/gallery-image';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
-import { AppRoute, AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
-import { ULink } from '../../components/u-link/u-link';
-import { getFullOffer, getNeighbourPlaces, getOfferList, getReviews } from '../../model';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import { useState } from 'react';
-
+import type {LoaderResponse} from './offer-page-loader';
+import Card from '../../components/card/card';
 
 type OfferPageProps = {
 	status: AuthorizationStatus;
 };
 
-type LoaderResponse = {
-	offer: ServerFullOffer;
-	offerReviwes: ServerRewiew[];
-	neighbourPlaces: ServerOffer[];
-	favoriteAmount: number;
-}
-
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
-	const [activeCard, setActiveCard] = useState<null|string>(null);
-	const {offer, offerReviwes, neighbourPlaces, favoriteAmount} = useLoaderData() as LoaderResponse;
-	const favorireLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
+	const {offer, offerReviews, neighbourPlaces} = useLoaderData() as LoaderResponse;
+	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = classNames(
 		'offer__bookmark-button',
 		{ 'offer__bookmark-button--active': offer?.isFavorite },
 		'button');
-	const hostAvatartClass = classNames(
+	const hostAvatarClass = classNames(
 		'offer__avatar-wrapper',
 		{ 'offer__avatar-wrapper--pro': offer?.host.isPro },
 		'user__avatar-wrapper');
@@ -43,7 +32,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized} />
+			<Header isAuthorized={isAuthorized} />
 
 			{offer === undefined &&
 				<Page404 />}
@@ -70,7 +59,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 										<svg className="offer__bookmark-icon" width={31} height={33}>
 											<use xlinkHref="#icon-bookmark" />
 										</svg>
-										<span className="visually-hidden">{favorireLabel}</span>
+										<span className="visually-hidden">{favoriteLabel}</span>
 									</button>
 								</div>
 
@@ -107,7 +96,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 								<div className="offer__host">
 									<h2 className="offer__host-title">Meet the host</h2>
 									<div className="offer__host-user user">
-										<div className={hostAvatartClass}>
+										<div className={hostAvatarClass}>
 											<img
 												className="offer__avatar user__avatar"
 												src={offer.host.avatarUrl}
@@ -129,15 +118,15 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 									</div>
 								</div>
 
-								{/* rewies */}
+								{/* reviews */}
 								<section className="offer__reviews reviews">
 									<h2 className="reviews__title">
 										Reviews
-										{offerReviwes?.length > 0 &&
-											<> · <span className="reviews__amount">{offerReviwes.length}</span></>}
+										{offerReviews?.length > 0 &&
+											<> · <span className="reviews__amount">{offerReviews.length}</span></>}
 									</h2>
 									<ul className="reviews__list">
-										{offerReviwes?.map((review) => (
+										{offerReviews?.map((review) => (
 											<li className="reviews__item" key={review.id}>
 												<div className="reviews__user user">
 													<div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -169,15 +158,13 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 										))}
 
 									</ul>
-									<NewCommentForm />
+									{isAuthorized && <NewCommentForm />}
 								</section>
 							</div>
 						</div>
 						<LeafletMap
 							block="offer"
-							location={offer.location}
-							offers={neighbourPlaces}
-							activeCard={activeCard}
+							neighborhoodOffers={neighbourPlaces}
 						/>
 					</section>
 					<div className="container">
@@ -187,58 +174,8 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 									Other places in the neighbourhood
 								</h2>
 								<div className="near-places__list places__list">
-									{neighbourPlaces.map((place, index) =>
-										(
-											<article
-												className="near-places__card place-card"
-												key={place.id + index.toString()}
-												onPointerEnter={() => setActiveCard(place.id)}
-												onPointerLeave={() => setActiveCard(null)}
-											>
-												<div className="near-places__image-wrapper place-card__image-wrapper">
-													<ULink href={AppRoute.Offer.replace(':id', place.id)}>
-														<img
-															className="place-card__image"
-															src={place.previewImage}
-															width={260}
-															height={200}
-															alt="Place image"
-														/>
-													</ULink>
-												</div>
-												<div className="place-card__info">
-													<div className="place-card__price-wrapper">
-														<div className="place-card__price">
-															<b className="place-card__price-value">€{place.price}</b>
-															<span className="place-card__price-text">/&nbsp;night</span>
-														</div>
-														<button
-															className={`place-card__bookmark-button ${place.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
-															type="button"
-														>
-															<svg
-																className="place-card__bookmark-icon"
-																width={18}
-																height={19}
-															>
-																<use xlinkHref="#icon-bookmark" />
-															</svg>
-															<span className="visually-hidden">{`${place.isFavorite ? 'In' : 'To'} bookmarks`}</span>
-														</button>
-													</div>
-													<div className="place-card__rating rating">
-														<div className="place-card__stars rating__stars">
-															<span style={{ width: `${place.rating * 20}%` }} />
-															<span className="visually-hidden">Rating</span>
-														</div>
-													</div>
-													<h2 className="place-card__name">
-														<ULink href="#">{place.title}</ULink>
-													</h2>
-													<p className="place-card__type">{place.type}</p>
-												</div>
-											</article>
-										)
+									{neighbourPlaces.map((place) =>
+										<Card block='near-places' offer={place} key={place.id} />
 									)}
 
 								</div>
@@ -249,31 +186,4 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	);
 }
 
-function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
-	const offerId = params.id;
-
-	if (offerId === undefined) {
-		throw new Response('Not found', {status: 404});
-	}
-
-	const offers = getOfferList();
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-
-	const offer = getFullOffer(offerId ?? '');
-	const offerReviwes = getReviews()
-		?.filter((review) => review.offerId === offerId);
-
-	if (offer === undefined) {
-		throw new Response('Not found', {status: 404});
-	}
-
-	return {
-		offer,
-		offerReviwes,
-		neighbourPlaces: getNeighbourPlaces(offer.id),
-		favoriteAmount,
-	};
-}
-
 export default OfferPage;
-export {loader};

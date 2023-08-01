@@ -3,7 +3,7 @@ import { ServerOffer } from '../types/offer';
 import { haversineDistance } from '../utils/distanse';
 
 /** Моковый список предложений по соседству */
-function getMockNeighbourPlaces(offerId: string): ServerOffer[] {
+function getMockNeighborPlaces(offerId: string): ServerOffer[] {
 	const baseOffer = offers.find((offer) => offer.id === offerId);
 	const city = baseOffer?.city.name;
 
@@ -13,7 +13,9 @@ function getMockNeighbourPlaces(offerId: string): ServerOffer[] {
 		.map((offer) => ({
 			... offer,
 			distance: haversineDistance(
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						baseOffer!.location.latitude,
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						baseOffer!.location.longitude,
 						offer.location.latitude,
 						offer.location.longitude,
@@ -26,4 +28,4 @@ function getMockNeighbourPlaces(offerId: string): ServerOffer[] {
 	return nearestOffers.slice(1, 4);
 }
 
-export {getMockNeighbourPlaces};
+export {getMockNeighborPlaces};

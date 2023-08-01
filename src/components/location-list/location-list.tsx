@@ -1,13 +1,15 @@
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fillOfferList, setCity } from '../../store/action';
 import { ULink } from '../u-link/u-link';
 import classNames from 'classnames';
 
 type LocationsListProps = {
 	cities: string[];
-	currentCity: string;
-	handleTabClick: (city: string) => void;
 }
 
-function LocationsList({cities, currentCity, handleTabClick}: LocationsListProps) {
+function LocationsList({cities}: LocationsListProps) {
+	const dispatch = useAppDispatch();
+	const currentCity = useAppSelector((state) => state.city);
 
 	return (
 		<ul className="locations__list tabs__list">
@@ -21,7 +23,8 @@ function LocationsList({cities, currentCity, handleTabClick}: LocationsListProps
 						)}
 						onClick={(evt) => {
 							evt.preventDefault();
-							handleTabClick(city);
+							dispatch(setCity(city));
+							dispatch(fillOfferList());
 						}}
 						>
 							<span>{city}</span>
