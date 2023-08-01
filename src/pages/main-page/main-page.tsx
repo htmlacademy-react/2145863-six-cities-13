@@ -7,6 +7,7 @@ import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useAppSelector, useDocumentTitle } from '../../hooks';
 import { AuthorizationStatus } from '../../constants';
 import { useLoaderData } from 'react-router-dom';
+// import { useLoaderData, useSearchParams } from 'react-router-dom';
 
 type MainPageProps = {
 	/** статус авторизации */
@@ -22,7 +23,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	const isAuthorized = status === AuthorizationStatus.Auth;
 
 	// const [searchParams, setSearchParams] = useSearchParams();
-	// TODO: надо переделать инициализацию с учтом store.city
+	// TODO: надо переделать инициализацию с учётом store.city
 	// const initialCity = searchParams.get('filter') || cities[0];
 	const currentCity = useAppSelector((state) => state.city);
 

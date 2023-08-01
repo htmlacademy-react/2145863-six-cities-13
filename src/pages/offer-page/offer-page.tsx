@@ -16,13 +16,13 @@ type OfferPageProps = {
 };
 
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
-	const {offer, offerReviwes, neighbourPlaces} = useLoaderData() as LoaderResponse;
-	const favorireLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
+	const {offer, offerReviews, neighbourPlaces} = useLoaderData() as LoaderResponse;
+	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = classNames(
 		'offer__bookmark-button',
 		{ 'offer__bookmark-button--active': offer?.isFavorite },
 		'button');
-	const hostAvatartClass = classNames(
+	const hostAvatarClass = classNames(
 		'offer__avatar-wrapper',
 		{ 'offer__avatar-wrapper--pro': offer?.host.isPro },
 		'user__avatar-wrapper');
@@ -59,7 +59,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 										<svg className="offer__bookmark-icon" width={31} height={33}>
 											<use xlinkHref="#icon-bookmark" />
 										</svg>
-										<span className="visually-hidden">{favorireLabel}</span>
+										<span className="visually-hidden">{favoriteLabel}</span>
 									</button>
 								</div>
 
@@ -96,7 +96,7 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 								<div className="offer__host">
 									<h2 className="offer__host-title">Meet the host</h2>
 									<div className="offer__host-user user">
-										<div className={hostAvatartClass}>
+										<div className={hostAvatarClass}>
 											<img
 												className="offer__avatar user__avatar"
 												src={offer.host.avatarUrl}
@@ -118,15 +118,15 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 									</div>
 								</div>
 
-								{/* rewies */}
+								{/* reviews */}
 								<section className="offer__reviews reviews">
 									<h2 className="reviews__title">
 										Reviews
-										{offerReviwes?.length > 0 &&
-											<> · <span className="reviews__amount">{offerReviwes.length}</span></>}
+										{offerReviews?.length > 0 &&
+											<> · <span className="reviews__amount">{offerReviews.length}</span></>}
 									</h2>
 									<ul className="reviews__list">
-										{offerReviwes?.map((review) => (
+										{offerReviews?.map((review) => (
 											<li className="reviews__item" key={review.id}>
 												<div className="reviews__user user">
 													<div className="reviews__avatar-wrapper user__avatar-wrapper">

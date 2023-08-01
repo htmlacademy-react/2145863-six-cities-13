@@ -4,13 +4,11 @@ import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
 
 type HeaderPops = {
-	// favoriteAmount?: number;
 	hideNavigation?: boolean;
 	isAuthorized?: boolean;
 }
 
 function Header({
-	// favoriteAmount,
 	hideNavigation = false,
 	isAuthorized = false
 } : HeaderPops) {

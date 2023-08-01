@@ -2,10 +2,10 @@ import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_CITY } from '../constants';
 import { getOfferList } from '../model';
 import { fillOfferList, setActiveCard, setCity } from './action';
-import { converOffersToOffersByCity } from '../utils/convert';
+import { convertOffersToOffersByCity } from '../utils/convert';
 
 const offers = getOfferList();
-const offerList = converOffersToOffersByCity(offers)[DEFAULT_CITY];
+const offerList = convertOffersToOffersByCity(offers)[DEFAULT_CITY];
 const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
 
 const initialState = {
@@ -24,7 +24,7 @@ const reducer = createReducer(initialState, (builder) => {
 			state.activeCard = action.payload;
 		})
 		.addCase(fillOfferList, (state) => {
-			state.offerList = converOffersToOffersByCity(offers)[state.city];
+			state.offerList = convertOffersToOffersByCity(offers)[state.city];
 		});
 });
 

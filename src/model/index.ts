@@ -1,4 +1,4 @@
-import { fullOffers, offers, reviews, getMockNeighbourPlaces } from '../mocks';
+import { fullOffers, offers, reviews, getMockNeighborPlaces } from '../mocks';
 import type { ServerFullOffer, ServerOffer, ServerCommentWithOfferId } from '../types/offer';
 
 
@@ -18,8 +18,8 @@ function getReviews(): ServerCommentWithOfferId[] {
 	return reviews;
 }
 
-function getNeighbourPlaces(offerId: string): ServerOffer[] {
-	return getMockNeighbourPlaces(offerId);
+function getNeighborPlaces(offerId: string): ServerOffer[] {
+	return getMockNeighborPlaces(offerId);
 }
 
 export {
@@ -27,5 +27,5 @@ export {
 	getFullOffer,
 	getFavorites,
 	getReviews,
-	getNeighbourPlaces,
+	getNeighborPlaces,
 };

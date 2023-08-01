@@ -38,7 +38,7 @@ type ServerFullOffer = Omit<ServerOffer, 'previewImage'> & {
 	maxAdults: number;
 };
 
-type ServerRewiew = {
+type ServerReview = {
 	id: string;
 	date: string;
 	user: {
@@ -50,14 +50,14 @@ type ServerRewiew = {
 	rating: Rating;
 }
 
-type ServerCommentWithOfferId = ServerRewiew & {offerId: string};
+type ServerCommentWithOfferId = ServerReview & {offerId: string};
 type OffersByCity = Record<string, ServerOffer[]>;
 
 export type {
 	ServerOffer,
 	ServerFullOffer,
 	ServerLocation,
-	ServerRewiew,
+	ServerReview,
 	ServerCommentWithOfferId,
 	OfferType,
 	Rating,

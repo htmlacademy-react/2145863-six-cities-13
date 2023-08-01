@@ -8,9 +8,6 @@ import { CitiesGPS } from '../../constants';
 type LeafletMapProps = {
 	block: string;
 	neighborhoodOffers?: ServerOffer[];
-	// location: ServerLocation;
-	// offers: ServerOffer[];
-	// activeCard?: null | string;
 }
 
 const pinIcon = new Icon({
@@ -25,9 +22,7 @@ const pinIconActive = new Icon({
 	iconAnchor: [13, 39],
 });
 
-// function LeafletMap({block, location, offers, activeCard}: LeafletMapProps): React.JSX.Element {
 function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Element {
-	// added
 	const currentCity = useAppSelector((state) => state.city);
 	const location = CitiesGPS[currentCity];
 	let offers = useAppSelector((state) => state.offerList);

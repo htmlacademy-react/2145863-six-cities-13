@@ -1,10 +1,10 @@
-import { getFullOffer, getNeighbourPlaces, getReviews } from '../../model';
-import type { ServerFullOffer, ServerOffer, ServerRewiew } from '../../types/offer';
+import { getFullOffer, getNeighborPlaces, getReviews } from '../../model';
+import type { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
 export type LoaderResponse = {
 	offer: ServerFullOffer;
-	offerReviwes: ServerRewiew[];
+	offerReviews: ServerReview[];
 	neighbourPlaces: ServerOffer[];
 }
 
@@ -16,7 +16,7 @@ function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
 	}
 
 	const offer = getFullOffer(offerId ?? '');
-	const offerReviwes = getReviews()
+	const offerReviews = getReviews()
 		?.filter((review) => review.offerId === offerId);
 
 	if (offer === undefined) {
@@ -25,8 +25,8 @@ function loader({params}: LoaderFunctionArgs): LoaderResponse | Response {
 
 	return {
 		offer,
-		offerReviwes,
-		neighbourPlaces: getNeighbourPlaces(offer.id),
+		offerReviews: offerReviews,
+		neighbourPlaces: getNeighborPlaces(offer.id),
 	};
 }
 

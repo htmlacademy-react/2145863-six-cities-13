@@ -22,4 +22,4 @@ offers.forEach((offer) => {
 });
 
 export {offers, fullOffers, reviews};
-export {getMockNeighbourPlaces} from './mock-neigborhoods-places';
+export {getMockNeighborPlaces} from './mock-neigborhoods-places';
