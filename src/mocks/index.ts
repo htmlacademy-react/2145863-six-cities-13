@@ -1,8 +1,8 @@
 import type { ServerOffer,	ServerFullOffer, ServerCommentWithOfferId} from '../types/offer';
 import { TemporalData } from '../constants';
 import { createMockOffer } from './mock-offers';
-import { createFullMockOffer } from './mock-fulloffers';
-import { createMockReviw } from './mock-reviws';
+import { createFullMockOffer } from './mock-full-offers';
+import { createMockReview } from './mock-reviews';
 import { faker } from '@faker-js/faker';
 
 /** Моковый список предложений по недвижимости */
@@ -14,12 +14,12 @@ const fullOffers: ServerFullOffer[] = offers.map((offer) => createFullMockOffer(
 /** Моковый список отзывов */
 const reviews: ServerCommentWithOfferId[] = [];
 offers.forEach((offer) => {
-	const commnetsAmoutn = faker.number.int({min: 0, max: TemporalData.CommentMaxAmount});
+	const commentsAmount = faker.number.int({min: 0, max: TemporalData.CommentMaxAmount});
 
-	for (let i = 0; i < commnetsAmoutn; i++) {
-		reviews.push({...createMockReviw(), offerId: offer.id});
+	for (let i = 0; i < commentsAmount; i++) {
+		reviews.push({...createMockReview(), offerId: offer.id});
 	}
 });
 
 export {offers, fullOffers, reviews};
-export {getMockNeighborPlaces} from './mock-neigborhoods-places';
+export {getMockNeighborPlaces} from './mock-neigbourhoods-places';

@@ -1,8 +1,8 @@
-import type { Rating, ServerRewiew } from '../types/offer';
+import type { Rating, ServerReview } from '../types/offer';
 import { faker } from '@faker-js/faker';
 import { TemporalData } from '../constants';
 
-function createMockReviw(): ServerRewiew {
+function createMockReview(): ServerReview {
 	return {
 		id: faker.string.nanoid(),
 		date: faker.date.between(
@@ -18,5 +18,5 @@ function createMockReviw(): ServerRewiew {
 	};
 }
 
-export {createMockReviw};
+export {createMockReview};
 
