@@ -18,7 +18,7 @@ function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized} />
+			<Header isAuthorized={isAuthorized} />
 
 			<main className="page__main page__main--favorites">
 				<div className="page__favorites-container container">

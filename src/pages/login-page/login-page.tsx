@@ -1,6 +1,5 @@
 import Header from '../../components/header/header';
 import { ULink } from '../../components/u-link/u-link';
-import { TemporalData } from '../../constants';
 import { useDocumentTitle } from '../../hooks';
 
 function LoginPage(): React.JSX.Element {
@@ -8,7 +7,7 @@ function LoginPage(): React.JSX.Element {
 
 	return (
 		<div className="page page--gray page--login">
-			<Header favoriteAmount={TemporalData.FavoriteCount} hideNavigation/>
+			<Header hideNavigation/>
 
 			<main className="page__main page__main--login">
 				<div className="page__login-container container">

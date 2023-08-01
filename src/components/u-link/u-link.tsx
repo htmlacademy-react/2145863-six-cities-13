@@ -5,7 +5,7 @@ type ULinkProps = Pick<
 	AnchorHTMLAttributes<HTMLAnchorElement>,
 	'children' | 'className'
 > & {
-	href: string; // принудительно переопределяем string | undefined на string
+	href?: string; // принудительно переопределяем string | undefined на string
 	onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
@@ -16,6 +16,14 @@ type ULinkProps = Pick<
 function ULink({children, href, ...props}: ULinkProps) {
 	const isExternal = href?.startsWith('http');
 	const isAnchor = href?.startsWith('#');
+
+	if (href === undefined) {
+		return (
+			<a {...props}>
+				{children}
+			</a>
+		);
+	}
 
 	if (isExternal) {
 		return (
