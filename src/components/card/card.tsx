@@ -1,9 +1,9 @@
-import classNames from 'classnames';
 import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppDispatch } from '../../hooks';
 import { setActiveCard } from '../../store/action';
+import clsx from 'clsx';
 
 type CardProps = {
 	block: string;
@@ -23,7 +23,7 @@ type CardProps = {
 function Card({block, offer}: CardProps): React.JSX.Element {
 	const dispatch = useAppDispatch();
 	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
-	const favoriteClass = classNames(
+	const favoriteClass = clsx(
 		'place-card__bookmark-button',
 		{'place-card__bookmark-button--active': offer.isFavorite},
 		'button'

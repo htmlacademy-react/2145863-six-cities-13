@@ -1,7 +1,7 @@
+import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fillOfferList, setCity } from '../../store/action';
 import { ULink } from '../u-link/u-link';
-import classNames from 'classnames';
 
 type LocationsListProps = {
 	cities: string[];
@@ -16,7 +16,7 @@ function LocationsList({cities}: LocationsListProps) {
 			{cities.map((city) =>
 				(
 					<li className="locations__item" key={city}>
-						<ULink href="#" className={classNames(
+						<ULink href="#" className={clsx(
 							'locations__item-link',
 							{'tabs__item--active': city === currentCity},
 							'tabs__item',

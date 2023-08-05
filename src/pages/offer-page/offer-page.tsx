@@ -1,7 +1,6 @@
 import { useLoaderData } from 'react-router-dom';
 import Header from '../../components/header/header';
 import Page404 from '../page-404/page-404';
-import classNames from 'classnames';
 import GalleryImage from '../../components/gallery-image/gallery-image';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
@@ -10,6 +9,7 @@ import { useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import type {LoaderResponse} from './offer-page-loader';
 import Card from '../../components/card/card';
+import clsx from 'clsx';
 
 type OfferPageProps = {
 	status: AuthorizationStatus;
@@ -18,11 +18,11 @@ type OfferPageProps = {
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	const {offer, offerReviews, neighbourPlaces} = useLoaderData() as LoaderResponse;
 	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
-	const bookmarkClass = classNames(
+	const bookmarkClass = clsx(
 		'offer__bookmark-button',
 		{ 'offer__bookmark-button--active': offer?.isFavorite },
 		'button');
-	const hostAvatarClass = classNames(
+	const hostAvatarClass = clsx(
 		'offer__avatar-wrapper',
 		{ 'offer__avatar-wrapper--pro': offer?.host.isPro },
 		'user__avatar-wrapper');

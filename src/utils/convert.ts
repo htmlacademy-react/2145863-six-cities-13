@@ -18,12 +18,24 @@ function convertOffersToOffersByCity(offers: ServerOffer[]): Record<string, Serv
 	return offersByCity;
 }
 
-const sortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => number, title: string}> = {
-	// [SortMethod.Popular]: {sortFunc: (a, b) => a.rating > b.rating ? 1 : -1, title: 'Popular'},
-	[SortMethod.PriceToHight]: {sortFunc: (a, b) => a.price > b.price ? 1 : -1, title: 'Price: low to high'},
-	[SortMethod.PriceToLow]: {sortFunc: (a, b) => a.price < b.price ? 1 : -1, title: 'Price: high to low'},
-	[SortMethod.TopRatedFirst]: {sortFunc: (a, b) => a.rating < b.rating ? 1 : -1, title: 'Top rated first'},
+const SortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => number, title: string}> = {
+	[SortMethod.Popular]: {
+		sortFunc: () => 0,
+		title: 'Popular'
+	},
+	[SortMethod.PriceToHight]: {
+		sortFunc: (a, b) => a.price > b.price ? 1 : -1,
+		title: 'Price: low to high'
+	},
+	[SortMethod.PriceToLow]: {
+		sortFunc: (a, b) => a.price < b.price ? 1 : -1,
+		title: 'Price: high to low'
+	},
+	[SortMethod.TopRatedFirst]: {
+		sortFunc: (a, b) => a.rating < b.rating ? 1 : -1,
+		title: 'Top rated first'
+	},
 }
 
 
-export {convertOffersToOffersByCity, sortMap};
+export {convertOffersToOffersByCity, SortMap};

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, SortMethod } from '../constants';
 import { getOfferList } from '../model';
 import { fillOfferList, setActiveCard, setCity, setSort } from './action';
-import { convertOffersToOffersByCity, sortMap } from '../utils/convert';
+import { convertOffersToOffersByCity, SortMap } from '../utils/convert';
 import { State } from '../types/state';
 
 const offers = getOfferList();
@@ -14,13 +14,12 @@ const initialState = {
 	activeCard: '',
 	offerList,
 	favoriteAmount,
-	sort: SortMethod.TopRatedFirst as string,
-	// sort: SortMethod.Popular as string,
+	sort: SortMethod.Popular as string,
 };
 
 const prepareOfferList = (state: State) => {
 	const {city, sort} = state;
-	return convertOffersToOffersByCity(offers)[city].sort(sortMap[sort].sortFunc);
+	return convertOffersToOffersByCity(offers)[city].sort(SortMap[sort].sortFunc);
 }
 
 const reducer = createReducer(initialState, (builder) => {

@@ -35,7 +35,7 @@ const enum AuthorizationStatus {
 }
 
 const SortMethod = {
-	// ['Popular']: 'popular',
+	['Popular']: 'popular',
 	['PriceToHight']: 'price-to-hight',
 	['PriceToLow']: 'price-to-low',
 	['TopRatedFirst']: 'top-rated-first',

@@ -1,33 +1,34 @@
-import classNames from 'classnames';
 import { useState } from 'react';
 import type {PointerEvent} from 'react';
 import { SortMethod } from '../../constants';
 import { useDispatch } from 'react-redux';
 import { setSort } from '../../store/action';
 import { useAppSelector } from '../../hooks';
-import { sortMap } from '../../utils/convert';
+import { SortMap } from '../../utils/convert';
+import clsx from 'clsx';
 
 function Sort() {
 	const [isOpen, setIsOpen] = useState(false);
-	const listClass = classNames('places__options places__options--custom', {'places__options--opened': isOpen});
+	const listClass = clsx('places__options places__options--custom', {'places__options--opened': isOpen});
 	console.log('isOpen: ', isOpen);
 	const dispatch = useDispatch();
 
 	function handleSortItemClick(evt: PointerEvent<HTMLUListElement>) {
 		const targetElement = evt.target as HTMLUListElement;
+		evt.preventDefault();
 		setIsOpen(false);
 		targetElement.dataset.sortType
 			&& dispatch(setSort(targetElement.dataset.sortType));
 	}
-	const activeSort = useAppSelector((state) => state.sort) as string;
+	const activeSort = useAppSelector((state) => state.sort);
 
 	console.log(activeSort, SortMethod.PriceToHight, activeSort===SortMethod.PriceToHight);
 
 	return (
 		<form className="places__sorting" action="#" method="get">
 			<span className="places__sorting-caption">Sort by </span>
-			<span className="places__sorting-type" tabIndex={0} onClick={()=>setIsOpen(true)}>
-				{sortMap[activeSort].title}
+			<span className="places__sorting-type" tabIndex={0} onClick={()=>setIsOpen((prevIsOpened) => !prevIsOpened)}>
+				{SortMap[activeSort].title}
 				<svg className="places__sorting-arrow" width="7" height="4">
 					<use xlinkHref="#icon-arrow-select"></use>
 				</svg>
