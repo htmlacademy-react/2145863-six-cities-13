@@ -20,11 +20,11 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = clsx(
 		'offer__bookmark-button',
-		{ 'offer__bookmark-button--active': offer?.isFavorite },
+		offer?.isFavorite && 'offer__bookmark-button--active',
 		'button');
 	const hostAvatarClass = clsx(
 		'offer__avatar-wrapper',
-		{ 'offer__avatar-wrapper--pro': offer?.host.isPro },
+		offer?.host.isPro && 'offer__avatar-wrapper--pro',
 		'user__avatar-wrapper');
 	const isAuthorized = status === AuthorizationStatus.Auth;
 

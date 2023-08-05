@@ -9,7 +9,10 @@ import clsx from 'clsx';
 
 function Sort() {
 	const [isOpen, setIsOpen] = useState(false);
-	const listClass = clsx('places__options places__options--custom', {'places__options--opened': isOpen});
+	const listClass = clsx(
+		'places__options places__options--custom',
+		isOpen && 'places__options--opened'
+	);
 	console.log('isOpen: ', isOpen);
 	const dispatch = useDispatch();
 

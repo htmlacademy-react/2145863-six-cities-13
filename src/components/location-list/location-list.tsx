@@ -18,7 +18,7 @@ function LocationsList({cities}: LocationsListProps) {
 					<li className="locations__item" key={city}>
 						<ULink href="#" className={clsx(
 							'locations__item-link',
-							{'tabs__item--active': city === currentCity},
+							city === currentCity && 'tabs__item--active',
 							'tabs__item',
 						)}
 						onClick={(evt) => {

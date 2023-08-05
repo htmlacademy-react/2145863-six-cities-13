@@ -22,10 +22,10 @@ type CardProps = {
 
 function Card({block, offer}: CardProps): React.JSX.Element {
 	const dispatch = useAppDispatch();
-	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
+	const favoriteLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
 	const favoriteClass = clsx(
 		'place-card__bookmark-button',
-		{'place-card__bookmark-button--active': offer.isFavorite},
+		offer.isFavorite && 'place-card__bookmark-button--active',
 		'button'
 	);
 	const offerHref = AppRoute.Offer.replace(':id', offer.id);
@@ -63,7 +63,7 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 						<svg className="place-card__bookmark-icon" width="18" height="19">
 							<use xlinkHref="#icon-bookmark"></use>
 						</svg>
-						<span className="visually-hidden">{favorireLabel}</span>
+						<span className="visually-hidden">{favoriteLabel}</span>
 					</button>
 				</div>
 				<div className="place-card__rating rating">
