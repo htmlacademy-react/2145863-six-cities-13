@@ -5,7 +5,7 @@ import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useAppSelector, useDocumentTitle } from '../../hooks';
-import { AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus, NameSpace } from '../../constants';
 import { useLoaderData } from 'react-router-dom';
 // import { useLoaderData, useSearchParams } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	// const [searchParams, setSearchParams] = useSearchParams();
 	// TODO: надо переделать инициализацию с учётом store.city
 	// const initialCity = searchParams.get('filter') || cities[0];
-	const currentCity = useAppSelector((state) => state.city);
+	const currentCity = useAppSelector((state) => state[NameSpace.Offers].city);
 
 	// На данный момент не вызывается
 	// function handleTabClick(city: string) {

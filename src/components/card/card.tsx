@@ -2,8 +2,8 @@ import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppDispatch } from '../../hooks';
-import { setActiveCard } from '../../store/action';
 import clsx from 'clsx';
+import { interactionsActions } from '../../store/interactions/interactions.slice';
 
 type CardProps = {
 	block: string;
@@ -31,11 +31,11 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 	const offerHref = AppRoute.Offer.replace(':id', offer.id);
 
 	function handleCardPointerEnter() {
-		dispatch(setActiveCard(offer.id));
+		dispatch(interactionsActions.setActiveOffer(offer.id));
 	}
 
 	function handleCardPointerLeave() {
-		dispatch(setActiveCard(''));
+		dispatch(interactionsActions.setActiveOffer(''));
 	}
 
 	return (

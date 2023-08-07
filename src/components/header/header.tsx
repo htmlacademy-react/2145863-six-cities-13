@@ -1,5 +1,5 @@
 import Logo from '../logo/logo';
-import { AppRoute } from '../../constants';
+import { AppRoute, NameSpace } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
 
@@ -13,7 +13,7 @@ function Header({
 	isAuthorized = false
 } : HeaderPops) {
 
-	const favoriteAmount = useAppSelector((state) => state.favoriteAmount);
+	const favoriteAmount = useAppSelector((state) => state[NameSpace.Offers].favoriteAmount);
 
 	return (
 		<header className="header">
