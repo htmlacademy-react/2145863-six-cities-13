@@ -18,7 +18,7 @@ function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
 
 	return (
 		<div className="page">
-			<Header favoriteAmount={favoriteAmount} isAuthorized={isAuthorized} />
+			<Header isAuthorized={isAuthorized} />
 
 			<main className="page__main page__main--favorites">
 				<div className="page__favorites-container container">
@@ -30,7 +30,7 @@ function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
 								<li className="favorites__locations-items" key={city}>
 									<div className="favorites__locations locations locations--current">
 										<div className="locations__item">
-											<ULink className="locations__item-link" href={`${AppRoute.Root}?filter=${city}`}>
+											<ULink className="locations__item-link" href={`${AppRoute.Main}?filter=${city}`}>
 												<span>{city}</span>
 											</ULink>
 										</div>
@@ -48,7 +48,7 @@ function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
 				</div>
 			</main>
 			<footer className="footer container">
-				<ULink className="footer__logo-link" href={AppRoute.Root}>
+				<ULink className="footer__logo-link" href={AppRoute.Main}>
 					<img
 						className="footer__logo"
 						src="img/logo.svg"

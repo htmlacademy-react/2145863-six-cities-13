@@ -12,12 +12,12 @@ function loader(): LoaderResponse | Response {
 	const offers = getOfferList();
 	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
 	const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-	const favoriteOffersByCities = convertOffersToOffersByCity(favoriteOffers);
+	const favoriteOffersByCity = convertOffersToOffersByCity(favoriteOffers);
 
 	return {
-		offersByCity: favoriteOffersByCities,
+		offersByCity: favoriteOffersByCity,
 		favoriteAmount,
-		cities: Object.keys(favoriteOffersByCities),
+		cities: Object.keys(favoriteOffersByCity),
 	};
 }
 

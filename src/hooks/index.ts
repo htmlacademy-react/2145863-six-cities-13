@@ -4,7 +4,7 @@ import type {State, AppDispatch} from '../types/state';
 export {useDocumentTitle} from './use-document-title/use-document-title';
 export { useMap } from './use-map/use-map';
 
-// обертска предотвратит попытку вызвать действие которое не создавалось для редьюсера
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-// обертка обеспечивает при написании селекторов отображения состава стейта средствами IntelliSense
+/** обертка не даст вызвать action которого нет у reducer */
+export const useAppDispatch = useDispatch<AppDispatch>;
+/** обертка отображает состав state в IntelliSense при написании селекторов */
 export const useAppSelector: TypedUseSelectorHook<State> = useSelector;

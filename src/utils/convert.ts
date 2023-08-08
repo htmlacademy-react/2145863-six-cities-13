@@ -1,3 +1,4 @@
+import { SortMethod } from '../constants';
 import type { OffersByCity, ServerOffer } from '../types/offer';
 
 function convertOffersToOffersByCity(offers: ServerOffer[]): Record<string, ServerOffer[]> {
@@ -17,4 +18,24 @@ function convertOffersToOffersByCity(offers: ServerOffer[]): Record<string, Serv
 	return offersByCity;
 }
 
-export {convertOffersToOffersByCity};
+const SortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => number; title: string}> = {
+	[SortMethod.Popular]: {
+		sortFunc: () => 0,
+		title: 'Popular'
+	},
+	[SortMethod.PriceToHight]: {
+		sortFunc: (a, b) => a.price > b.price ? 1 : -1,
+		title: 'Price: low to high'
+	},
+	[SortMethod.PriceToLow]: {
+		sortFunc: (a, b) => a.price < b.price ? 1 : -1,
+		title: 'Price: high to low'
+	},
+	[SortMethod.TopRatedFirst]: {
+		sortFunc: (a, b) => a.rating < b.rating ? 1 : -1,
+		title: 'Top rated first'
+	},
+};
+
+
+export {convertOffersToOffersByCity, SortMap};

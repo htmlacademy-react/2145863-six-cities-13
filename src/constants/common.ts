@@ -34,5 +34,11 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+const SortMethod = {
+	['Popular']: 'popular',
+	['PriceToHight']: 'price-to-hight',
+	['PriceToLow']: 'price-to-low',
+	['TopRatedFirst']: 'top-rated-first',
+} as const;
 
-export {PROJECT_NAME, CITIES, CitiesGPS, DEFAULT_CITY, OFFER_TYPES, AuthorizationStatus};
+export {PROJECT_NAME, CITIES, CitiesGPS, DEFAULT_CITY, OFFER_TYPES, SortMethod, AuthorizationStatus};

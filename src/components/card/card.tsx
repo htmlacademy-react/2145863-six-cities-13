@@ -1,9 +1,9 @@
-import classNames from 'classnames';
 import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppDispatch } from '../../hooks';
-import { setActiveCard } from '../../store/action';
+import clsx from 'clsx';
+import { interactionsActions } from '../../store/interactions/interactions.slice';
 
 type CardProps = {
 	block: string;
@@ -22,20 +22,20 @@ type CardProps = {
 
 function Card({block, offer}: CardProps): React.JSX.Element {
 	const dispatch = useAppDispatch();
-	const favorireLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
-	const favoriteClass = classNames(
+	const favoriteLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
+	const favoriteClass = clsx(
 		'place-card__bookmark-button',
-		{'place-card__bookmark-button--active': offer.isFavorite},
+		offer.isFavorite && 'place-card__bookmark-button--active',
 		'button'
 	);
 	const offerHref = AppRoute.Offer.replace(':id', offer.id);
 
 	function handleCardPointerEnter() {
-		dispatch(setActiveCard(offer.id));
+		dispatch(interactionsActions.setActiveOffer(offer.id));
 	}
 
 	function handleCardPointerLeave() {
-		dispatch(setActiveCard(''));
+		dispatch(interactionsActions.setActiveOffer(''));
 	}
 
 	return (
@@ -63,7 +63,7 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 						<svg className="place-card__bookmark-icon" width="18" height="19">
 							<use xlinkHref="#icon-bookmark"></use>
 						</svg>
-						<span className="visually-hidden">{favorireLabel}</span>
+						<span className="visually-hidden">{favoriteLabel}</span>
 					</button>
 				</div>
 				<div className="place-card__rating rating">
