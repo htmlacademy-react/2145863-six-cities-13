@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-// import { fillOfferList, setCity } from '../../store/____action';
 import { ULink } from '../u-link/u-link';
 import { offersActions } from '../../store/offers/offers.slice';
 import { NameSpace } from '../../constants';
@@ -25,10 +24,7 @@ function LocationsList({cities}: LocationsListProps) {
 						)}
 						onClick={(evt) => {
 							evt.preventDefault();
-							// dispatch(setCity(city));
 							dispatch(offersActions.setCity(city));
-							// dispatch(fillOfferList());
-							dispatch(offersActions.fillOfferList());
 						}}
 						>
 							<span>{city}</span>

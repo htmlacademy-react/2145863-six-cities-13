@@ -1,22 +1,41 @@
-import { useLoaderData } from 'react-router-dom';
 import Header from '../../components/header/header';
 import Page404 from '../page-404/page-404';
 import GalleryImage from '../../components/gallery-image/gallery-image';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../../components/new-comment-form/new-comment-form';
-import { AuthorizationStatus } from '../../constants';
-import { useDocumentTitle } from '../../hooks';
+import { AuthorizationStatus, NameSpace } from '../../constants';
+import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import type {LoaderResponse} from './offer-page-loader';
 import Card from '../../components/card/card';
 import clsx from 'clsx';
+import { useEffect } from 'react';
+import { offersActions } from '../../store/offers/offers.slice';
+import { useParams } from 'react-router-dom';
 
 type OfferPageProps = {
 	status: AuthorizationStatus;
 };
 
 function OfferPage({ status }: OfferPageProps): React.JSX.Element {
-	const {offer, offerReviews, neighbourPlaces} = useLoaderData() as LoaderResponse;
+
+	const offer = useAppSelector((state) => state[NameSpace.Offers].offer);
+	const reviews = useAppSelector((state) => state[NameSpace.Offers].reviews);
+	const neighbourPlaces = useAppSelector((state) => state[NameSpace.Offers].neighborPlaces);
+	const dispatch = useAppDispatch();
+	const offerId = useParams().id;
+
+	useEffect(() => {
+		if (offerId) {
+			dispatch(offersActions.fetchOffer(offerId));
+			dispatch(offersActions.fetchReviews(offerId));
+			dispatch(offersActions.fetchNeighborPlaces(offerId));
+		}
+
+		return () => {
+			dispatch(offersActions.dropOffer());
+		};
+	}, [offerId, dispatch]); // зачем dispatch
+
 	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = clsx(
 		'offer__bookmark-button',
@@ -33,11 +52,9 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 	return (
 		<div className="page">
 			<Header isAuthorized={isAuthorized} />
-
-			{offer === undefined &&
+			{offer === null &&
 				<Page404 />}
-
-			{offer !== undefined &&
+			{offer &&
 				<main className="page__main page__main--offer">
 					<section className="offer">
 
@@ -122,11 +139,11 @@ function OfferPage({ status }: OfferPageProps): React.JSX.Element {
 								<section className="offer__reviews reviews">
 									<h2 className="reviews__title">
 										Reviews
-										{offerReviews?.length > 0 &&
-											<> · <span className="reviews__amount">{offerReviews.length}</span></>}
+										{reviews?.length > 0 &&
+											<> · <span className="reviews__amount">{reviews.length}</span></>}
 									</h2>
 									<ul className="reviews__list">
-										{offerReviews?.map((review) => (
+										{reviews?.map((review) => (
 											<li className="reviews__item" key={review.id}>
 												<div className="reviews__user user">
 													<div className="reviews__avatar-wrapper user__avatar-wrapper">

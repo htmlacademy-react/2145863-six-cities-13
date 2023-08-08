@@ -1,10 +1,8 @@
 import React from 'react';
 import MainPage from '../../pages/main-page/main-page';
-import { loader as mainPageLoader } from '../../pages/main-page/main-page-loader';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { loader as favoritesPageLoader } from '../../pages/favorites-page/favorites-page-loader';
 import OfferPage from '../../pages/offer-page/offer-page';
-import { loader as offerPageLoader } from '../../pages/offer-page/offer-page-loader';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import Page404 from '../../pages/page-404/page-404';
@@ -23,11 +21,10 @@ function App(): React.JSX.Element {
 		errorElement: <Page404/>,
 		children: [
 			{
-				path: AppRoute.Root,
+				path: AppRoute.Main,
 				element: (
 					<MainPage status={authorizationStatus} />
 				),
-				loader: mainPageLoader,
 			},
 			{
 				path: AppRoute.Favorites,
@@ -55,7 +52,6 @@ function App(): React.JSX.Element {
 				element: (
 					<OfferPage status={authorizationStatus}/>
 				),
-				loader: offerPageLoader,
 			},
 			{
 				path: '/favorites-empty',
