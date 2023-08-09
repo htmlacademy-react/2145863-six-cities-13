@@ -4,9 +4,8 @@ import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
 import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
 import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
 
-const dataOffers = getOfferList();
+// const dataOffers = getOfferList();
 const reviews = getReviews();
-// const favoriteAmount = dataOffers.filter((offer) => offer.isFavorite).length;
 
 type OffersState = {
 	city: string;
@@ -34,17 +33,20 @@ const initialState: OffersState = {
 
 const prepareOfferList = (state: OffersState) => {
 	const {city, sort} = state;
-	return convertOffersToOffersByCity(dataOffers)[city].sort(SortMap[sort].sortFunc);
+	return convertOffersToOffersByCity(state.allOffers)[city]?.sort(SortMap[sort].sortFunc) || [];
 };
 
 const slice = createSlice({
 	name: NameSpace.Offers,
 	initialState,
 	reducers: {
-		fetchOffers(state) {
-			state.allOffers = dataOffers;
-			state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-			state.favoriteAmount = state.favorites.length;
+		fetchOffers(state, action: PayloadAction<ServerOffer[]>) {
+			// state.allOffers = dataOffers;
+			state.allOffers = action.payload || [];
+			// if (state.allOffers) {
+				state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
+				state.favoriteAmount = state.favorites.length;
+			// }
 		},
 		fetchOffer(state, action: PayloadAction<ServerOffer['id']>) {
 			state.offer = getFullOffer(action.payload) ?? null;

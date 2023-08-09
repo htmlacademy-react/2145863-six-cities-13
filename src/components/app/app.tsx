@@ -33,7 +33,7 @@ function App(): React.JSX.Element {
 					{
 						index: true,
 						element: (<FavoritesPage status={authorizationStatus} />),
-						loader: favoritesPageLoader,
+						// loader: favoritesPageLoader,
 					}
 				]
 			},

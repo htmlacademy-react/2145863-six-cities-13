@@ -3,6 +3,8 @@ import { ServerLocation } from '../types/offer';
 const PROJECT_NAME = '6 Cities';
 const DEFAULT_CITY = 'Paris';
 
+const TIMEOUT_SHOW_ERROR = 3000;
+
 const CITIES = [
 	'Paris',
 	'Amsterdam',
@@ -41,4 +43,11 @@ const SortMethod = {
 	['TopRatedFirst']: 'top-rated-first',
 } as const;
 
-export {PROJECT_NAME, CITIES, CitiesGPS, DEFAULT_CITY, OFFER_TYPES, SortMethod, AuthorizationStatus};
+export {
+	PROJECT_NAME,
+	CITIES, DEFAULT_CITY, CitiesGPS,
+	OFFER_TYPES,
+	TIMEOUT_SHOW_ERROR,
+	SortMethod,
+	AuthorizationStatus
+};
