@@ -1,5 +1,6 @@
-import type {AxiosInstance} from 'axios';
+import type {AxiosInstance, AxiosRequestConfig} from 'axios';
 import axios from 'axios';
+import { getToken } from './token';
 
 const BACKEND_URL = 'https://13.design.pages.academy';
 const REQUEST_TIMEOUT = 5000;
@@ -9,6 +10,19 @@ export const createAPI = (): AxiosInstance => {
 		baseURL: BACKEND_URL,
 		timeout: REQUEST_TIMEOUT,
 	});
+
+	api.interceptors.request.use(
+		// здесь какая-то неочевидная проблема с типизацией
+		(config: AxiosRequestConfig) => {
+			const token = getToken();
+
+			if (token && config.headers) {
+				config.headers['x-token'] = token;
+			}
+
+			return config;
+		},
+	);
 
 	return api;
 };
