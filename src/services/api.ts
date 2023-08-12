@@ -1,8 +1,8 @@
 import type {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import axios from 'axios';
-import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
 import { processErrorHandle } from './process-error-handle';
+import { getToken } from './token';
 
 type DetailMessageType = {
 	type: string;
@@ -12,14 +12,14 @@ type DetailMessageType = {
 const BACKEND_URL = 'https://13.design.pages.academy';
 const REQUEST_TIMEOUT = 5000;
 
-const StatusCodeMaping: Record<number, boolean> = {
+const StatusCodeMapping: Record<number, boolean> = {
 	[StatusCodes.BAD_REQUEST]: true,
 	[StatusCodes.UNAUTHORIZED]: true,
 	[StatusCodes.NOT_FOUND]: true,
 };
 
 const shouldDisplayError = (response: AxiosResponse): boolean => {
-	return !!StatusCodeMaping[response.status];
+	return !!StatusCodeMapping[response.status];
 }
 
 const createAPI = (): AxiosInstance => {

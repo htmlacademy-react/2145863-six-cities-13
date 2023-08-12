@@ -14,6 +14,7 @@ function Header({
 } : HeaderPops) {
 
 	const favoriteAmount = useAppSelector((state) => state[NameSpace.Offers].favoriteAmount);
+	const userName = useAppSelector((state) => state[NameSpace.User].UserName);
 
 	return (
 		<header className="header">
@@ -29,7 +30,7 @@ function Header({
 									<li className="header__nav-item user">
 										<ULink href={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
 											<div className="header__avatar-wrapper user__avatar-wrapper"></div>
-											<span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+											<span className="header__user-name user__name">{userName}</span>
 											<span className="header__favorite-count">{favoriteAmount}</span>
 										</ULink>
 									</li>

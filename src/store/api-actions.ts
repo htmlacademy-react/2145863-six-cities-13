@@ -17,6 +17,7 @@ import { dropToken, saveToken } from '../services/token';
 import { errorActions } from './errors/errors.slice';
 import { store } from '.';
 import { TIMEOUT_SHOW_ERROR } from '../constants/common';
+import { dataActions } from './data/data.slice';
 
 const clearErrorAction = createAsyncThunk(
 	`${NameSpace.Error}/clearError`,
@@ -36,7 +37,9 @@ const fetchOffersAction = createAsyncThunk<void, undefined,
 }>(
 	`${NameSpace.Offers}/fetchOffersApi`,
 	async (_args, {dispatch, extra: api}) => {
+		dispatch(dataActions.setDataLoadingStatus(true));
 		const {data} = await api.get<ServerOffer[]>(ApiRoute.getOffers);
+		dispatch(dataActions.setDataLoadingStatus(false));
 		dispatch(offersActions.fetchOffers(data));
 	}
 );
@@ -50,10 +53,10 @@ const checkAuthAction = createAsyncThunk<void, undefined,
 	`${NameSpace.User}/checkAuth`,
 	async (_arg, {dispatch, extra: api}) => {
 		try {
-			await api.get(ApiRoute.Login);
-			dispatch(userActions.requireAuthorization(AuthorizationStatus.Auth));
+			const response = await api.get(ApiRoute.Login);
+			dispatch(userActions.requireAuthorization({AuthorizationStatus: AuthorizationStatus.Auth, UserName: response.data.email}));
 		} catch {
-			dispatch(userActions.requireAuthorization(AuthorizationStatus.NoAuth));
+			dispatch(userActions.requireAuthorization({status: AuthorizationStatus.NoAuth, name: null}));
 		}
 	},
 );
