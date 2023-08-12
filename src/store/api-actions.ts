@@ -45,7 +45,10 @@ const checkAuthAction = createAsyncThunk<void, undefined,
 				UserName: response.data.email
 			}));
 		} catch {
-			dispatch(userActions.requireAuthorization({status: AuthorizationStatus.NoAuth, name: null}));
+			dispatch(userActions.requireAuthorization({
+				AuthorizationStatus: AuthorizationStatus.NoAuth,
+				UserName: null
+			}));
 		}
 	},
 );
@@ -59,7 +62,10 @@ const loginAction = createAsyncThunk<void, AuthData, {
 	async ({login: email, password}, {dispatch, extra: api}) => {
 		const {data: {token}} = await api.post<UserData>(ApiRoute.Login, {email, password});
 		saveToken(token);
-		dispatch(userActions.requireAuthorization(AuthorizationStatus.Auth));
+		dispatch(userActions.requireAuthorization({
+			AuthorizationStatus: AuthorizationStatus.Auth,
+			UserName: email,
+		}));
 	}
 );
 
@@ -72,7 +78,10 @@ const logoutAction = createAsyncThunk<void, undefined, {
 	async (_arg, {dispatch, extra: api}) => {
 		await api.delete(ApiRoute.Logout);
 		dropToken();
-		dispatch(userActions.requireAuthorization(AuthorizationStatus.NoAuth));
+		dispatch(userActions.requireAuthorization({
+			AuthorizationStatus: AuthorizationStatus.NoAuth,
+			UserName: null,
+		}));
 	}
 );
 

@@ -14,7 +14,7 @@ function LoginPage(): React.JSX.Element {
 	function handleSubmit(evt: FormEvent<HTMLFormElement>): void {
 		evt.preventDefault();
 
-		if (loginRef.current !== null && passwordRef !== null) {
+		if (loginRef.current !== null && passwordRef.current !== null) {
 			dispatch(loginAction({
 				login: loginRef.current.value,
 				password: passwordRef.current.value,
