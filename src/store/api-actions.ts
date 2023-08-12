@@ -2,7 +2,6 @@
  * Все asyncActions в данном случае сложены в один файл. Если проект большой, то
  * для удобства можно раскидать действия например по папкам компонентов страниц.
  */
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
@@ -14,20 +13,7 @@ import { userActions } from './user/user.slice';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
-import { errorActions } from './errors/errors.slice';
-import { store } from '.';
-import { TIMEOUT_SHOW_ERROR } from '../constants/common';
 import { dataActions } from './data/data.slice';
-
-const clearErrorAction = createAsyncThunk(
-	`${NameSpace.Error}/clearError`,
-	() => {
-		setTimeout(
-			() => store.dispatch(errorActions.setError(null)),
-			TIMEOUT_SHOW_ERROR
-		);
-	},
-);
 
 const fetchOffersAction = createAsyncThunk<void, undefined,
 {
@@ -54,7 +40,10 @@ const checkAuthAction = createAsyncThunk<void, undefined,
 	async (_arg, {dispatch, extra: api}) => {
 		try {
 			const response = await api.get(ApiRoute.Login);
-			dispatch(userActions.requireAuthorization({AuthorizationStatus: AuthorizationStatus.Auth, UserName: response.data.email}));
+			dispatch(userActions.requireAuthorization({
+				AuthorizationStatus: AuthorizationStatus.Auth,
+				UserName: response.data.email
+			}));
 		} catch {
 			dispatch(userActions.requireAuthorization({status: AuthorizationStatus.NoAuth, name: null}));
 		}
@@ -90,7 +79,6 @@ const logoutAction = createAsyncThunk<void, undefined, {
 //TODO: при загрузке офера логично воспользоваться promise.all
 
 export {
-	clearErrorAction,
 	fetchOffersAction,
 	checkAuthAction,
 	loginAction,
