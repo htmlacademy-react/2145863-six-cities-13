@@ -15,7 +15,6 @@ const slice = createSlice({
 	reducers: {
 		setDataLoadingStatus(state, action: PayloadAction<boolean>) {
 			state.dataLoadingStatus += action.payload ? 1 : -1;
-			console.log('*** state.dataLoadingStatus: ', state.dataLoadingStatus);
 		},
 	}
 });

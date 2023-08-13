@@ -7,7 +7,7 @@ const AppRoute = {
 
 const ApiRoute = {
 	getOffers: '/six-cities/offers',
-	getOffer: '/six-cities/offers/{offerId}',
+	getOffer: '/six-cities/offers',
 	getNearby: '/six-cities/offers/{offerId}/nearby',
 	getFavorites: '/six-cities/favorite',
 	postFavorite: '/six-cities/favorite/{offerId}/{status}',

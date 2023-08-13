@@ -6,7 +6,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { AuthorizationStatus, NameSpace } from '../constants';
-import { ServerOffer } from '../types/offer';
+import { ServerFullOffer, ServerOffer } from '../types/offer';
 import { ApiRoute } from '../constants/routes';
 import { offersActions } from './offers/offers.slice';
 import { userActions } from './user/user.slice';
@@ -15,11 +15,11 @@ import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
 import { dataActions } from './data/data.slice';
 
-const fetchOffersAction = createAsyncThunk<void, undefined,
+const fetchOffersActionApi = createAsyncThunk<void, undefined,
 {
 	dispatch: AppDispatch;
 	state: State;
-	extra: AxiosInstance
+	extra: AxiosInstance;
 }>(
 	`${NameSpace.Offers}/fetchOffersApi`,
 	async (_args, {dispatch, extra: api}) => {
@@ -29,6 +29,38 @@ const fetchOffersAction = createAsyncThunk<void, undefined,
 		dispatch(offersActions.fetchOffers(data));
 	}
 );
+
+const fetchOfferActionApi = createAsyncThunk<void, {offerId: string | null},
+{
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+}>(
+	`${NameSpace.Offers}/fetchOfferApi`,
+	async (args, {dispatch, extra: api}) => {
+		console.log(args.offerId);
+		dispatch(dataActions.setDataLoadingStatus(true));
+		const {data} = await api.get<ServerFullOffer>(`${ApiRoute.getOffer}/${args.offerId}`);
+		dispatch(dataActions.setDataLoadingStatus(false));
+		dispatch(offersActions.loadOffer(data));
+	}
+);
+
+// const fetchNeighActionApi = createAsyncThunk<void, {offerId: string | null},
+// {
+// 	dispatch: AppDispatch;
+// 	state: State;
+// 	extra: AxiosInstance;
+// }>(
+// 	`${NameSpace.Offers}/fetchOfferApi`,
+// 	async (args, {dispatch, extra: api}) => {
+// 		console.log(args.offerId);
+// 		dispatch(dataActions.setDataLoadingStatus(true));
+// 		const {data} = await api.get<ServerFullOffer>(`${ApiRoute.getOffer}/${args.offerId}`);
+// 		dispatch(dataActions.setDataLoadingStatus(false));
+// 		dispatch(offersActions.loadOffer(data));
+// 	}
+// );
 
 const checkAuthAction = createAsyncThunk<void, undefined,
 {
@@ -88,8 +120,9 @@ const logoutAction = createAsyncThunk<void, undefined, {
 //TODO: при загрузке офера логично воспользоваться promise.all
 
 export {
-	fetchOffersAction,
+	fetchOffersActionApi,
 	checkAuthAction,
 	loginAction,
-	logoutAction
+	logoutAction,
+	fetchOfferActionApi,
 };

@@ -61,7 +61,8 @@ function App(): React.JSX.Element {
 			{
 				path: AppRoute.Offer,
 				element: (
-					<OfferPage status={authorizationStatus}/>
+					// <OfferPage status={authorizationStatus}/>
+					<OfferPage />
 				),
 			},
 			{

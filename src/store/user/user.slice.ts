@@ -20,7 +20,7 @@ const slice = createSlice({
 		requireAuthorization (state, action: PayloadAction<UserState>) {
 			state.AuthorizationStatus = action.payload.AuthorizationStatus;
 			// if (action.payload === AuthorizationStatus.Auth) {
-				state.UserName = action.payload.UserName;
+			state.UserName = action.payload.UserName;
 			// }
 		},
 	}

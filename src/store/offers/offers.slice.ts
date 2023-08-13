@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getFullOffer, getNeighborPlaces, getOfferList, getReviews } from '../../model';
+import { getFullOffer, getNeighborPlaces, getReviews } from '../../model';
 import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
 import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
 import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
@@ -41,15 +41,14 @@ const slice = createSlice({
 	initialState,
 	reducers: {
 		fetchOffers(state, action: PayloadAction<ServerOffer[]>) {
-			// state.allOffers = dataOffers;
 			state.allOffers = action.payload || [];
-			// if (state.allOffers) {
-				state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-				state.favoriteAmount = state.favorites.length;
-			// }
+			// переделать избранное на отдельный запрос
+			// state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
+			// state.favoriteAmount = state.favorites.length;
 		},
-		fetchOffer(state, action: PayloadAction<ServerOffer['id']>) {
-			state.offer = getFullOffer(action.payload) ?? null;
+		loadOffer(state, action: PayloadAction<ServerFullOffer>) {
+			// state.offer = getFullOffer(action.payload) ?? null;
+			state.offer = action.payload;
 		},
 		fetchNeighborPlaces(state, action: PayloadAction<ServerOffer['id']>) {
 			state.neighborPlaces = getNeighborPlaces(action.payload);

@@ -39,7 +39,7 @@ function LoginPage(): React.JSX.Element {
 									type="email"
 									name="email"
 									placeholder="Email"
-									required={true}
+									required
 								/>
 							</div>
 							<div className="login__input-wrapper form__input-wrapper">
@@ -52,7 +52,7 @@ function LoginPage(): React.JSX.Element {
 									placeholder="Password"
 									pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$"
 									title="Пароль должен содержать не менее одной буквы и цифры"
-									required={true}
+									required
 								/>
 							</div>
 							<button className="login__submit form__submit button" type="submit">
@@ -74,12 +74,3 @@ function LoginPage(): React.JSX.Element {
 }
 
 export default LoginPage;
-
-// var inputValue = inputElement.value;
-
-//     // Регулярное выражение для проверки наличия хотя бы одной буквы и одной цифры
-//     var regex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
-          //  pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$"
-
-//     // Проверяем ввод на соответствие регулярному выражению
-//     if (regex.test(inputValue))
