@@ -2,10 +2,18 @@ import Logo from '../logo/logo';
 import { AppRoute, NameSpace } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
+import { SyntheticEvent } from 'react';
+import { store } from '../../store';
 
 type HeaderPops = {
 	hideNavigation?: boolean;
 	isAuthorized?: boolean;
+}
+
+function handleSignOutClick(evt: SyntheticEvent){
+	evt.preventDefault();
+	store.dispatch(logoutAction());
 }
 
 function Header({
@@ -35,7 +43,7 @@ function Header({
 										</ULink>
 									</li>
 									<li className="header__nav-item">
-										<ULink className="header__nav-link" href={AppRoute.Login}>
+										<ULink className="header__nav-link" href="" onClick={handleSignOutClick}>
 											<span className="header__signout">Sign out</span>
 										</ULink>
 									</li>

@@ -1,10 +1,8 @@
-import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { ULink } from '../../components/u-link/u-link';
 import { useAppDispatch, useDocumentTitle } from '../../hooks';
 import { FormEvent, useRef } from 'react';
 import { loginAction } from '../../store/api-actions';
-import LoadingScreen from '../loading-screen/loading-screen';
 
 function LoginPage(): React.JSX.Element {
 	const loginRef = useRef<HTMLInputElement | null>(null);
@@ -41,7 +39,7 @@ function LoginPage(): React.JSX.Element {
 									type="email"
 									name="email"
 									placeholder="Email"
-									required={false}
+									required={true}
 								/>
 							</div>
 							<div className="login__input-wrapper form__input-wrapper">
@@ -52,7 +50,9 @@ function LoginPage(): React.JSX.Element {
 									type="password"
 									name="password"
 									placeholder="Password"
-									required={false}
+									pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$"
+									title="Пароль должен содержать не менее одной буквы и цифры"
+									required={true}
 								/>
 							</div>
 							<button className="login__submit form__submit button" type="submit">
@@ -74,3 +74,12 @@ function LoginPage(): React.JSX.Element {
 }
 
 export default LoginPage;
+
+// var inputValue = inputElement.value;
+
+//     // Регулярное выражение для проверки наличия хотя бы одной буквы и одной цифры
+//     var regex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
+          //  pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$"
+
+//     // Проверяем ввод на соответствие регулярному выражению
+//     if (regex.test(inputValue))
