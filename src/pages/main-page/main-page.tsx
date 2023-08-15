@@ -26,7 +26,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	useDocumentTitle('Main');
 
 	useEffect(() => {
-		dispatch(offersActions.fetchOffers());
+		// dispatch(offersActions.fetchOffers());
 		dispatch(offersActions.fillOfferList());
 	}, [dispatch]);
 	const currentCity = useAppSelector((state) => state[NameSpace.Offers].city);

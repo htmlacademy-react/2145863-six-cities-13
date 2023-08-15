@@ -1,4 +1,4 @@
-import { getOfferList } from '../../model';
+// import { getOfferList } from '../../model';
 import type { OffersByCity } from '../../types/offer';
 import { convertOffersToOffersByCity } from '../../utils/convert';
 
@@ -9,14 +9,19 @@ export type LoaderResponse = {
 }
 
 function loader(): LoaderResponse | Response {
-	const offers = getOfferList();
-	const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
-	const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-	const favoriteOffersByCity = convertOffersToOffersByCity(favoriteOffers);
+	// const offers = getOfferList();
+	// const favoriteAmount = offers.filter((offer) => offer.isFavorite).length;
+	// const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+	// const favoriteOffersByCity = convertOffersToOffersByCity(favoriteOffers);
 
 	return {
-		offersByCity: favoriteOffersByCity,
-		favoriteAmount,
+		// offersByCity: favoriteOffersByCity,
+		// favoriteAmount,
+		// cities: Object.keys(favoriteOffersByCity),
+	};
+	return {
+		offersByCity: [],
+		favoriteAmount: 0,
 		cities: Object.keys(favoriteOffersByCity),
 	};
 }

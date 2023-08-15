@@ -2,9 +2,9 @@ import { fullOffers, offers, reviews, getMockNeighborPlaces } from '../mocks';
 import type { ServerFullOffer, ServerOffer, ServerCommentWithOfferId } from '../types/offer';
 
 
-function getOfferList(): ServerOffer[] {
-	return offers;
-}
+// function getOfferList(): ServerOffer[] {
+// 	return offers;
+// }
 
 function getFullOffer(offerId: string): undefined | ServerFullOffer {
 	return fullOffers.find((offer) => offer.id === offerId);

@@ -45,8 +45,8 @@ function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Ele
 				location.latitude,
 				location.longitude,
 			],
-			// location.zoom,
-			(block === 'offer' ? 12 : 11),
+			location.zoom,
+			// (block === 'offer' ? 12 : 11),
 			);
 		}
 	}, [mapInstance, location, block]);

@@ -13,12 +13,12 @@ const CITIES = [
 ] as const;
 
 const CitiesGPS: Record<string, ServerLocation> = {
-	Paris: 			{latitude: 48.855328, longitude: 2.345482, zoom: 11},
-	Amsterdam: 	{latitude: 52.354551, longitude: 4.894924, zoom: 11},
-	Cologne:	 	{latitude: 50.935577, longitude: 6.961134, zoom: 11},
-	Brussels: 	{latitude: 50.845974, longitude: 4.352818, zoom: 11},
-	Hamburg: 		{latitude: 53.544951, longitude: 9.994463, zoom: 11},
-	Dusseldorf: {latitude: 51.220732, longitude: 6.778577, zoom: 11},
+	Paris: 			{latitude: 48.855328, longitude: 2.345482, zoom: 12},
+	Amsterdam: 	{latitude: 52.354551, longitude: 4.894924, zoom: 12},
+	Cologne:	 	{latitude: 50.935577, longitude: 6.961134, zoom: 12},
+	Brussels: 	{latitude: 50.845974, longitude: 4.352818, zoom: 12},
+	Hamburg: 		{latitude: 53.544951, longitude: 9.994463, zoom: 12},
+	Dusseldorf: {latitude: 51.220732, longitude: 6.778577, zoom: 12},
 } as const;
 
 const OFFER_TYPES = [
@@ -41,4 +41,10 @@ const SortMethod = {
 	['TopRatedFirst']: 'top-rated-first',
 } as const;
 
-export {PROJECT_NAME, CITIES, CitiesGPS, DEFAULT_CITY, OFFER_TYPES, SortMethod, AuthorizationStatus};
+export {
+	PROJECT_NAME,
+	CITIES, DEFAULT_CITY, CitiesGPS,
+	OFFER_TYPES,
+	SortMethod,
+	AuthorizationStatus
+};

@@ -7,14 +7,25 @@ import LoginPage from '../../pages/login-page/login-page';
 import FavoritesEmptyPage from '../../pages/favorites-empty-page/favorites-empty-page';
 import Page404 from '../../pages/page-404/page-404';
 import { PrivateRoute, PublicRoute } from '../../pages/access-route/access-route';
-import { AppRoute, AuthorizationStatus } from '../../constants';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../constants';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 import './stable-width.css';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function App(): React.JSX.Element {
-	const authorizationStatus = AuthorizationStatus.Auth;
+	const authorizationStatus = useAppSelector((state) =>
+		state[NameSpace.User].AuthorizationStatus);
+	const isDataLoading = useAppSelector((state) =>
+		!!state[NameSpace.Data].dataLoadingStatus);
+
+	if (authorizationStatus === AuthorizationStatus.Unknown || isDataLoading) {
+		return (
+			<LoadingScreen />
+		);
+	}
 
 	const router = createBrowserRouter([{
 		element: <ScrollToTop />,
@@ -33,7 +44,7 @@ function App(): React.JSX.Element {
 					{
 						index: true,
 						element: (<FavoritesPage status={authorizationStatus} />),
-						loader: favoritesPageLoader,
+						// loader: favoritesPageLoader,
 					}
 				]
 			},
@@ -50,7 +61,8 @@ function App(): React.JSX.Element {
 			{
 				path: AppRoute.Offer,
 				element: (
-					<OfferPage status={authorizationStatus}/>
+					// <OfferPage status={authorizationStatus}/>
+					<OfferPage />
 				),
 			},
 			{

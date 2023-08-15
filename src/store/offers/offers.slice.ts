@@ -1,12 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getFullOffer, getNeighborPlaces, getOfferList, getReviews } from '../../model';
+import { getFullOffer, getNeighborPlaces, getReviews } from '../../model';
 import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
 import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
 import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
 
-const dataOffers = getOfferList();
+// const dataOffers = getOfferList();
 const reviews = getReviews();
-// const favoriteAmount = dataOffers.filter((offer) => offer.isFavorite).length;
 
 type OffersState = {
 	city: string;
@@ -34,20 +33,22 @@ const initialState: OffersState = {
 
 const prepareOfferList = (state: OffersState) => {
 	const {city, sort} = state;
-	return convertOffersToOffersByCity(dataOffers)[city].sort(SortMap[sort].sortFunc);
+	return convertOffersToOffersByCity(state.allOffers)[city]?.sort(SortMap[sort].sortFunc) || [];
 };
 
 const slice = createSlice({
 	name: NameSpace.Offers,
 	initialState,
 	reducers: {
-		fetchOffers(state) {
-			state.allOffers = dataOffers;
-			state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-			state.favoriteAmount = state.favorites.length;
+		fetchOffers(state, action: PayloadAction<ServerOffer[]>) {
+			state.allOffers = action.payload || [];
+			// переделать избранное на отдельный запрос
+			// state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
+			// state.favoriteAmount = state.favorites.length;
 		},
-		fetchOffer(state, action: PayloadAction<ServerOffer['id']>) {
-			state.offer = getFullOffer(action.payload) ?? null;
+		loadOffer(state, action: PayloadAction<ServerFullOffer>) {
+			// state.offer = getFullOffer(action.payload) ?? null;
+			state.offer = action.payload;
 		},
 		fetchNeighborPlaces(state, action: PayloadAction<ServerOffer['id']>) {
 			state.neighborPlaces = getNeighborPlaces(action.payload);

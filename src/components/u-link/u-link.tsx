@@ -5,7 +5,7 @@ type ULinkProps = Pick<
 	AnchorHTMLAttributes<HTMLAnchorElement>,
 	'children' | 'className'
 > & {
-	href?: string; // принудительно переопределяем string | undefined на string
+	href?: string;
 	onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
