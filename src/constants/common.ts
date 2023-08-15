@@ -2,6 +2,7 @@ import { ServerLocation } from '../types/offer';
 
 const PROJECT_NAME = '6 Cities';
 const DEFAULT_CITY = 'Paris';
+const MAX_NEIGHBOUR = 3;
 
 const CITIES = [
 	'Paris',
@@ -45,6 +46,7 @@ export {
 	PROJECT_NAME,
 	CITIES, DEFAULT_CITY, CitiesGPS,
 	OFFER_TYPES,
+	MAX_NEIGHBOUR,
 	SortMethod,
 	AuthorizationStatus
 };

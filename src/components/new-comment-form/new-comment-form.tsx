@@ -1,23 +1,57 @@
-import type { ChangeEvent } from 'react';
-import { useState } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
+import React, { isValidElement, useState } from 'react';
 import Rating from '../rating/rating';
+import { store } from '../../store';
+import { sendReviewApiAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks';
+import { toast } from 'react-toastify';
 
-function NewCommentForm() {
+type NewCommentFormProps = {
+	offerId: string;
+}
+
+function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	const [formData, setFormData] = useState({
 		rating: 0,
 		review: '',
 	});
+	const [isValid, setIsValid] = useState(false);
+	const [isSending, setIsSending] = useState(false);
 
 	function handleFormChange(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
 		const {name, value} = evt.target;
 		setFormData({...formData, [name]: value});
+		checkValidity({...formData, [name]: value});
 	}
+
+	async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		setIsSending(true);
+		try {
+			await store.dispatch(sendReviewApiAction({
+				offerId,
+				comment: formData.review,
+				rating: Number(formData.rating),
+			}));
+		} catch(error) {
+			console.log(error);
+			toast.warn('Не удалось отправить данные на сервер');
+		} finally {
+			setFormData({ rating: 0, review: '', });
+			setIsSending(false);
+		}
+	}
+
+	function checkValidity(formData: {review: string; rating: number}) {
+		const ratingValidity =  1 <= formData.rating && formData.rating <= 5;
+		const commentValidity = 50 <= formData.review.length && formData.review.length <= 300
+		setIsValid(ratingValidity && commentValidity);
+	}
+
 
 	return (
 		<form className="reviews__form form" action="#" method="post"
-			onSubmit={(event) => {
-				event.preventDefault();
-			}}
+			onSubmit={handleFormSubmit}
 		>
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
@@ -41,9 +75,9 @@ function NewCommentForm() {
 				<button
 					className="reviews__submit form__submit button"
 					type="submit"
-					disabled={false}
+					disabled={!isValid || isSending}
 				>
-					Submit
+					{isSending ? 'Submiting...' : 'Submit'}
 				</button>
 			</div>
 		</form>

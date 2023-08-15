@@ -15,6 +15,7 @@ const RATING_DATA = [
 ] as const;
 
 function Rating({rating, handleFormChange}: RatingProps) {
+	console.log(rating);
 	return (
 		<div className="reviews__rating-form form__rating">
 			{RATING_DATA.map((item) => {
@@ -27,7 +28,7 @@ function Rating({rating, handleFormChange}: RatingProps) {
 							value={n}
 							id={`${n}-stars`}
 							type="radio"
-							checked = {rating === n}
+							checked = {Number(rating) === n}
 							onChange={handleFormChange}
 						/>
 						<label

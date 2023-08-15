@@ -9,17 +9,19 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { offersActions } from '../../store/offers/offers.slice';
 
-type MainPageProps = {
+// type MainPageProps = {
 	/** статус авторизации */
-	status: AuthorizationStatus;
-};
+	// status: AuthorizationStatus;
+// };
 
 /**
  * Компонент главного экрана
  */
-function MainPage({status}: MainPageProps): React.JSX.Element {
+// function MainPage({status}: MainPageProps): React.JSX.Element {
+function MainPage(): React.JSX.Element {
 
-	const isAuthorized = status === AuthorizationStatus.Auth;
+	const authorizationStatus = useAppSelector((state) => state[NameSpace.User].AuthorizationStatus);
+	const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 	const cities = Array.from(CITIES);
 	const dispatch = useAppDispatch();
 
@@ -59,7 +61,7 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 	return (
 		<div className="page page--gray page--main">
 
-			<Header isAuthorized={isAuthorized}/>
+			<Header />
 
 			<main className={mainClass}>
 				<h1 className="visually-hidden">Cities</h1>

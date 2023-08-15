@@ -5,13 +5,16 @@ import { getToken } from './token';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { AppRoute } from '../constants';
+import browserHistory from '../browser-history';
+import { useInRouterContext } from 'react-router-dom';
 
-type DetailMessageType = {
-	type: string;
-	message: string;
-}
+// type DetailMessageType = {
+// 	type: string;
+// 	message: string;
+// }
 
-const BACKEND_URL = 'https://13.design.pages.academy';
+const BACKEND_URL = 'https://13.design.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
 const StatusCodeMapping: Record<number, boolean> = {
@@ -28,9 +31,8 @@ const createAPI = (): AxiosInstance => {
 		timeout: REQUEST_TIMEOUT,
 	});
 
-	api.interceptors.request.use(
-		// здесь какая-то неочевидная проблема с типизацией
-		(config: AxiosRequestConfig) => {
+	// здесь какая-то неочевидная проблема с типизацией
+	api.interceptors.request.use((config: AxiosRequestConfig) => {
 			const token = getToken();
 
 			if (token && config.headers) {
@@ -38,15 +40,19 @@ const createAPI = (): AxiosInstance => {
 			}
 
 			return config;
-		},
-	);
+	});
 
 	api.interceptors.response.use(
 		(response) => response,
-		(error: AxiosError<DetailMessageType>) => {
-			if (error.response && shouldDisplayError(error.response)) {
-				const detailMessage = (error.response.data);
-				toast.warn(detailMessage.message);
+		// (error: AxiosError<DetailMessageType>) => {
+		(error: AxiosError<{error: string}>) => {
+			// if (error.response && shouldDisplayError(error.response)) {
+			// 	const detailMessage = (error.response.data);
+			// 	toast.warn(detailMessage.message);
+			// }
+			if (error.response?.status === StatusCodes.NOT_FOUND) {
+				console.log('interceptors: status-not-found');
+				browserHistory.push(AppRoute.NotFound);
 			}
 
 			throw error;

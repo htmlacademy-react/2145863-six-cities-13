@@ -1,5 +1,5 @@
 import Logo from '../logo/logo';
-import { AppRoute, NameSpace } from '../../constants';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
@@ -8,7 +8,6 @@ import { store } from '../../store';
 
 type HeaderPops = {
 	hideNavigation?: boolean;
-	isAuthorized?: boolean;
 }
 
 function handleSignOutClick(evt: SyntheticEvent){
@@ -18,11 +17,11 @@ function handleSignOutClick(evt: SyntheticEvent){
 
 function Header({
 	hideNavigation = false,
-	isAuthorized = false
 } : HeaderPops) {
 
 	const favoriteAmount = useAppSelector((state) => state[NameSpace.Offers].favoriteAmount);
 	const userName = useAppSelector((state) => state[NameSpace.User].UserName);
+	const isAuthorized = useAppSelector((state) => state[NameSpace.User].AuthorizationStatus) === AuthorizationStatus.Auth;
 
 	return (
 		<header className="header">
