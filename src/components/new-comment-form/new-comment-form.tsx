@@ -34,8 +34,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 				rating: Number(formData.rating),
 			}));
 		} catch(error) {
-			console.log(error);
-			toast.warn('Не удалось отправить данные на сервер');
+			toast.warn('Failed to submit form. Please try again!');
 		} finally {
 			setFormData({ rating: 0, review: '', });
 			setIsSending(false);

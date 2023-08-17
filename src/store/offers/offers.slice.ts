@@ -1,33 +1,27 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
 import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
-import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
-
-// const dataOffers = getOfferList();
-// const reviews = getReviews();
+import { ServerOffer } from '../../types/offer';
+import { RequestStatus } from '../../constants/common';
+import { fetchOffersApiAction } from '../api-actions';
 
 type OffersState = {
-	city: string;
+	city: string;																// есть (но с типом ServerOffer['City'])
 	sort: string;
-	offer: ServerFullOffer | null;
-	allOffers: ServerOffer[];
+	activeOffer: string | null;
+	allOffers: ServerOffer[];										// есть
+	allOffersFetchingStatus: RequestStatus;			// есть
+	// в ретро нет offerList
 	offerList: ServerOffer[];
-	neighborPlaces: ServerOffer[];
-	reviews: ServerReview[];
-	favorites: ServerOffer[];
-	favoriteAmount: number;
 }
 
 const initialState: OffersState = {
 	city: DEFAULT_CITY,
 	sort: SortMethod.Popular as string,
-	offer: null,
+	activeOffer: null,
 	allOffers: [],
+	allOffersFetchingStatus: RequestStatus.Idle,
 	offerList: [],
-	neighborPlaces: [],
-	reviews: [],
-	favorites: [],
-	favoriteAmount: 0,
 };
 
 const prepareOfferList = (state: OffersState) => {
@@ -39,29 +33,8 @@ const slice = createSlice({
 	name: NameSpace.Offers,
 	initialState,
 	reducers: {
-		loadOffers(state, action: PayloadAction<ServerOffer[]>) {
-			state.allOffers = action.payload || [];
-			// переделать избранное на отдельный запрос
-			// state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-			// state.favoriteAmount = state.favorites.length;
-		},
-		loadOffer(state, action: PayloadAction<ServerFullOffer>) {
-			state.offer = action.payload;
-		},
-		loadReview(state, action: PayloadAction<ServerReview[]>) {
-			state.reviews = action.payload;
-		},
-		loadNeighborPlaces(state, action: PayloadAction<ServerOffer[]>) {
-			state.neighborPlaces = action.payload;
-		},
-		dropOffer(state) {
-			state.offer = null;
-			state.reviews = [];
-			state.neighborPlaces = [];
-		},
-		fetchFavorites(state) {
-			state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-			state.favoriteAmount = state.favorites.length;
+		setActiveOffer(state, action: PayloadAction<ServerOffer['id'] | null>) {
+			state.activeOffer = action.payload;
 		},
 		fillOfferList(state) {
 			state.offerList = prepareOfferList(state);
@@ -74,9 +47,20 @@ const slice = createSlice({
 			state.sort = action.payload;
 			state.offerList = prepareOfferList(state);
 		},
-		addComment(state, action: PayloadAction<ServerReview>) {
-			state.reviews.push(action.payload);
-		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchOffersApiAction.pending, (state) => {
+				state.allOffersFetchingStatus = RequestStatus.Pending;
+			})
+			.addCase(fetchOffersApiAction.fulfilled, (state, action: PayloadAction<ServerOffer[]>) => {
+				state.allOffersFetchingStatus = RequestStatus.Success;
+				state.allOffers = action.payload;
+			})
+			.addCase(fetchOffersApiAction.rejected, (state) => {
+				state.allOffersFetchingStatus = RequestStatus.Error;
+			})
+
 	}
 });
 

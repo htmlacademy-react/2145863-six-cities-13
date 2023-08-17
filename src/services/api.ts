@@ -17,13 +17,13 @@ import { useInRouterContext } from 'react-router-dom';
 const BACKEND_URL = 'https://13.design.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
-const StatusCodeMapping: Record<number, boolean> = {
-	[StatusCodes.BAD_REQUEST]: true,
-	// [StatusCodes.UNAUTHORIZED]: true,
-	[StatusCodes.NOT_FOUND]: true,
-};
+// const StatusCodeMapping: Record<number, boolean> = {
+// 	[StatusCodes.BAD_REQUEST]: true,
+// 	// [StatusCodes.UNAUTHORIZED]: true,
+// 	[StatusCodes.NOT_FOUND]: true,
+// };
 
-const shouldDisplayError = (response: AxiosResponse): boolean => !!StatusCodeMapping[response.status];
+// const shouldDisplayError = (response: AxiosResponse): boolean => !!StatusCodeMapping[response.status];
 
 const createAPI = (): AxiosInstance => {
 	const api = axios.create({
@@ -44,14 +44,8 @@ const createAPI = (): AxiosInstance => {
 
 	api.interceptors.response.use(
 		(response) => response,
-		// (error: AxiosError<DetailMessageType>) => {
 		(error: AxiosError<{error: string}>) => {
-			// if (error.response && shouldDisplayError(error.response)) {
-			// 	const detailMessage = (error.response.data);
-			// 	toast.warn(detailMessage.message);
-			// }
 			if (error.response?.status === StatusCodes.NOT_FOUND) {
-				console.log('interceptors: status-not-found');
 				browserHistory.push(AppRoute.NotFound);
 			}
 

@@ -35,6 +35,15 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+const enum RequestStatus {
+	Idle = 'IDLE',
+	Pending = 'PENDING',
+	Success = 'FULFILLED',
+  Error = 'REJECTED',
+}
+
+
+
 const SortMethod = {
 	['Popular']: 'popular',
 	['PriceToHight']: 'price-to-hight',
@@ -48,5 +57,6 @@ export {
 	OFFER_TYPES,
 	MAX_NEIGHBOUR,
 	SortMethod,
-	AuthorizationStatus
+	AuthorizationStatus,
+	RequestStatus,
 };

@@ -15,7 +15,6 @@ const RATING_DATA = [
 ] as const;
 
 function Rating({rating, handleFormChange}: RatingProps) {
-	console.log(rating);
 	return (
 		<div className="reviews__rating-form form__rating">
 			{RATING_DATA.map((item) => {

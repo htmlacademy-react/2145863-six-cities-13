@@ -1,0 +1,12 @@
+.fieldInvalid {
+	outline: 1px tomato;
+	background-color: antiquewhite;
+}
+
+.error-text {
+	font-size: 14px;
+	color: tomato;
+	padding: 0;
+	margin: 0;
+	transform: translateY(-20px);
+}

@@ -1,9 +1,6 @@
 const enum NameSpace {
   User = 'USER',
   Offers = 'OFFERS',
-	// Пренести в офер
-	Interactions = 'INTERACTIONS',
-	// добавлено
 	Offer = 'OFFER',
 	Favorites = 'FAVORITES',
 	// этого тоже нет

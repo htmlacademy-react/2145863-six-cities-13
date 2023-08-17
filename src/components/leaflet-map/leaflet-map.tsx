@@ -31,7 +31,7 @@ function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Ele
 
 	const mapInstance = useMap(mapRef, location);
 
-	const activeCard = useAppSelector((state) => state[NameSpace.Interactions].activeOffer);
+	const activeCard = useAppSelector((state) => state[NameSpace.Offers].activeOffer);
 
 	if (block === 'offer' && neighborhoodOffers) {
 		offers = neighborhoodOffers;

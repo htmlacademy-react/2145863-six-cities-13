@@ -1,70 +1,42 @@
 import Header from '../../components/header/header';
-import Page404 from '../page-404/page-404';
 import GalleryImage from '../../components/gallery-image/gallery-image';
-import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
-import NewCommentForm from '../../components/new-comment-form/new-comment-form';
-import { AuthorizationStatus, NameSpace } from '../../constants';
+import { NameSpace } from '../../constants';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import Card from '../../components/card/card';
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { offersActions } from '../../store/offers/offers.slice';
-import { useLocation, useParams } from 'react-router-dom';
-import { fetchNeighborsApiAction, fetchOfferApiAction, fetchReviewApiAction } from '../../store/api-actions';
-import { store } from '../../store';
+import { useParams } from 'react-router-dom';
+import { fetchNeighborsApiAction, fetchOfferApiAction, fetchReviewsApiAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { MAX_NEIGHBOUR } from '../../constants/common';
+import { MAX_NEIGHBOUR, RequestStatus } from '../../constants/common';
+import { offerActions } from '../../store/offer/offer.slice';
+import { toast } from 'react-toastify';
+import { ErrorCause } from '../../constants/errors';
+import ErrorElement from '../../components/error-element/error-element';
+import Reviews from '../../components/reviews/reviews';
+import { ServerFullOffer, ServerOffer } from '../../types/offer';
 
 function OfferPage(): React.JSX.Element {
-	const authorizationStatus = useAppSelector((state) => state.USER.AuthorizationStatus);
+	const {id: offerId} = useParams();
 	const dispatch = useAppDispatch();
-	const offerId = useParams().id;
-	const offer = useAppSelector((state) => state[NameSpace.Offers].offer);
-	const reviews = useAppSelector((state) => state[NameSpace.Offers].reviews);
-	const neighbourPlaces = useAppSelector((state) =>  state[NameSpace.Offers].neighborPlaces).slice(0, MAX_NEIGHBOUR);
-	const isEmpty = offer === null ;
+	const offer = useAppSelector((state) => state[NameSpace.Offer].offer) as ServerFullOffer;
+	const fetchingStatus = useAppSelector((state) => state[NameSpace.Offer].offerFetchingStatus);
+	const neighbourPlaces = useAppSelector((state) =>  state[NameSpace.Offer].neighborPlaces).slice(0, MAX_NEIGHBOUR) as ServerOffer[];
 
 	useDocumentTitle(`Place: ${offer?.title || ''}`);
 
 	useEffect(() => {
-		let isMounted = true;
-
-		if (offerId !== undefined && offer === null) {
-			console.log('offerId: ', offerId, 'offer: ', offer);
-
-			const offersPromise = store.dispatch(fetchOfferApiAction({offerId}));
-			const reviewsPromise = store.dispatch(fetchReviewApiAction({offerId}));
-			const neighbourPromise = store.dispatch(fetchNeighborsApiAction({offerId}));
-			try {
-				Promise.all([offersPromise, reviewsPromise, neighbourPromise])
-					.then(() => {
-						if (isMounted) {
-							console.log('drop: ', offer);
-							dispatch(offersActions.dropOffer());
-						}
-					})
-					.catch((error) => {
-						console.log('catch promise *******');
-						console.log(error.status);
-					});
-			} catch {
-				console.log('catch common #######');
-			}
+		if (offerId) {
+			dispatch(fetchOfferApiAction({offerId}));
+			dispatch(fetchNeighborsApiAction({offerId}));
+			dispatch(fetchReviewsApiAction({offerId}));
 		}
 
 		return () => {
-			isMounted = false;
+			dispatch(offerActions.dropOffer());
 		}
-	}, [offerId]);
-
-
-
-	if (isEmpty) {
-		return (
-			<LoadingScreen />
-		);
-	}
+	}, [offerId, dispatch])
 
 	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = clsx(
@@ -75,14 +47,17 @@ function OfferPage(): React.JSX.Element {
 		'offer__avatar-wrapper',
 		offer?.host.isPro && 'offer__avatar-wrapper--pro',
 		'user__avatar-wrapper');
-	const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+
+	if (fetchingStatus === RequestStatus.Error) {
+		toast.error(`offer:${offerId} error ${ErrorCause.FetchOffer}`);
+	}
 
 	return (
 		<div className="page">
-			<Header isAuthorized={isAuthorized} />
-			{/* {offer === null &&
-				<Page404 />} */}
-			{offer &&
+			<Header />
+			{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffer}  offerId={offerId}/>}
+			{fetchingStatus === RequestStatus.Pending && <LoadingScreen />}
+			{fetchingStatus === RequestStatus.Success && offer && (
 				<main className="page__main page__main--offer">
 					<section className="offer">
 
@@ -159,48 +134,8 @@ function OfferPage(): React.JSX.Element {
 									</div>
 								</div>
 
-								{/* reviews */}
-								<section className="offer__reviews reviews">
-									<h2 className="reviews__title">
-										Reviews
-										{reviews?.length > 0 &&
-											<> · <span className="reviews__amount">{reviews.length}</span></>}
-									</h2>
-									<ul className="reviews__list">
-										{reviews?.map((review) => (
-											<li className="reviews__item" key={review.id}>
-												<div className="reviews__user user">
-													<div className="reviews__avatar-wrapper user__avatar-wrapper">
-														<img
-															className="reviews__avatar user__avatar"
-															src={review.user.avatarUrl}
-															width={54}
-															height={54}
-															alt="Reviews avatar"
-														/>
-													</div>
-													<span className="reviews__user-name">{review.user.name}</span>
-												</div>
-												<div className="reviews__info">
-													<div className="reviews__rating rating">
-														<div className="reviews__stars rating__stars">
-															<span style={{ width: `${review.rating * 20}%` }} />
-															<span className="visually-hidden">Rating</span>
-														</div>
-													</div>
-													<p className="reviews__text">
-														{review.comment}
-													</p>
-													<time className="reviews__time" dateTime={getReviewDateTime(review.date)}>
-														{getReviewDateString(review.date)}
-													</time>
-												</div>
-											</li>
-										))}
+								{offerId && <Reviews offerId={offerId}/>}
 
-									</ul>
-									{isAuthorized && <NewCommentForm offerId={offerId}/>}
-								</section>
 							</div>
 						</div>
 						<LeafletMap
@@ -222,7 +157,9 @@ function OfferPage(): React.JSX.Element {
 								</div>
 							</section>}
 					</div>
-				</main>}
+				</main>
+			)}
+
 		</div>
 	)
 }

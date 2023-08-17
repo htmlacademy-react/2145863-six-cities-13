@@ -1,3 +1,6 @@
+/**
+ * Будет удален или дополнен
+ */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../constants';
 

@@ -3,8 +3,9 @@ import { AppRoute, AuthorizationStatus, NameSpace } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useEffect } from 'react';
 import { store } from '../../store';
+import { User } from '../../types/user';
 
 type HeaderPops = {
 	hideNavigation?: boolean;
@@ -19,9 +20,17 @@ function Header({
 	hideNavigation = false,
 } : HeaderPops) {
 
-	const favoriteAmount = useAppSelector((state) => state[NameSpace.Offers].favoriteAmount);
-	const userName = useAppSelector((state) => state[NameSpace.User].UserName);
-	const isAuthorized = useAppSelector((state) => state[NameSpace.User].AuthorizationStatus) === AuthorizationStatus.Auth;
+	const fetchFavoritesStatus = useAppSelector((store) => store[NameSpace.Favorites].favoritesFetchingStatus);
+	// const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favoriteAmount);
+	// const userName = useAppSelector((state) => state[NameSpace.User].user?.name);
+	const user = useAppSelector((state) => state[NameSpace.User].user) as User;
+	const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favorites).length;
+
+	const isAuthorized = useAppSelector((state) => state[NameSpace.User].authorizationStatus) === AuthorizationStatus.Auth;
+	useEffect(() => {
+
+	});
+	// const favoriteAmount = fetchFavoritesStatus === RequestStatus.Success ?  : 0;
 
 	return (
 		<header className="header">
@@ -36,8 +45,10 @@ function Header({
 								<ul className="header__nav-list">
 									<li className="header__nav-item user">
 										<ULink href={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
-											<div className="header__avatar-wrapper user__avatar-wrapper"></div>
-											<span className="header__user-name user__name">{userName}</span>
+											<div className="header__avatar-wrapper user__avatar-wrapper">
+												{user && <img src={user.avatarUrl} style={{borderRadius: '50%'}}/>}
+											</div>
+											<span className="header__user-name user__name">{user.email}</span>
 											<span className="header__favorite-count">{favoriteAmount}</span>
 										</ULink>
 									</li>

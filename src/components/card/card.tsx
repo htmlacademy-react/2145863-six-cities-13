@@ -4,6 +4,8 @@ import { ULink } from '../u-link/u-link';
 import { useAppDispatch } from '../../hooks';
 import clsx from 'clsx';
 import { interactionsActions } from '../../store/interactions/interactions.slice';
+import { offerActions } from '../../store/offer/offer.slice';
+import { offersActions } from '../../store/offers/offers.slice';
 
 type CardProps = {
 	block: string;
@@ -28,14 +30,14 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 		offer.isFavorite && 'place-card__bookmark-button--active',
 		'button'
 	);
-	const offerHref = AppRoute.Offer.replace(':id', offer.id);
+	const offerHref = `${AppRoute.Offer}/${offer.id}`;
 
 	function handleCardPointerEnter() {
-		dispatch(interactionsActions.setActiveOffer(offer.id));
+		dispatch(offersActions.setActiveOffer(offer.id));
 	}
 
 	function handleCardPointerLeave() {
-		dispatch(interactionsActions.setActiveOffer(''));
+		dispatch(offersActions.setActiveOffer(null));
 	}
 
 	return (

@@ -1,24 +1,20 @@
 import type {LoaderResponse} from './favorites-page-loader';
 import CardFavorite from '../../components/card-favorite/card-favorite';
 import Header from '../../components/header/header';
-import { useDocumentTitle } from '../../hooks';
+import { useAppSelector, useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
-import { AppRoute, AuthorizationStatus } from '../../constants';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../constants';
 import { useLoaderData } from 'react-router-dom';
 
-type FavoritesPageProps = {
-	status: AuthorizationStatus;
-}
+function FavoritesPage(): React.JSX.Element {
 
-function FavoritesPage({status}: FavoritesPageProps): React.JSX.Element {
-	const isAuthorized = status === AuthorizationStatus.Auth;
-	const {offersByCity, favoriteAmount, cities} = useLoaderData() as LoaderResponse;
-
+	// const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favoriteAmount);
 	useDocumentTitle(`favorite places (${favoriteAmount})`);
+	// TODO добавить логику из favorite-loader
 
 	return (
 		<div className="page">
-			<Header isAuthorized={isAuthorized} />
+			<Header />
 
 			<main className="page__main page__main--favorites">
 				<div className="page__favorites-container container">
