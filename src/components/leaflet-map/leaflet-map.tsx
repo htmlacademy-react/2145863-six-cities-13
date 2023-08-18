@@ -3,7 +3,8 @@ import type { ServerOffer } from '../../types/offer';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useAppSelector, useMap } from '../../hooks';
-import { CitiesGPS, NameSpace } from '../../constants';
+import { CitiesGPS } from '../../constants';
+import { getActiveOffer, getCity, getOfferList } from '../../store/offers/offers.selectors';
 
 type LeafletMapProps = {
 	block: string;
@@ -23,15 +24,15 @@ const pinIconActive = new Icon({
 });
 
 function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Element {
-	const currentCity = useAppSelector((state) => state[NameSpace.Offers].city);
+	const currentCity = useAppSelector(getCity);
 	const location = CitiesGPS[currentCity];
-	let offers = useAppSelector((state) => state[NameSpace.Offers].offerList);
+	let offers = useAppSelector(getOfferList);
 
 	const mapRef = useRef(null);
 
 	const mapInstance = useMap(mapRef, location);
 
-	const activeCard = useAppSelector((state) => state[NameSpace.Interactions].activeOffer);
+	const activeCard = useAppSelector(getActiveOffer);
 
 	if (block === 'offer' && neighborhoodOffers) {
 		offers = neighborhoodOffers;

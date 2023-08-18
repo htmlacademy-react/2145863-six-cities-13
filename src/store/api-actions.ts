@@ -5,124 +5,120 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { AuthorizationStatus, NameSpace } from '../constants';
-import { ServerFullOffer, ServerOffer } from '../types/offer';
+import { NameSpace } from '../constants';
+import { ServerFullOffer, ServerOffer, ServerReview } from '../types/offer';
 import { ApiRoute } from '../constants/routes';
-import { offersActions } from './offers/offers.slice';
-import { userActions } from './user/user.slice';
-import { AuthData } from '../types/auth-data';
-import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
-import { dataActions } from './data/data.slice';
+import { LoginData, User } from '../types/user';
 
-const fetchOffersActionApi = createAsyncThunk<void, undefined,
-{
-	dispatch: AppDispatch;
-	state: State;
+type Extra = {
+	dispatch?: AppDispatch;
+	state?: State;
 	extra: AxiosInstance;
-}>(
+}
+
+const fetchOffersApiAction = createAsyncThunk<ServerOffer[], undefined, Extra>(
 	`${NameSpace.Offers}/fetchOffersApi`,
 	async (_args, {dispatch, extra: api}) => {
-		dispatch(dataActions.setDataLoadingStatus(true));
 		const {data} = await api.get<ServerOffer[]>(ApiRoute.getOffers);
-		dispatch(dataActions.setDataLoadingStatus(false));
-		dispatch(offersActions.fetchOffers(data));
+
+		return data;
 	}
 );
 
-const fetchOfferActionApi = createAsyncThunk<void, {offerId: string | null},
-{
-	dispatch: AppDispatch;
-	state: State;
-	extra: AxiosInstance;
-}>(
-	`${NameSpace.Offers}/fetchOfferApi`,
+const fetchOfferApiAction = createAsyncThunk<ServerFullOffer, {offerId: ServerFullOffer['id']}, Extra>(
+	`${NameSpace.Offer}/fetchOfferApi`,
 	async (args, {dispatch, extra: api}) => {
-		console.log(args.offerId);
-		dispatch(dataActions.setDataLoadingStatus(true));
 		const {data} = await api.get<ServerFullOffer>(`${ApiRoute.getOffer}/${args.offerId}`);
-		dispatch(dataActions.setDataLoadingStatus(false));
-		dispatch(offersActions.loadOffer(data));
+
+		return data;
 	}
 );
 
-// const fetchNeighActionApi = createAsyncThunk<void, {offerId: string | null},
-// {
-// 	dispatch: AppDispatch;
-// 	state: State;
-// 	extra: AxiosInstance;
-// }>(
-// 	`${NameSpace.Offers}/fetchOfferApi`,
-// 	async (args, {dispatch, extra: api}) => {
-// 		console.log(args.offerId);
-// 		dispatch(dataActions.setDataLoadingStatus(true));
-// 		const {data} = await api.get<ServerFullOffer>(`${ApiRoute.getOffer}/${args.offerId}`);
-// 		dispatch(dataActions.setDataLoadingStatus(false));
-// 		dispatch(offersActions.loadOffer(data));
-// 	}
-// );
+const fetchReviewsApiAction = createAsyncThunk<ServerReview[], {offerId: ServerFullOffer['id']}, Extra>(
+	`${NameSpace.Offer}/fetchReviewsApi`,
+	async (args, {dispatch, extra: api}) => {
+		const {data} = await api.get<ServerReview[]>(`${ApiRoute.getReviews}/${args.offerId}`);
 
-const checkAuthAction = createAsyncThunk<void, undefined,
-{
-	dispatch: AppDispatch;
-	state: State;
-	extra: AxiosInstance;
-}>(
+		return data;
+	}
+);
+
+const fetchNeighborsApiAction = createAsyncThunk<ServerOffer[], {offerId: ServerFullOffer['id']}, Extra>(
+	`${NameSpace.Offer}/fetchNeighborApi`,
+	async (args, {dispatch, extra: api}) => {
+		const {data} = await api.get<ServerOffer[]>(ApiRoute.getNearby.replace('{offerId}', args.offerId));
+
+		return data;
+	}
+);
+
+const fetchFavoritesApiAction = createAsyncThunk<ServerOffer[], undefined, Extra>(
+	`${NameSpace.Favorites}/fetchFavoritesApi`,
+	async (args, {dispatch, extra: api}) => {
+		const {data} = await api.get<ServerOffer[]>(ApiRoute.getFavorites);
+
+		return data;
+	}
+);
+
+
+const checkAuthAction = createAsyncThunk<User, undefined, Extra>(
 	`${NameSpace.User}/checkAuth`,
 	async (_arg, {dispatch, extra: api}) => {
-		try {
-			const response = await api.get(ApiRoute.Login);
-			dispatch(userActions.requireAuthorization({
-				AuthorizationStatus: AuthorizationStatus.Auth,
-				UserName: response.data.email
-			}));
-		} catch {
-			dispatch(userActions.requireAuthorization({
-				AuthorizationStatus: AuthorizationStatus.NoAuth,
-				UserName: null
-			}));
-		}
-	},
-);
+		const {data} = await api.get<User>(ApiRoute.Login);
+		dispatch(fetchFavoritesApiAction());
 
-const loginAction = createAsyncThunk<void, AuthData, {
-	dispatch: AppDispatch;
-	state: State;
-	extra: AxiosInstance;
-}>(
-	`${NameSpace.User}/login`,
-	async ({login: email, password}, {dispatch, extra: api}) => {
-		const {data: {token}} = await api.post<UserData>(ApiRoute.Login, {email, password});
-		saveToken(token);
-		dispatch(userActions.requireAuthorization({
-			AuthorizationStatus: AuthorizationStatus.Auth,
-			UserName: email,
-		}));
+		return data;
 	}
 );
 
-const logoutAction = createAsyncThunk<void, undefined, {
-	dispatch: AppDispatch;
-	state: State;
-	extra: AxiosInstance;
-}>(
+
+const loginAction = createAsyncThunk<User, LoginData, Extra>(
+	`${NameSpace.User}/login`,
+	async ({email, password}, {dispatch, extra: api}) => {
+
+		const {data} = await api.post<User>(ApiRoute.Login, {email, password});
+		saveToken(data.token);
+		dispatch(fetchFavoritesApiAction());
+
+		return data;
+	}
+);
+
+const logoutAction = createAsyncThunk<void, undefined, Extra>(
 	`${NameSpace.User}/logout`,
 	async (_arg, {dispatch, extra: api}) => {
 		await api.delete(ApiRoute.Logout);
 		dropToken();
-		dispatch(userActions.requireAuthorization({
-			AuthorizationStatus: AuthorizationStatus.NoAuth,
-			UserName: null,
-		}));
 	}
 );
 
-//TODO: при загрузке офера логично воспользоваться promise.all
+const sendReviewApiAction = createAsyncThunk<ServerReview, {
+		offerId: ServerFullOffer['id'];
+		comment: string;
+		rating: number;
+	}, Extra>(
+		`${NameSpace.Offers}/sendReviewApi`,
+		async (args, {dispatch, extra: api}) => {
+			const {data} = await api.post<ServerReview>(
+				`${ApiRoute.postReview}/${args.offerId}`, {
+					comment: args.comment,
+					rating: args.rating,
+				});
+
+			return data;
+		}
+	);
 
 export {
-	fetchOffersActionApi,
+	fetchOffersApiAction,
+	fetchOfferApiAction,
+	fetchReviewsApiAction,
+	fetchNeighborsApiAction,
+	fetchFavoritesApiAction,
 	checkAuthAction,
 	loginAction,
 	logoutAction,
-	fetchOfferActionApi,
+	sendReviewApiAction,
 };

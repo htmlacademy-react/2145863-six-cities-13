@@ -1,9 +1,9 @@
 const enum NameSpace {
-  Offers = 'OFFERS',
-	Interactions = 'INTERACTIONS',
   User = 'USER',
+  Offers = 'OFFERS',
+	Offer = 'OFFER',
+	Favorites = 'FAVORITES',
 	Error = 'ERROR',
-	Data = 'DATA',
 }
 
 export {NameSpace};

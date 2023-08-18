@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { ULink } from '../u-link/u-link';
 import { offersActions } from '../../store/offers/offers.slice';
-import { NameSpace } from '../../constants';
+import { getCity } from '../../store/offers/offers.selectors';
 
 type LocationsListProps = {
 	cities: string[];
@@ -10,7 +10,7 @@ type LocationsListProps = {
 
 function LocationsList({cities}: LocationsListProps) {
 	const dispatch = useAppDispatch();
-	const currentCity = useAppSelector((state) => state[NameSpace.Offers].city);
+	const currentCity = useAppSelector(getCity);
 
 	return (
 		<ul className="locations__list tabs__list">

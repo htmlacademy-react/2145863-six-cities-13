@@ -4,33 +4,35 @@ import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
-import { AuthorizationStatus, CITIES, NameSpace } from '../../constants';
+import { CITIES } from '../../constants';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { offersActions } from '../../store/offers/offers.slice';
-
-type MainPageProps = {
-	/** статус авторизации */
-	status: AuthorizationStatus;
-};
+import { RequestStatus } from '../../constants/common';
+import LoadingScreen from '../loading-screen/loading-screen';
+import ErrorElement, { ErrorMessage } from '../../components/error-element/error-element';
+import { ErrorCause } from '../../constants/errors';
+import { toast } from 'react-toastify';
+import { getAllOffersFetchingStatus, getCity, getOfferList } from '../../store/offers/offers.selectors';
 
 /**
  * Компонент главного экрана
  */
-function MainPage({status}: MainPageProps): React.JSX.Element {
+function MainPage(): React.JSX.Element {
 
-	const isAuthorized = status === AuthorizationStatus.Auth;
-	const cities = Array.from(CITIES);
 	const dispatch = useAppDispatch();
+	const cities = Array.from(CITIES);
+	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
 
 	useDocumentTitle('Main');
 
 	useEffect(() => {
-		// dispatch(offersActions.fetchOffers());
-		dispatch(offersActions.fillOfferList());
-	}, [dispatch]);
-	const currentCity = useAppSelector((state) => state[NameSpace.Offers].city);
-	const offers = useAppSelector((state) => state[NameSpace.Offers].offerList);
+		if (offersLoadedStatus === RequestStatus.Success) {
+			dispatch(offersActions.fillOfferList());
+		}
+	}, [dispatch, offersLoadedStatus]);
+	const currentCity = useAppSelector(getCity);
+	const offers = useAppSelector(getOfferList);
 	const isEmpty = offers.length === 0 ;
 
 	// const [searchParams, setSearchParams] = useSearchParams();
@@ -56,55 +58,65 @@ function MainPage({status}: MainPageProps): React.JSX.Element {
 		{'cities__places-container--empty': isEmpty},
 	);
 
+	if (offersLoadedStatus === RequestStatus.Error) {
+		toast.warn(ErrorMessage[ErrorCause.FetchOffers]);
+	}
+
+
 	return (
 		<div className="page page--gray page--main">
 
-			<Header isAuthorized={isAuthorized}/>
+			<Header />
 
-			<main className={mainClass}>
-				<h1 className="visually-hidden">Cities</h1>
-				<div className="tabs">
-					<section className="locations container">
-						<LocationsList
-							cities={cities}
-						/>
-					</section>
-				</div>
-				<div className="cities">
-					<div className={containerClass}>
-						{
-							!isEmpty
-								?
-								<>
-									<section className="cities__places places">
-										<h2 className="visually-hidden">Places</h2>
-										<b className="places__found">{offers.length} places to stay in {currentCity}</b>
-										<Sort />
-										<OfferList />
-									</section>
-									<div className="cities__right-section">
-										<LeafletMap
-											block="cities"
-										/>
-									</div>
-								</>
-								:
-								<>
-									<section className="cities__no-places">
-										<div className="cities__status-wrapper tabs__content">
-											<b className="cities__status">No places to stay available</b>
-											<p className="cities__status-description">
-											We could not find any property available at the moment in&nbsp;
-												{currentCity}
-											</p>
-										</div>
-									</section>
-									<div className="cities__right-section" />
-								</>
-						}
+			{ offersLoadedStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffers} /> }
+			{ offersLoadedStatus === RequestStatus.Pending && <LoadingScreen/>}
+			{ offersLoadedStatus === RequestStatus.Success && (
+				<main className={mainClass}>
+					<h1 className="visually-hidden">Cities</h1>
+					<div className="tabs">
+						<section className="locations container">
+							<LocationsList
+								cities={cities}
+							/>
+						</section>
 					</div>
-				</div>
-			</main>
+					<div className="cities">
+						<div className={containerClass}>
+							{
+								!isEmpty
+									?
+									<>
+										<section className="cities__places places">
+											<h2 className="visually-hidden">Places</h2>
+											<b className="places__found">{offers.length} places to stay in {currentCity}</b>
+											<Sort />
+											<OfferList />
+										</section>
+										<div className="cities__right-section">
+											<LeafletMap
+												block="cities"
+											/>
+										</div>
+									</>
+									:
+									<>
+										<section className="cities__no-places">
+											<div className="cities__status-wrapper tabs__content">
+												<b className="cities__status">No places to stay available</b>
+												<p className="cities__status-description">
+												We could not find any property available at the moment in&nbsp;
+													{currentCity}
+												</p>
+											</div>
+										</section>
+										<div className="cities__right-section" />
+									</>
+							}
+						</div>
+					</div>
+				</main>
+			)}
+
 
 		</div>
 	);

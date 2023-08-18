@@ -1,34 +1,26 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getFullOffer, getNeighborPlaces, getReviews } from '../../model';
 import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
 import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
-import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
-
-// const dataOffers = getOfferList();
-const reviews = getReviews();
+import { ServerOffer } from '../../types/offer';
+import { RequestStatus } from '../../constants/common';
+import { fetchOffersApiAction } from '../api-actions';
 
 type OffersState = {
 	city: string;
 	sort: string;
-	offer: ServerFullOffer | null;
+	activeOffer: string | null;
 	allOffers: ServerOffer[];
+	allOffersFetchingStatus: RequestStatus;
 	offerList: ServerOffer[];
-	neighborPlaces: ServerOffer[];
-	reviews: ServerReview[];
-	favorites: ServerOffer[];
-	favoriteAmount: number;
 }
 
 const initialState: OffersState = {
 	city: DEFAULT_CITY,
 	sort: SortMethod.Popular as string,
-	offer: null,
+	activeOffer: null,
 	allOffers: [],
+	allOffersFetchingStatus: RequestStatus.Idle,
 	offerList: [],
-	neighborPlaces: [],
-	reviews: [],
-	favorites: [],
-	favoriteAmount: 0,
 };
 
 const prepareOfferList = (state: OffersState) => {
@@ -40,30 +32,8 @@ const slice = createSlice({
 	name: NameSpace.Offers,
 	initialState,
 	reducers: {
-		fetchOffers(state, action: PayloadAction<ServerOffer[]>) {
-			state.allOffers = action.payload || [];
-			// переделать избранное на отдельный запрос
-			// state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-			// state.favoriteAmount = state.favorites.length;
-		},
-		loadOffer(state, action: PayloadAction<ServerFullOffer>) {
-			// state.offer = getFullOffer(action.payload) ?? null;
-			state.offer = action.payload;
-		},
-		fetchNeighborPlaces(state, action: PayloadAction<ServerOffer['id']>) {
-			state.neighborPlaces = getNeighborPlaces(action.payload);
-		},
-		fetchReviews(state, action: PayloadAction<ServerOffer['id']>) {
-			state.reviews = reviews.filter((review) => review.offerId === action.payload);
-		},
-		dropOffer(state) {
-			state.offer = null;
-			state.reviews = [];
-			state.neighborPlaces = [];
-		},
-		fetchFavorites(state) {
-			state.favorites = state.allOffers.filter((offer) => offer.isFavorite);
-			state.favoriteAmount = state.favorites.length;
+		setActiveOffer(state, action: PayloadAction<ServerOffer['id'] | null>) {
+			state.activeOffer = action.payload;
 		},
 		fillOfferList(state) {
 			state.offerList = prepareOfferList(state);
@@ -76,6 +46,20 @@ const slice = createSlice({
 			state.sort = action.payload;
 			state.offerList = prepareOfferList(state);
 		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchOffersApiAction.pending, (state) => {
+				state.allOffersFetchingStatus = RequestStatus.Pending;
+			})
+			.addCase(fetchOffersApiAction.fulfilled, (state, action: PayloadAction<ServerOffer[]>) => {
+				state.allOffersFetchingStatus = RequestStatus.Success;
+				state.allOffers = action.payload;
+			})
+			.addCase(fetchOffersApiAction.rejected, (state) => {
+				state.allOffersFetchingStatus = RequestStatus.Error;
+			});
+
 	}
 });
 

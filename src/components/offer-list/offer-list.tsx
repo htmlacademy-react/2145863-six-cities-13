@@ -1,9 +1,9 @@
 import Card from '../card/card';
 import { useAppSelector } from '../../hooks';
-import { NameSpace } from '../../constants';
+import { getOfferList } from '../../store/offers/offers.selectors';
 
 function OfferList(): React.JSX.Element {
-	const offers = useAppSelector((state) => state[NameSpace.Offers].offerList);
+	const offers = useAppSelector(getOfferList);
 
 	return (
 		<div className="cities__places-list places__list tabs__content">

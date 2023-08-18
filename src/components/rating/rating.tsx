@@ -27,7 +27,7 @@ function Rating({rating, handleFormChange}: RatingProps) {
 							value={n}
 							id={`${n}-stars`}
 							type="radio"
-							checked = {rating === n}
+							checked = {Number(rating) === n}
 							onChange={handleFormChange}
 						/>
 						<label
