@@ -1,6 +1,5 @@
 import Header from '../../components/header/header';
 import GalleryImage from '../../components/gallery-image/gallery-image';
-import { NameSpace } from '../../constants';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import Card from '../../components/card/card';
@@ -15,14 +14,14 @@ import { toast } from 'react-toastify';
 import { ErrorCause } from '../../constants/errors';
 import ErrorElement from '../../components/error-element/error-element';
 import Reviews from '../../components/reviews/reviews';
-import { ServerFullOffer, ServerOffer } from '../../types/offer';
+import { getNeighborPlaces, getOffer, getOfferFetchingStatus } from '../../store/offer/offer.selectors';
 
 function OfferPage(): React.JSX.Element {
 	const {id: offerId} = useParams();
 	const dispatch = useAppDispatch();
-	const offer = useAppSelector((state) => state[NameSpace.Offer].offer) as ServerFullOffer;
-	const fetchingStatus = useAppSelector((state) => state[NameSpace.Offer].offerFetchingStatus);
-	const neighbourPlaces = useAppSelector((state) =>  state[NameSpace.Offer].neighborPlaces).slice(0, MAX_NEIGHBOUR) as ServerOffer[];
+	const offer = useAppSelector(getOffer);
+	const fetchingStatus = useAppSelector(getOfferFetchingStatus);
+	const neighbourPlaces = useAppSelector(getNeighborPlaces).slice(0, MAX_NEIGHBOUR);
 
 	useDocumentTitle(`Place: ${offer?.title || ''}`);
 
@@ -35,8 +34,8 @@ function OfferPage(): React.JSX.Element {
 
 		return () => {
 			dispatch(offerActions.dropOffer());
-		}
-	}, [offerId, dispatch])
+		};
+	}, [offerId, dispatch]);
 
 	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
 	const bookmarkClass = clsx(
@@ -55,7 +54,7 @@ function OfferPage(): React.JSX.Element {
 	return (
 		<div className="page">
 			<Header />
-			{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffer}  offerId={offerId}/>}
+			{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffer} offerId={offerId}/>}
 			{fetchingStatus === RequestStatus.Pending && <LoadingScreen />}
 			{fetchingStatus === RequestStatus.Success && offer && (
 				<main className="page__main page__main--offer">
@@ -161,7 +160,7 @@ function OfferPage(): React.JSX.Element {
 			)}
 
 		</div>
-	)
+	);
 }
 
 export default OfferPage;

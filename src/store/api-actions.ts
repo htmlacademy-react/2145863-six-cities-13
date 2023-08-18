@@ -97,19 +97,19 @@ const logoutAction = createAsyncThunk<void, undefined, Extra>(
 const sendReviewApiAction = createAsyncThunk<ServerReview, {
 		offerId: ServerFullOffer['id'];
 		comment: string;
-		rating: number
+		rating: number;
 	}, Extra>(
-	`${NameSpace.Offers}/sendReviewApi`,
-	async (args, {dispatch, extra: api}) => {
-		const {data} = await api.post<ServerReview>(
-			`${ApiRoute.postReview}/${args.offerId}`, {
-				comment: args.comment,
-				rating: args.rating,
-			});
+		`${NameSpace.Offers}/sendReviewApi`,
+		async (args, {dispatch, extra: api}) => {
+			const {data} = await api.post<ServerReview>(
+				`${ApiRoute.postReview}/${args.offerId}`, {
+					comment: args.comment,
+					rating: args.rating,
+				});
 
-		return data;
-	}
-);
+			return data;
+		}
+	);
 
 export {
 	fetchOffersApiAction,

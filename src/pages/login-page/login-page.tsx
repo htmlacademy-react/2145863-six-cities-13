@@ -5,20 +5,19 @@ import { ULink } from '../../components/u-link/u-link';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { loginAction } from '../../store/api-actions';
-import { NameSpace } from '../../constants';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../constants/validation';
 import { LoginData } from '../../types/user';
 import { RequestStatus } from '../../constants/common';
 import { userActions } from '../../store/user/user.slice';
-import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import clsx from 'clsx';
+import { getLoginSendingStatus } from '../../store/user/user.selectors';
 
 
 function LoginPage(): React.JSX.Element {
 
 	const dispatch = useAppDispatch();
-	const sendingStatus = useAppSelector((state) => state[NameSpace.User].loginSendingStatus);
+	const sendingStatus = useAppSelector(getLoginSendingStatus);
 	const [email, setEmail] = useState('');
 	const [isEmailTouched, setIsEmailTouched] = useState(false);
 	const [password, setPassword] = useState('');
@@ -71,12 +70,15 @@ function LoginPage(): React.JSX.Element {
 									placeholder="Email"
 									required
 									onChange={(e) => setEmail(e.target.value)}
-									onBlur={() => {setIsEmailTouched(true)}}
+									onBlur={() => {
+										setIsEmailTouched(true);
+									}}
 									value={email}
 								/>
 								<p
 									hidden={isEmailValid || !isEmailTouched}
-									className={CSS['error-text']}>
+									className={CSS['error-text']}
+								>
 										Введите валидный e-mail
 								</p>
 							</div>
@@ -95,7 +97,8 @@ function LoginPage(): React.JSX.Element {
 								/>
 								<p
 									hidden={isPasswordValid || !isPasswordTouched}
-									className={CSS['error-text']}>
+									className={CSS['error-text']}
+								>
 										Введите не менее одной буквы и цифры
 								</p>
 							</div>

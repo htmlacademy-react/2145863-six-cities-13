@@ -3,8 +3,6 @@ import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppDispatch } from '../../hooks';
 import clsx from 'clsx';
-import { interactionsActions } from '../../store/interactions/interactions.slice';
-import { offerActions } from '../../store/offer/offer.slice';
 import { offersActions } from '../../store/offers/offers.slice';
 
 type CardProps = {

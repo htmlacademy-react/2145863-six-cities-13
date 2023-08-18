@@ -4,7 +4,7 @@ import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
-import { CITIES, NameSpace } from '../../constants';
+import { CITIES } from '../../constants';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { offersActions } from '../../store/offers/offers.slice';
@@ -13,6 +13,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import ErrorElement, { ErrorMessage } from '../../components/error-element/error-element';
 import { ErrorCause } from '../../constants/errors';
 import { toast } from 'react-toastify';
+import { getAllOffersFetchingStatus, getCity, getOfferList } from '../../store/offers/offers.selectors';
 
 /**
  * Компонент главного экрана
@@ -21,7 +22,7 @@ function MainPage(): React.JSX.Element {
 
 	const dispatch = useAppDispatch();
 	const cities = Array.from(CITIES);
-	const offersLoadedStatus = useAppSelector((store) => store.OFFERS.allOffersFetchingStatus);
+	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
 
 	useDocumentTitle('Main');
 
@@ -30,8 +31,8 @@ function MainPage(): React.JSX.Element {
 			dispatch(offersActions.fillOfferList());
 		}
 	}, [dispatch, offersLoadedStatus]);
-	const currentCity = useAppSelector((state) => state[NameSpace.Offers].city);
-	const offers = useAppSelector((state) => state[NameSpace.Offers].offerList);
+	const currentCity = useAppSelector(getCity);
+	const offers = useAppSelector(getOfferList);
 	const isEmpty = offers.length === 0 ;
 
 	// const [searchParams, setSearchParams] = useSearchParams();
@@ -67,7 +68,7 @@ function MainPage(): React.JSX.Element {
 
 			<Header />
 
-			{ offersLoadedStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffers}  /> }
+			{ offersLoadedStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffers} /> }
 			{ offersLoadedStatus === RequestStatus.Pending && <LoadingScreen/>}
 			{ offersLoadedStatus === RequestStatus.Success && (
 				<main className={mainClass}>

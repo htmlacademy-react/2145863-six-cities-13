@@ -1,22 +1,22 @@
-import React from "react";
-import { NameSpace } from "../../constants";
-import { AuthorizationStatus, RequestStatus } from "../../constants/common";
-import { useAppSelector } from "../../hooks";
-import { ServerReview } from "../../types/offer";
-import { getReviewDateString, getReviewDateTime } from "../../utils/formats";
-import NewCommentForm from "../new-comment-form/new-comment-form";
-import ErrorElement from "../error-element/error-element";
-import { ErrorCause } from "../../constants/errors";
-import LoadingScreen from "../../pages/loading-screen/loading-screen";
+import React from 'react';
+import { AuthorizationStatus, RequestStatus } from '../../constants/common';
+import { useAppSelector } from '../../hooks';
+import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
+import NewCommentForm from '../new-comment-form/new-comment-form';
+import ErrorElement from '../error-element/error-element';
+import { ErrorCause } from '../../constants/errors';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import { getAuthorizationStatus } from '../../store/user/user.selectors';
+import { getReviews, getReviewsFetchingStatus } from '../../store/offer/offer.selectors';
 
 type ReviewsProps = {
 	offerId: string;
 }
 
-function Reviews({offerId}:  ReviewsProps): React.JSX.Element {
-	const fetchingStatus = useAppSelector((state) => state[NameSpace.Offer].reviewsFetchingStatus);
-	const reviews = useAppSelector((state) => state[NameSpace.Offer].reviews) as ServerReview[];
-	const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
+function Reviews({offerId}: ReviewsProps): React.JSX.Element {
+	const fetchingStatus = useAppSelector(getReviewsFetchingStatus);
+	const reviews = useAppSelector(getReviews);
+	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
 	return (
@@ -65,8 +65,8 @@ function Reviews({offerId}:  ReviewsProps): React.JSX.Element {
 					</ul>
 					{isAuthorized && offerId && <NewCommentForm offerId={offerId} />}
 				</>
-				)}
-			</section>
+			)}
+		</section>
 	);
 }
 

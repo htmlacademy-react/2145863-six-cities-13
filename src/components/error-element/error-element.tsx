@@ -1,9 +1,8 @@
-import { ErrorCause } from "../../constants/errors";
-import { fetchFavoritesApiAction, fetchNeighborsApiAction, fetchOfferApiAction, fetchOffersApiAction, fetchReviewsApiAction } from "../../store/api-actions";
-import { ServerFullOffer } from "../../types/offer";
-import { useAppDispatch } from "../../hooks";
-import { useNavigate } from "react-router-dom";
-import clsx from "clsx";
+import { ErrorCause } from '../../constants/errors';
+import { fetchFavoritesApiAction, fetchNeighborsApiAction, fetchOfferApiAction, fetchOffersApiAction, fetchReviewsApiAction } from '../../store/api-actions';
+import { ServerFullOffer } from '../../types/offer';
+import { useAppDispatch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 import css from './error-element.module.css';
 
@@ -14,7 +13,7 @@ const ErrorMessage = {
 	[ErrorCause.FetchReviews]: 'Could not fetch reviews!',
 	[ErrorCause.FetchFavorites]: 'Could not fetch favorites!',
 	[ErrorCause.Unknown]: 'Unknown error!',
-}
+};
 
 type ErrorElementProps = {
 	cause: ErrorCause;
@@ -52,4 +51,4 @@ function ErrorElement({cause, offerId}: ErrorElementProps) {
 }
 
 export default ErrorElement;
-export {ErrorMessage}
+export {ErrorMessage};

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { NameSpace, SortMethod } from '../../constants';
+import { SortMethod } from '../../constants';
 import { useDispatch } from 'react-redux';
 import { offersActions } from '../../store/offers/offers.slice';
 import { useAppSelector } from '../../hooks';
 import { SortMap } from '../../utils/convert';
 import clsx from 'clsx';
+import { getSort } from '../../store/offers/offers.selectors';
 
 function Sort() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ function Sort() {
 		setIsOpen(false);
 	}
 
-	const activeSort = useAppSelector((state) => state[NameSpace.Offers].sort);
+	const activeSort = useAppSelector(getSort);
 
 	return (
 		<form className="places__sorting" action="#" method="get" onKeyDown={handleKeydown}>

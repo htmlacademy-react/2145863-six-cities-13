@@ -1,11 +1,12 @@
 import Logo from '../logo/logo';
-import { AppRoute, AuthorizationStatus, NameSpace } from '../../constants';
+import { AppRoute, AuthorizationStatus } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { SyntheticEvent, useEffect } from 'react';
+import { SyntheticEvent } from 'react';
 import { store } from '../../store';
-import { User } from '../../types/user';
+import { getAuthorizationStatus, getUser } from '../../store/user/user.selectors';
+import { getFavoriteAmount } from '../../store/favorites/favorites.selectors';
 
 type HeaderPops = {
 	hideNavigation?: boolean;
@@ -20,11 +21,9 @@ function Header({
 	hideNavigation = false,
 } : HeaderPops) {
 
-	const user = useAppSelector((state) => state[NameSpace.User].user) as User;
-	const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favorites).length;
-
-	const isAuthorized = useAppSelector(
-		(state) => state[NameSpace.User].authorizationStatus) === AuthorizationStatus.Auth;
+	const user = useAppSelector(getUser);
+	const favoriteAmount = useAppSelector(getFavoriteAmount);
+	const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
 	return (
 		<header className="header">

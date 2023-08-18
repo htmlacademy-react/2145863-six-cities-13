@@ -1,35 +1,28 @@
-import type {LoaderResponse} from './favorites-page-loader';
 import CardFavorite from '../../components/card-favorite/card-favorite';
 import Header from '../../components/header/header';
 import { useAppSelector, useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
-import { AppRoute, AuthorizationStatus, NameSpace } from '../../constants';
-import { useLoaderData } from 'react-router-dom';
+import { AppRoute } from '../../constants';
 import { convertOffersToOffersByCity } from '../../utils/convert';
 import { RequestStatus } from '../../constants/common';
 import ErrorElement from '../../components/error-element/error-element';
 import { ErrorCause } from '../../constants/errors';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { getFavoriteAmount, getFavoritesFetchingStatus, getFavorites } from '../../store/favorites/favorites.selectors';
 
 function FavoritesPage(): React.JSX.Element {
 
-	const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favoriteAmount);
-	const fetchingStatus = useAppSelector((state) => state[NameSpace.Favorites].favoritesFetchingStatus);
-	const favorites = useAppSelector((state) => state[NameSpace.Favorites].favorites);
+	const favoriteAmount = useAppSelector(getFavoriteAmount);
+	const fetchingStatus = useAppSelector(getFavoritesFetchingStatus);
+	const favorites = useAppSelector(getFavorites);
 	useDocumentTitle(`favorite places (${favoriteAmount})`);
 
 	const offersByCity = convertOffersToOffersByCity(favorites);
 	const cities = Object.keys(offersByCity);
 
-	console.log('fetchingStatus: ', fetchingStatus);
-	console.log('cities: ', cities);
-	console.log('offersByCity: ', offersByCity);
-	console.log('******** fetchingStatus === RequestStatus.Success && favorites', fetchingStatus);
-
 	return (
 		<div className="page">
 			<Header />
-
 
 			<main className="page__main page__main--favorites">
 				<div className="page__favorites-container container">

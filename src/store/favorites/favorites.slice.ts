@@ -3,7 +3,6 @@ import { NameSpace } from '../../constants';
 import { ServerOffer } from '../../types/offer';
 import { RequestStatus } from '../../constants/common';
 import { fetchFavoritesApiAction } from '../api-actions';
-import { Reducer } from 'react';
 
 type FavoritesState = {
 	favorites: ServerOffer[];
@@ -29,11 +28,12 @@ const slice = createSlice({
 			.addCase(fetchFavoritesApiAction.fulfilled, (state, action: PayloadAction<ServerOffer[]>) => {
 				state.favoritesFetchingStatus = RequestStatus.Success;
 				state.favorites = action.payload;
+				state.favoriteAmount = action.payload.length;
 			})
 			.addCase(fetchFavoritesApiAction.rejected, (state) => {
 				state.favoritesFetchingStatus = RequestStatus.Error;
 			})
-	}
+}
 );
 
 export const {

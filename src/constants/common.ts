@@ -43,7 +43,6 @@ const enum RequestStatus {
 }
 
 
-
 const SortMethod = {
 	['Popular']: 'popular',
 	['PriceToHight']: 'price-to-hight',

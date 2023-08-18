@@ -6,12 +6,11 @@ import { RequestStatus } from '../../constants/common';
 import { fetchOffersApiAction } from '../api-actions';
 
 type OffersState = {
-	city: string;																// есть (но с типом ServerOffer['City'])
+	city: string;
 	sort: string;
 	activeOffer: string | null;
-	allOffers: ServerOffer[];										// есть
-	allOffersFetchingStatus: RequestStatus;			// есть
-	// в ретро нет offerList
+	allOffers: ServerOffer[];
+	allOffersFetchingStatus: RequestStatus;
 	offerList: ServerOffer[];
 }
 
@@ -59,7 +58,7 @@ const slice = createSlice({
 			})
 			.addCase(fetchOffersApiAction.rejected, (state) => {
 				state.allOffersFetchingStatus = RequestStatus.Error;
-			})
+			});
 
 	}
 });

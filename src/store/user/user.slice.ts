@@ -1,11 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { autoBatchEnhancer, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, NameSpace } from '../../constants';
 import { RequestStatus } from '../../constants/common';
-import { checkAuthAction, fetchFavoritesApiAction, loginAction, logoutAction } from '../api-actions';
-import { store } from '..';
+import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { User } from '../../types/user';
-import { Action } from 'history';
 
 type UserState = {
 	authorizationStatus: AuthorizationStatus;					// есть
@@ -44,7 +42,7 @@ const slice = createSlice({
 			})
 			// login-action
 			.addCase(loginAction.pending, (store) => {
-				store.loginSendingStatus = RequestStatus.Pending
+				store.loginSendingStatus = RequestStatus.Pending;
 			})
 			.addCase(loginAction.fulfilled, (store, action: PayloadAction<User>) => {
 				store.loginSendingStatus = RequestStatus.Success;
@@ -59,7 +57,7 @@ const slice = createSlice({
 			.addCase(logoutAction.fulfilled, (store) => {
 				store.authorizationStatus = AuthorizationStatus.NoAuth;
 				store.user = null;
-			})
+			});
 
 	},
 });

@@ -9,8 +9,8 @@ type OffersState = {
 	offerFetchingStatus: RequestStatus;
 	neighborPlaces: ServerOffer[];
 	reviews: ServerReview[];
-	reviewsFetchingStatus:  RequestStatus;
-	reviewSendingStatus:  RequestStatus;
+	reviewsFetchingStatus: RequestStatus;
+	reviewSendingStatus: RequestStatus;
 }
 
 const initialState: OffersState = {
@@ -70,8 +70,8 @@ const slice = createSlice({
 			})
 			.addCase(sendReviewApiAction.rejected, (state) => {
 				state.reviewSendingStatus = RequestStatus.Success;
-			})
-		}
+			});
+	}
 });
 
 export const {

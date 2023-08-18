@@ -1,9 +1,9 @@
 export type User = {
-	"name": string;
-	"avatarUrl": string,
-	"isPro": boolean,
-	"email": string,
-	"token": string,
+	'name': string;
+	'avatarUrl': string;
+	'isPro': boolean;
+	'email': string;
+	'token': string;
 }
 
 export type LoginData = {

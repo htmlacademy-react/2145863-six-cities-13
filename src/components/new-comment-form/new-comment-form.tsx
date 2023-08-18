@@ -42,8 +42,8 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	}
 
 	function checkValidity(formData: {review: string; rating: number}) {
-		const ratingValidity =  1 <= formData.rating && formData.rating <= 5;
-		const commentValidity = 50 <= formData.review.length && formData.review.length <= 300
+		const ratingValidity = 1 <= formData.rating && formData.rating <= 5;
+		const commentValidity = 50 <= formData.review.length && formData.review.length <= 300;
 		setIsValid(ratingValidity && commentValidity);
 	}
 
