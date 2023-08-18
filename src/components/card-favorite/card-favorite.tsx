@@ -3,7 +3,7 @@ import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
 
-type CardFavotireProps = {
+type CardFavoriteProps = {
 	offer: Pick<ServerOffer,
 		'id' |
 		'title' |
@@ -17,7 +17,7 @@ type CardFavotireProps = {
 	>;
 }
 
-function CardFavorite({offer}: CardFavotireProps): React.JSX.Element {
+function CardFavorite({offer}: CardFavoriteProps): React.JSX.Element {
 	return (
 		<article className="favorites__card place-card">
 			{
@@ -27,7 +27,7 @@ function CardFavorite({offer}: CardFavotireProps): React.JSX.Element {
 				</div>
 			}
 			<div className="favorites__image-wrapper place-card__image-wrapper">
-				<ULink href={AppRoute.Offer.replace(':id', offer.id)}>
+				<ULink href={`${AppRoute.Offer}/${offer.id}`}>
 					<img
 						className="place-card__image"
 						src={offer.previewImage}

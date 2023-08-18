@@ -20,17 +20,11 @@ function Header({
 	hideNavigation = false,
 } : HeaderPops) {
 
-	const fetchFavoritesStatus = useAppSelector((store) => store[NameSpace.Favorites].favoritesFetchingStatus);
-	// const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favoriteAmount);
-	// const userName = useAppSelector((state) => state[NameSpace.User].user?.name);
 	const user = useAppSelector((state) => state[NameSpace.User].user) as User;
 	const favoriteAmount = useAppSelector((state) => state[NameSpace.Favorites].favorites).length;
 
-	const isAuthorized = useAppSelector((state) => state[NameSpace.User].authorizationStatus) === AuthorizationStatus.Auth;
-	useEffect(() => {
-
-	});
-	// const favoriteAmount = fetchFavoritesStatus === RequestStatus.Success ?  : 0;
+	const isAuthorized = useAppSelector(
+		(state) => state[NameSpace.User].authorizationStatus) === AuthorizationStatus.Auth;
 
 	return (
 		<header className="header">

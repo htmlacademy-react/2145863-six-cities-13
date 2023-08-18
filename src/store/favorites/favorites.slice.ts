@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
-import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
-import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
+import { NameSpace } from '../../constants';
+import { ServerOffer } from '../../types/offer';
 import { RequestStatus } from '../../constants/common';
 import { fetchFavoritesApiAction } from '../api-actions';
+import { Reducer } from 'react';
 
 type FavoritesState = {
 	favorites: ServerOffer[];
@@ -20,7 +20,7 @@ const initialState: FavoritesState = {
 const slice = createSlice({
 	name: NameSpace.Favorites,
 	initialState,
-	reducers: [],
+	reducers: {},
 	extraReducers: (builder) =>
 		builder
 			.addCase(fetchFavoritesApiAction.pending, (state) => {
@@ -37,6 +37,6 @@ const slice = createSlice({
 );
 
 export const {
-	reducer: favoritesReducer,
 	actions: favoritesActions,
+	reducer: favoritesReducer,
 } = slice;
