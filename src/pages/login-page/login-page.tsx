@@ -3,7 +3,7 @@ import CSS from './login-page.module.css';
 import Header from '../../components/header/header';
 import { ULink } from '../../components/u-link/u-link';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { loginAction } from '../../store/api-actions';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../constants/validation';
 import { LoginData } from '../../types/user';

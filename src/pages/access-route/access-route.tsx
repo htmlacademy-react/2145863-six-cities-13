@@ -1,7 +1,5 @@
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { Navigate, Outlet } from 'react-router-dom';
-import { store } from '../../store';
-
 
 type AccessRoutProps = {
 	status: AuthorizationStatus;

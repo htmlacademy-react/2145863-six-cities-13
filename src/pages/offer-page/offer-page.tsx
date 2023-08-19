@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import Card from '../../components/card/card';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchNeighborsApiAction, fetchOfferApiAction, fetchReviewsApiAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -28,13 +28,13 @@ function OfferPage(): React.JSX.Element {
 	useEffect(() => {
 		if (offerId) {
 			dispatch(fetchOfferApiAction({offerId}));
-			// dispatch(fetchNeighborsApiAction({offerId}));
+			dispatch(fetchNeighborsApiAction({offerId}));
 			dispatch(fetchReviewsApiAction({offerId}));
 		}
 
-		// return () => {
-		// 	dispatch(offerActions.dropOffer());
-		// };
+		return () => {
+			dispatch(offerActions.dropOffer());
+		};
 	}, [offerId, dispatch]);
 
 	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
@@ -48,7 +48,7 @@ function OfferPage(): React.JSX.Element {
 		'user__avatar-wrapper');
 
 	if (fetchingStatus === RequestStatus.Error) {
-		toast.error(`offer:${offerId} error ${ErrorCause.FetchOffer}`);
+		toast.error(`offer:${offerId ?? ''} error ${ErrorCause.FetchOffer}`);
 	}
 
 	return (

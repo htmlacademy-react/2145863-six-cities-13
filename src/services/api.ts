@@ -27,16 +27,16 @@ const createAPI = (): AxiosInstance => {
 		return config;
 	});
 
-	// api.interceptors.response.use(
-	// 	(response) => response,
-	// 	(error: AxiosError<{error: string}>) => {
-	// 		if (error.response?.status === StatusCodes.NOT_FOUND) {
-	// 			browserHistory.push(AppRoute.NotFound);
-	// 		}
+	api.interceptors.response.use(
+		(response) => response,
+		(error: AxiosError<{error: string}>) => {
+			if (error.response?.status === StatusCodes.NOT_FOUND) {
+				browserHistory.push(AppRoute.NotFound);
+			}
 
-	// 		throw error;
-	// 	}
-	// );
+			throw error;
+		}
+	);
 
 	return api;
 };

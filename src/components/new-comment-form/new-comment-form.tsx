@@ -13,7 +13,6 @@ type NewCommentFormProps = {
 	offerId: string;
 }
 
-
 function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	const [formData, setFormData] = useState({
 		rating: 0,
@@ -23,6 +22,13 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	const [isSending, setIsSending] = useState(false);
 	const reviewSendingStatus = useAppSelector(getReviewSendingStatus);
 	const dispatch = useAppDispatch();
+
+	// function checkValidity(formData: {review: string; rating: number}) {
+	function checkValidity({review, rating}: {review: string; rating: number}) {
+		const ratingValidity = 1 <= rating && rating <= 5;
+		const commentValidity = 50 <= review.length && review.length <= 300;
+		setIsValid(ratingValidity && commentValidity);
+	}
 
 	function handleFormChange(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
 		const {name, value} = evt.target;
@@ -34,9 +40,9 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 		event.preventDefault();
 		setIsSending(true);
 		store.dispatch(sendReviewApiAction({
-				offerId,
-				comment: formData.review,
-				rating: Number(formData.rating),
+			offerId,
+			comment: formData.review,
+			rating: Number(formData.rating),
 		}));
 	}
 
@@ -55,13 +61,6 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 			setIsValid(false);
 		}
 	}
-
-	function checkValidity(formData: {review: string; rating: number}) {
-		const ratingValidity = 1 <= formData.rating && formData.rating <= 5;
-		const commentValidity = 50 <= formData.review.length && formData.review.length <= 300;
-		setIsValid(ratingValidity && commentValidity);
-	}
-
 
 	return (
 		<form className="reviews__form form" action="#" method="post"
