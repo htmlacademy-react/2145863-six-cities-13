@@ -8,17 +8,16 @@ import { ToastContainer } from 'react-toastify';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersApiAction());
-// store.dispatch(fetchFavoritesApiAction());
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 
 root.render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<Provider store={store}>
 			<ToastContainer />
 			<App />
 		</Provider>
-	</React.StrictMode>
+	// </React.StrictMode>
 );
