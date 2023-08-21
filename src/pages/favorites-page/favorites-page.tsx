@@ -1,4 +1,3 @@
-import CardFavorite from '../../components/card-favorite/card-favorite';
 import Header from '../../components/header/header';
 import { useAppSelector, useDocumentTitle } from '../../hooks';
 import { ULink } from '../../components/u-link/u-link';
@@ -14,11 +13,10 @@ import EmptyFavorite from '../../components/empty-favorite/empty-favorite';
 import clsx from 'clsx';
 
 function FavoritesPage(): React.JSX.Element {
-	console.log('favorites-page');
 	const favoriteAmount = useAppSelector(getFavoriteAmount);
 	const fetchingStatus = useAppSelector(getFavoritesFetchingStatus);
 	const favorites = useAppSelector(getFavorites);
-	const isEmpty = favorites?.length === 0  || favorites === undefined;
+	const isEmpty = favorites?.length === 0 || favorites === undefined;
 	useDocumentTitle(`favorite places (${favoriteAmount})`);
 
 	const offersByCity = convertOffersToOffersByCity(favorites);
@@ -32,39 +30,38 @@ function FavoritesPage(): React.JSX.Element {
 		isEmpty && 'page__main--favorites-empty'
 	);
 
-	console.log({fetchingStatus, favorites});
 	return (
 		<div className={pageClass}>
 			<Header />
 
 			<main className={mainClass}>
 				<div className="page__favorites-container container">
-				{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchFavorites}/>}
-				{fetchingStatus === RequestStatus.Pending && <LoadingScreen />}
-				{fetchingStatus === RequestStatus.Success && isEmpty && <EmptyFavorite />};
-				{fetchingStatus === RequestStatus.Success && !isEmpty && (
-					<section className="favorites ">
-						<h1 className="favorites__title">Saved listing</h1>
-						<ul className="favorites__list">
-							{cities.map((city) => (
-								<li className="favorites__locations-items" key={city}>
-									<div className="favorites__locations locations locations--current">
-										<div className="locations__item">
-											<ULink className="locations__item-link" href={`${AppRoute.Main}?filter=${city}`}>
-												<span>{city}</span>
-											</ULink>
+					{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchFavorites}/>}
+					{fetchingStatus === RequestStatus.Pending && <LoadingScreen />}
+					{fetchingStatus === RequestStatus.Success && isEmpty && <EmptyFavorite />};
+					{fetchingStatus === RequestStatus.Success && !isEmpty && (
+						<section className="favorites ">
+							<h1 className="favorites__title">Saved listing</h1>
+							<ul className="favorites__list">
+								{cities.map((city) => (
+									<li className="favorites__locations-items" key={city}>
+										<div className="favorites__locations locations locations--current">
+											<div className="locations__item">
+												<ULink className="locations__item-link" href={`${AppRoute.Main}?filter=${city}`}>
+													<span>{city}</span>
+												</ULink>
+											</div>
 										</div>
-									</div>
-									<div className="favorites__places">
-										{offersByCity[city].map((offer) => (
-											<Card block='favorites' offer={offer} key={offer.id} />
-										))}
-									</div>
-								</li>
-							))}
-						</ul>
-					</section>
-				)}
+										<div className="favorites__places">
+											{offersByCity[city].map((offer) => (
+												<Card block='favorites' offer={offer} key={offer.id} />
+											))}
+										</div>
+									</li>
+								))}
+							</ul>
+						</section>
+					)}
 				</div>
 			</main>
 			<footer className="footer container">

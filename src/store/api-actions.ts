@@ -76,7 +76,7 @@ const sendFavoriteStatusApiAction = createAsyncThunk<{offer: ServerOffer; status
 		return {offer: data, status};
 	}
 
-) as AsyncThunk<{offer: ServerOffer, status: FavoritesStatus}, FavoritePayload, Extra>;
+) as AsyncThunk<{offer: ServerOffer; status: FavoritesStatus}, FavoritePayload, Extra>;
 
 
 const checkAuthAction = createAsyncThunk<User, undefined, Extra>(

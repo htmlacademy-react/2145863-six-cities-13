@@ -10,4 +10,4 @@ function EmptyFavorite(): React.JSX.Element {
 	);
 }
 
-export default EmptyFavorite
+export default EmptyFavorite;

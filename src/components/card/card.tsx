@@ -5,9 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import clsx from 'clsx';
 import { offersActions } from '../../store/offers/offers.slice';
 import { useState } from 'react';
-import { current } from '@reduxjs/toolkit';
 import { sendFavoriteStatusApiAction } from '../../store/api-actions';
-import { favoritesActions } from '../../store/favorites/favorites.slice';
 import { getAuthorizationStatus } from '../../store/user/user.selectors';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,10 +33,10 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 		'place-card__bookmark-button',
 		bookmarked && 'place-card__bookmark-button--active',
 		'button'
-		);
+	);
 	const placeCardInfoClass = clsx(
 		'place-card__info',
-		(block==='favorites') && 'favorites__card-info',
+		(block === 'favorites') && 'favorites__card-info',
 	);
 
 	const imageWrapperClass = clsx(
@@ -47,8 +45,8 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 	);
 
 	let imageSize = {width: '260', height: '200'};
-	if (block==='favorites') {
-		imageSize = {width: '150',  height: '110'};
+	if (block === 'favorites') {
+		imageSize = {width: '150', height: '110'};
 	}
 
 	const navigate = useNavigate();
@@ -63,22 +61,21 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 		dispatch(offersActions.setActiveOffer(null));
 	}
 
-	FavoritesStatus.Added
-	async function handleBookmarkClick() {
-		console.log('*** handleBookmarkClick');
-		if (authorizationStatus !== AuthorizationStatus.Auth) {
-			navigate(AppRoute.Login);
-		}
-		setBookmarked((current) => !current);
-		await dispatch(sendFavoriteStatusApiAction({
-			offerId: offer.id,
-			status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
-		}));
-		dispatch(offersActions.setIsFavorite({
-			offerId: offer.id,
-			status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
-		}));
-
+	function handleBookmarkClick() {
+		(async () => {
+			if (authorizationStatus !== AuthorizationStatus.Auth) {
+				navigate(AppRoute.Login);
+			}
+			setBookmarked((current) => !current);
+			await dispatch(sendFavoriteStatusApiAction({
+				offerId: offer.id,
+				status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
+			}));
+			dispatch(offersActions.setIsFavorite({
+				offerId: offer.id,
+				status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
+			}));
+		})();
 	}
 
 	return (

@@ -1,6 +1,6 @@
 import Card from '../card/card';
 import { useAppSelector } from '../../hooks';
-import { getAllOffers, getOfferList } from '../../store/offers/offers.selectors';
+import { getOfferList } from '../../store/offers/offers.selectors';
 
 function OfferList(): React.JSX.Element {
 	const offers = useAppSelector(getOfferList);

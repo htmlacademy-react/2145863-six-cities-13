@@ -39,7 +39,6 @@ function MainPage(): React.JSX.Element {
 	const isEmpty = offers.length === 0 ;
 
 
-
 	// const [searchParams, setSearchParams] = useSearchParams();
 	// TODO: надо переделать инициализацию с учётом store.city
 	// const initialCity = searchParams.get('filter') || cities[0];

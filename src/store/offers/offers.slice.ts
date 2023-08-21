@@ -46,10 +46,9 @@ const slice = createSlice({
 			state.sort = action.payload;
 			state.offerList = prepareOfferList(state);
 		},
-		// setIsFavorite(state, action: PayloadAction<string>) {
-		setIsFavorite(state, action: PayloadAction<{offerId: ServerFullOffer['id'], status: FavoritesStatus}>) {
-			const offer = state.allOffers.find((offer) => offer.id === action.payload.offerId);
-			const offerInList = state.offerList.find((offer) => offer.id === action.payload.offerId);
+		setIsFavorite(state, action: PayloadAction<{offerId: ServerFullOffer['id']; status: FavoritesStatus}>) {
+			const offer = state.allOffers.find((allOffer) => allOffer.id === action.payload.offerId);
+			const offerInList = state.offerList.find((listOffer) => listOffer.id === action.payload.offerId);
 			if (offer && offerInList) {
 				offer.isFavorite = Boolean(action.payload.status);
 				offerInList.isFavorite = Boolean(action.payload.status);
