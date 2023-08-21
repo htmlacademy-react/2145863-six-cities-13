@@ -37,5 +37,8 @@ const SortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => num
 	},
 };
 
+function getPluralPlaces(amount: number) {
+	return amount === 1 ? 'place' : 'places';
+}
 
-export {convertOffersToOffersByCity, SortMap};
+export {convertOffersToOffersByCity, SortMap, getPluralPlaces};

@@ -22,6 +22,9 @@ const fetchOffersApiAction = createAsyncThunk<ServerOffer[], undefined, Extra>(
 	async (_args, {extra: api}) => {
 		const {data} = await api.get<ServerOffer[]>(ApiRoute.getOffers);
 
+		const cities = [...(new Set(data.map((offer) => offer.city.name)))];
+		console.log(cities);
+
 		return data;
 	}
 );

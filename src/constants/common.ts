@@ -6,9 +6,9 @@ const MAX_NEIGHBOUR = 3;
 
 const CITIES = [
 	'Paris',
-	'Amsterdam',
 	'Cologne',
 	'Brussels',
+	'Amsterdam',
 	'Hamburg',
 	'Dusseldorf'
 ] as const;
