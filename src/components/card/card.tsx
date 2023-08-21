@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { sendFavoriteStatusApiAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user/user.selectors';
 import { useNavigate } from 'react-router-dom';
+import { capitalize } from '../../utils/convert';
 
 type CardProps = {
 	block: string;
@@ -119,7 +120,7 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 				<h2 className="place-card__name">
 					<ULink href={offerHref}>{offer.title}</ULink>
 				</h2>
-				<p className="place-card__type">{offer.type}</p>
+				<p className="place-card__type">{capitalize(offer.type)}</p>
 			</div>
 		</article>
 	);
