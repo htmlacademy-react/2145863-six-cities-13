@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import Card from '../../components/card/card';
 import clsx from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchNeighborsApiAction, fetchOfferApiAction, fetchReviewsApiAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -27,9 +27,9 @@ function OfferPage(): React.JSX.Element {
 
 	useEffect(() => {
 		if (offerId) {
-			dispatch(fetchOfferApiAction({offerId}));
-			dispatch(fetchNeighborsApiAction({offerId}));
-			dispatch(fetchReviewsApiAction({offerId}));
+				dispatch(fetchOfferApiAction({offerId}));
+				dispatch(fetchNeighborsApiAction({offerId}));
+				dispatch(fetchReviewsApiAction({offerId}));
 		}
 
 		return () => {
