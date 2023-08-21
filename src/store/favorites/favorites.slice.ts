@@ -1,8 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../constants';
 import { ServerOffer } from '../../types/offer';
-import { RequestStatus } from '../../constants/common';
-import { fetchFavoritesApiAction } from '../api-actions';
+import { FavoritesStatus, RequestStatus } from '../../constants/common';
+import { FavoritePayload, fetchFavoritesApiAction, sendFavoriteStatusApiAction } from '../api-actions';
+import { offerActions } from '../offer/offer.slice';
+import { offersActions } from '../offers/offers.slice';
 
 type FavoritesState = {
 	favorites: ServerOffer[];
@@ -32,6 +34,19 @@ const slice = createSlice({
 			})
 			.addCase(fetchFavoritesApiAction.rejected, (state) => {
 				state.favoritesFetchingStatus = RequestStatus.Error;
+			})
+			.addCase(sendFavoriteStatusApiAction.fulfilled, (state,
+				action: PayloadAction<{offer: ServerOffer; status: FavoritesStatus}>) => {
+				switch(action.payload.status) {
+					case FavoritesStatus.Added:
+						state.favorites.push(action.payload.offer)
+						state.favoriteAmount++;
+						break;
+					case FavoritesStatus.Removed:
+						state.favorites = state.favorites.filter((offer) => offer.id !== action.payload.offer.id);
+						state.favoriteAmount--;
+						break;
+				}
 			})
 }
 );

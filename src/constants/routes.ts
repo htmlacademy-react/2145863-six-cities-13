@@ -11,7 +11,7 @@ const ApiRoute = {
 	getOffer: '/offers',
 	getNearby: '/offers/{offerId}/nearby',
 	getFavorites: '/favorite',
-	postFavorite: '/favorite/{offerId}/{status}',
+	postFavorite: '/favorite',
 	getReviews: '/comments',
 	postReview: '/comments',
 	Login: '/login',

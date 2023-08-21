@@ -30,7 +30,7 @@ const createAPI = (): AxiosInstance => {
 	api.interceptors.response.use(
 		(response) => response,
 		(error: AxiosError<{error: string}>) => {
-			if (error.response?.status === StatusCodes.NOT_FOUND) {
+			if (error.response?.status === StatusCodes.NOT_FOUND && error.config?.method === 'get') {
 				browserHistory.push(AppRoute.NotFound);
 			}
 

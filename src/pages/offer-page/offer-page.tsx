@@ -47,7 +47,7 @@ function OfferPage(): React.JSX.Element {
 		offer?.host.isPro && 'offer__avatar-wrapper--pro',
 		'user__avatar-wrapper');
 
-	if (fetchingStatus === RequestStatus.Error) {
+	if (fetchingStatus === RequestStatus.Error && !location.href.lastIndexOf('not-found')) {
 		toast.error(`offer:${offerId ?? ''} error ${ErrorCause.FetchOffer}`);
 	}
 

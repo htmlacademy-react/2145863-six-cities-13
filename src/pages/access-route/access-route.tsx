@@ -14,6 +14,6 @@ const createAccessRoute = (accessStatus: AuthorizationStatus[], navigateRout: st
 	return <Navigate to={navigateRout} />;
 };
 
-export const PrivateRoute = createAccessRoute([AuthorizationStatus.Auth], AppRoute.Login);
+export const PrivateRoute = createAccessRoute([AuthorizationStatus.Auth, AuthorizationStatus.Unknown], AppRoute.Login);
 export const PublicRoute = createAccessRoute([AuthorizationStatus.NoAuth, AuthorizationStatus.Unknown], AppRoute.Main);
 

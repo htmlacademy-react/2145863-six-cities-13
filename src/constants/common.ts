@@ -42,6 +42,10 @@ const enum RequestStatus {
   Error = 'REJECTED',
 }
 
+const enum FavoritesStatus {
+	Removed = 0,
+	Added = 1,
+}
 
 const SortMethod = {
 	['Popular']: 'popular',
@@ -58,4 +62,5 @@ export {
 	SortMethod,
 	AuthorizationStatus,
 	RequestStatus,
+	FavoritesStatus,
 };

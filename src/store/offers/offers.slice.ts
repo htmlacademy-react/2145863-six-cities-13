@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { SortMap, convertOffersToOffersByCity } from '../../utils/convert';
 import { DEFAULT_CITY, NameSpace, SortMethod } from '../../constants';
-import { ServerOffer } from '../../types/offer';
-import { RequestStatus } from '../../constants/common';
+import { ServerFullOffer, ServerOffer } from '../../types/offer';
+import { FavoritesStatus, RequestStatus } from '../../constants/common';
 import { fetchOffersApiAction } from '../api-actions';
 
 type OffersState = {
@@ -45,6 +45,15 @@ const slice = createSlice({
 		setSort(state, action: PayloadAction<string>) {
 			state.sort = action.payload;
 			state.offerList = prepareOfferList(state);
+		},
+		// setIsFavorite(state, action: PayloadAction<string>) {
+		setIsFavorite(state, action: PayloadAction<{offerId: ServerFullOffer['id'], status: FavoritesStatus}>) {
+			const offer = state.allOffers.find((offer) => offer.id === action.payload.offerId);
+			const offerInList = state.offerList.find((offer) => offer.id === action.payload.offerId);
+			if (offer && offerInList) {
+				offer.isFavorite = Boolean(action.payload.status);
+				offerInList.isFavorite = Boolean(action.payload.status);
+			}
 		},
 	},
 	extraReducers: (builder) => {

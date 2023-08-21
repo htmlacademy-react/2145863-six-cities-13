@@ -10,6 +10,7 @@ import { ServerFullOffer, ServerOffer, ServerReview } from '../types/offer';
 import { ApiRoute } from '../constants/routes';
 import { dropToken, saveToken } from '../services/token';
 import { LoginData, User } from '../types/user';
+import { FavoritesStatus } from '../constants/common';
 
 type Extra = {
 	dispatch?: AppDispatch;
@@ -17,13 +18,15 @@ type Extra = {
 	extra: AxiosInstance;
 }
 
+export type FavoritePayload = {
+	offerId: ServerFullOffer['id'];
+	status: FavoritesStatus;
+}
+
 const fetchOffersApiAction = createAsyncThunk<ServerOffer[], undefined, Extra>(
 	`${NameSpace.Offers}/fetchOffersApi`,
 	async (_args, {extra: api}) => {
 		const {data} = await api.get<ServerOffer[]>(ApiRoute.getOffers);
-
-		const cities = [...(new Set(data.map((offer) => offer.city.name)))];
-		console.log(cities);
 
 		return data;
 	}
@@ -64,6 +67,16 @@ const fetchFavoritesApiAction = createAsyncThunk<ServerOffer[], undefined, Extra
 		return data;
 	}
 ) as AsyncThunk<ServerOffer[], undefined, Extra>;
+
+const sendFavoriteStatusApiAction = createAsyncThunk<{offer: ServerOffer; status: FavoritesStatus}, FavoritePayload, Extra>(
+	`${NameSpace.Favorites}/sendFavoriteStatusApi`,
+	async ({offerId, status}, {extra: api}) => {
+		const {data} = await api.post<ServerOffer>(`${ApiRoute.postFavorite}/${offerId}/${status}`);
+
+		return {offer: data, status};
+	}
+
+) as AsyncThunk<{offer: ServerOffer, status: FavoritesStatus}, FavoritePayload, Extra>;
 
 
 const checkAuthAction = createAsyncThunk<User, undefined, Extra>(
@@ -120,6 +133,7 @@ export {
 	fetchReviewsApiAction,
 	fetchNeighborsApiAction,
 	fetchFavoritesApiAction,
+	sendFavoriteStatusApiAction,
 	checkAuthAction,
 	loginAction,
 	logoutAction,
