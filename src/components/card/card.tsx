@@ -4,6 +4,9 @@ import { ULink } from '../u-link/u-link';
 import { useAppDispatch } from '../../hooks';
 import clsx from 'clsx';
 import { offersActions } from '../../store/offers/offers.slice';
+import React from 'react';
+import { capitalize } from '../../utils/convert';
+import Bookmark from '../bookmark/bookmark';
 
 type CardProps = {
 	block: string;
@@ -22,12 +25,21 @@ type CardProps = {
 
 function Card({block, offer}: CardProps): React.JSX.Element {
 	const dispatch = useAppDispatch();
-	const favoriteLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
-	const favoriteClass = clsx(
-		'place-card__bookmark-button',
-		offer.isFavorite && 'place-card__bookmark-button--active',
-		'button'
+	const placeCardInfoClass = clsx(
+		'place-card__info',
+		(block === 'favorites') && 'favorites__card-info',
 	);
+
+	const imageWrapperClass = clsx(
+		`${block}__image-wrapper`,
+		'place-card__image-wrapper'
+	);
+
+	let imageSize = {width: '260', height: '200'};
+	if (block === 'favorites') {
+		imageSize = {width: '150', height: '110'};
+	}
+
 	const offerHref = `${AppRoute.Offer}/${offer.id}`;
 
 	function handleCardPointerEnter() {
@@ -41,30 +53,25 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 	return (
 		<article
 			className={`${block}__card place-card`}
-			onPointerEnter={handleCardPointerEnter}
-			onPointerLeave={handleCardPointerLeave}
+			onMouseEnter={handleCardPointerEnter}
+			onMouseLeave={handleCardPointerLeave}
 		>
 			{offer.isPremium && (
 				<div className="place-card__mark">
 					<span>Premium</span>
 				</div>)}
-			<div className="cities__image-wrapper place-card__image-wrapper">
+			<div className={imageWrapperClass}>
 				<ULink href={offerHref}>
-					<img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
+					<img className="place-card__image" src={offer.previewImage} width={imageSize.width} height={imageSize.height} alt="Place image" />
 				</ULink>
 			</div>
-			<div className="place-card__info">
+			<div className={placeCardInfoClass}>
 				<div className="place-card__price-wrapper">
 					<div className="place-card__price">
 						<b className="place-card__price-value">&euro;{offer.price}</b>
-						<span className="place-card__price-text">&#47;&nbsp;night</span>
+						<span className="place-card__price-text">&nbsp;&#47;&nbsp;night</span>
 					</div>
-					<button className={favoriteClass} type="button">
-						<svg className="place-card__bookmark-icon" width="18" height="19">
-							<use xlinkHref="#icon-bookmark"></use>
-						</svg>
-						<span className="visually-hidden">{favoriteLabel}</span>
-					</button>
+					<Bookmark offerId={offer.id} isFavorite={offer.isFavorite}/>
 				</div>
 				<div className="place-card__rating rating">
 					<div className="place-card__stars rating__stars">
@@ -75,7 +82,7 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 				<h2 className="place-card__name">
 					<ULink href={offerHref}>{offer.title}</ULink>
 				</h2>
-				<p className="place-card__type">{offer.type}</p>
+				<p className="place-card__type">{capitalize(offer.type)}</p>
 			</div>
 		</article>
 	);

@@ -1,5 +1,5 @@
 import 'leaflet/dist/leaflet.css';
-import type { ServerOffer } from '../../types/offer';
+import type { ServerFullOffer, ServerOffer } from '../../types/offer';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useAppSelector, useMap } from '../../hooks';
@@ -9,35 +9,36 @@ import { getActiveOffer, getCity, getOfferList } from '../../store/offers/offers
 type LeafletMapProps = {
 	block: string;
 	neighborhoodOffers?: ServerOffer[];
+	baseOfferId?: ServerFullOffer['id'];
+	baseOffer?: ServerOffer | ServerFullOffer;
 }
 
 const pinIcon = new Icon({
-	iconUrl: './img/pin.svg',
+	iconUrl: '/img/pin.svg',
 	iconSize: [27, 39],
 	iconAnchor: [13, 39],
 });
 
 const pinIconActive = new Icon({
-	iconUrl: './img/pin-active.svg',
+	iconUrl: '/img/pin-active.svg',
 	iconSize: [27, 39],
 	iconAnchor: [13, 39],
 });
 
-function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Element {
+function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer}: LeafletMapProps): React.JSX.Element {
 	const currentCity = useAppSelector(getCity);
-	const location = CitiesGPS[currentCity];
 	let offers = useAppSelector(getOfferList);
 
 	const mapRef = useRef(null);
-
+	const activeCard = useAppSelector(getActiveOffer);
+	const location = CitiesGPS[baseOffer?.city.name || currentCity];
 	const mapInstance = useMap(mapRef, location);
 
-	const activeCard = useAppSelector(getActiveOffer);
-
-	if (block === 'offer' && neighborhoodOffers) {
-		offers = neighborhoodOffers;
+	if (block === 'offer' && neighborhoodOffers && baseOffer) {
+		offers = [ baseOffer as ServerOffer, ...neighborhoodOffers];
 	}
 
+	const highlightedId = (block === 'offer') ? baseOfferId : activeCard;
 
 	// смена вида при смене города
 	useEffect(() => {
@@ -46,8 +47,8 @@ function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Ele
 				location.latitude,
 				location.longitude,
 			],
+			// 6
 			location.zoom,
-			// (block === 'offer' ? 12 : 11),
 			);
 		}
 	}, [mapInstance, location, block]);
@@ -62,23 +63,21 @@ function LeafletMap({block, neighborhoodOffers}: LeafletMapProps): React.JSX.Ele
 					lat: offer.location.latitude,
 					lng: offer.location.longitude,
 				});
-
 				marker
 					.setIcon(
-						offer.id === activeCard
+						offer.id === highlightedId
 							? pinIconActive
 							: pinIcon
 					)
 					.addTo(markerLayer);
 
 			});
-
 			return () => {
 				mapInstance.removeLayer(markerLayer);
 			};
 		}
 
-	}, [mapInstance, offers, location, activeCard]);
+	}, [mapInstance, offers, location, highlightedId, neighborhoodOffers]);
 
 	return (
 		<section

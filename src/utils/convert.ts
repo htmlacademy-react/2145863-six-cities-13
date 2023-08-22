@@ -37,5 +37,15 @@ const SortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => num
 	},
 };
 
+function getPluralPlaces(amount: number, word: string) {
+	return amount === 1 ? word : word + 's';
+}
 
-export {convertOffersToOffersByCity, SortMap};
+function capitalize(str: string): string {
+	if (str.length > 0) {
+		return str[0].toUpperCase() + str.slice(1);
+	}
+	return str;
+}
+
+export {convertOffersToOffersByCity, SortMap, getPluralPlaces, capitalize};

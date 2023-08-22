@@ -20,11 +20,17 @@ type ErrorElementProps = {
 	offerId?: ServerFullOffer['id'];
 }
 
+type ErrorFunctionType = {
+	[key in ErrorCause]: () => Promise<void> | void;
+	// [key in ErrorCause]: () => Promise<ServerOffer[]> | Promise<ServerFullOffer>| void;
+};
+
 function ErrorElement({cause, offerId}: ErrorElementProps) {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const ErrorFunction: Record<any, any> = {
+	// const ErrorFunction: Record<string, ()=> any> = {
+	const ErrorFunction: ErrorFunctionType = {
 		[ErrorCause.FetchOffers]: () => dispatch(fetchOffersApiAction()) ,
 		[ErrorCause.FetchOffer]: () => offerId && dispatch(fetchOfferApiAction({offerId})),
 		[ErrorCause.FetchNearPlaces]: () => offerId && dispatch(fetchNeighborsApiAction({offerId})),

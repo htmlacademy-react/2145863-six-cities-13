@@ -21,5 +21,20 @@ function filterDuplicates<T>(value: T, index: number, self: T[]): boolean {
 	return self.indexOf(value) === index;
 }
 
-export {stringCompare, filterDuplicates};
+/**
+ * Забрать случайные элементы из массива
+ */
+function getRandomUniqueElementsFromArray(array: any[], count: number) {
+	const shuffledArray = array.slice(); // Создаем копию исходного массива
+	const randomElements = [];
+
+	while (randomElements.length < count && shuffledArray.length > 0) {
+			const randomIndex = Math.floor(Math.random() * shuffledArray.length);
+			randomElements.push(shuffledArray[randomIndex]);
+			shuffledArray.splice(randomIndex, 1);
+	}
+
+	return randomElements;
+}
+export {stringCompare, filterDuplicates, getRandomUniqueElementsFromArray};
 

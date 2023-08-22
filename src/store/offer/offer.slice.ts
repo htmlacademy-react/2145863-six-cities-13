@@ -69,7 +69,7 @@ const slice = createSlice({
 				state.reviews.push(action.payload);
 			})
 			.addCase(sendReviewApiAction.rejected, (state) => {
-				state.reviewSendingStatus = RequestStatus.Success;
+				state.reviewSendingStatus = RequestStatus.Error;
 			});
 	}
 });

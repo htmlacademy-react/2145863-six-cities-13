@@ -14,6 +14,7 @@ import ErrorElement, { ErrorMessage } from '../../components/error-element/error
 import { ErrorCause } from '../../constants/errors';
 import { toast } from 'react-toastify';
 import { getAllOffersFetchingStatus, getCity, getOfferList } from '../../store/offers/offers.selectors';
+import { getPluralPlaces } from '../../utils/convert';
 
 /**
  * Компонент главного экрана
@@ -21,7 +22,9 @@ import { getAllOffersFetchingStatus, getCity, getOfferList } from '../../store/o
 function MainPage(): React.JSX.Element {
 
 	const dispatch = useAppDispatch();
+
 	const cities = Array.from(CITIES);
+
 	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
 
 	useDocumentTitle('Main');
@@ -34,6 +37,7 @@ function MainPage(): React.JSX.Element {
 	const currentCity = useAppSelector(getCity);
 	const offers = useAppSelector(getOfferList);
 	const isEmpty = offers.length === 0 ;
+
 
 	// const [searchParams, setSearchParams] = useSearchParams();
 	// TODO: надо переделать инициализацию с учётом store.city
@@ -88,7 +92,7 @@ function MainPage(): React.JSX.Element {
 									<>
 										<section className="cities__places places">
 											<h2 className="visually-hidden">Places</h2>
-											<b className="places__found">{offers.length} places to stay in {currentCity}</b>
+											<b className="places__found">{offers.length} {getPluralPlaces(offers.length, 'place')} to stay in {currentCity}</b>
 											<Sort />
 											<OfferList />
 										</section>
@@ -103,10 +107,7 @@ function MainPage(): React.JSX.Element {
 										<section className="cities__no-places">
 											<div className="cities__status-wrapper tabs__content">
 												<b className="cities__status">No places to stay available</b>
-												<p className="cities__status-description">
-												We could not find any property available at the moment in&nbsp;
-													{currentCity}
-												</p>
+												<p className="cities__status-description">We could not find any property available at the moment in {currentCity}</p>
 											</div>
 										</section>
 										<div className="cities__right-section" />
