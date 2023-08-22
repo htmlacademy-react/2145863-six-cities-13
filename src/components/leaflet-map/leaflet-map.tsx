@@ -12,13 +12,13 @@ type LeafletMapProps = {
 }
 
 const pinIcon = new Icon({
-	iconUrl: './img/pin.svg',
+	iconUrl: '/img/pin.svg',
 	iconSize: [27, 39],
 	iconAnchor: [13, 39],
 });
 
 const pinIconActive = new Icon({
-	iconUrl: './img/pin-active.svg',
+	iconUrl: '/img/pin-active.svg',
 	iconSize: [27, 39],
 	iconAnchor: [13, 39],
 });
