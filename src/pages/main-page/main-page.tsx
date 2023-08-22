@@ -92,7 +92,7 @@ function MainPage(): React.JSX.Element {
 									<>
 										<section className="cities__places places">
 											<h2 className="visually-hidden">Places</h2>
-											<b className="places__found">{offers.length} {getPluralPlaces(offers.length)} to stay in {currentCity}</b>
+											<b className="places__found">{offers.length} {getPluralPlaces(offers.length, 'place')} to stay in {currentCity}</b>
 											<Sort />
 											<OfferList />
 										</section>

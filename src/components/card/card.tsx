@@ -1,14 +1,12 @@
 import type { ServerOffer } from '../../types/offer';
-import { AppRoute, AuthorizationStatus, FavoritesStatus } from '../../constants';
+import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import clsx from 'clsx';
 import { offersActions } from '../../store/offers/offers.slice';
-import { useState } from 'react';
-import { sendFavoriteStatusApiAction } from '../../store/api-actions';
-import { getAuthorizationStatus } from '../../store/user/user.selectors';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { capitalize } from '../../utils/convert';
+import Bookmark from '../bookmark/bookmark';
 
 type CardProps = {
 	block: string;
@@ -26,15 +24,7 @@ type CardProps = {
 }
 
 function Card({block, offer}: CardProps): React.JSX.Element {
-	const [bookmarked, setBookmarked] = useState(offer.isFavorite);
 	const dispatch = useAppDispatch();
-	const favoriteLabel = `${offer.isFavorite ? 'In' : 'To'} bookmarks`;
-	const authorizationStatus = useAppSelector(getAuthorizationStatus);
-	const favoriteClass = clsx(
-		'place-card__bookmark-button',
-		bookmarked && 'place-card__bookmark-button--active',
-		'button'
-	);
 	const placeCardInfoClass = clsx(
 		'place-card__info',
 		(block === 'favorites') && 'favorites__card-info',
@@ -50,8 +40,6 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 		imageSize = {width: '150', height: '110'};
 	}
 
-	const navigate = useNavigate();
-
 	const offerHref = `${AppRoute.Offer}/${offer.id}`;
 
 	function handleCardPointerEnter() {
@@ -60,23 +48,6 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 
 	function handleCardPointerLeave() {
 		dispatch(offersActions.setActiveOffer(null));
-	}
-
-	function handleBookmarkClick() {
-		(async () => {
-			if (authorizationStatus !== AuthorizationStatus.Auth) {
-				navigate(AppRoute.Login);
-			}
-			setBookmarked((current) => !current);
-			await dispatch(sendFavoriteStatusApiAction({
-				offerId: offer.id,
-				status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
-			}));
-			dispatch(offersActions.setIsFavorite({
-				offerId: offer.id,
-				status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
-			}));
-		})();
 	}
 
 	return (
@@ -100,16 +71,7 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 						<b className="place-card__price-value">&euro;{offer.price}</b>
 						<span className="place-card__price-text">&nbsp;&#47;&nbsp;night</span>
 					</div>
-					<button
-						className={favoriteClass}
-						type="button"
-						onClick={handleBookmarkClick}
-					>
-						<svg className="place-card__bookmark-icon" width="18" height="19">
-							<use xlinkHref="#icon-bookmark"></use>
-						</svg>
-						<span className="visually-hidden">{favoriteLabel}</span>
-					</button>
+					<Bookmark offerId={offer.id} isFavorite={offer.isFavorite}/>
 				</div>
 				<div className="place-card__rating rating">
 					<div className="place-card__stars rating__stars">

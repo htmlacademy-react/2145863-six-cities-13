@@ -15,13 +15,17 @@ import { ErrorCause } from '../../constants/errors';
 import ErrorElement from '../../components/error-element/error-element';
 import Reviews from '../../components/reviews/reviews';
 import { getNeighborPlaces, getOffer, getOfferFetchingStatus } from '../../store/offer/offer.selectors';
+import { capitalize, getPluralPlaces } from '../../utils/convert';
+import Bookmark from '../../components/bookmark/bookmark';
+import { getRandomUniqueElementsFromArray } from '../../utils/common';
 
 function OfferPage(): React.JSX.Element {
 	const {id: offerId} = useParams();
 	const dispatch = useAppDispatch();
 	const offer = useAppSelector(getOffer);
 	const fetchingStatus = useAppSelector(getOfferFetchingStatus);
-	const neighbourPlaces = useAppSelector(getNeighborPlaces).slice(0, MAX_NEIGHBOUR);
+	let neighbourPlaces = useAppSelector(getNeighborPlaces);
+	neighbourPlaces = getRandomUniqueElementsFromArray(neighbourPlaces, MAX_NEIGHBOUR);
 
 	useDocumentTitle(`Place: ${offer?.title || ''}`);
 
@@ -37,11 +41,6 @@ function OfferPage(): React.JSX.Element {
 		};
 	}, [offerId, dispatch]);
 
-	const favoriteLabel = `${offer?.isFavorite ? 'In' : 'To'} bookmarks`;
-	const bookmarkClass = clsx(
-		'offer__bookmark-button',
-		offer?.isFavorite && 'offer__bookmark-button--active',
-		'button');
 	const hostAvatarClass = clsx(
 		'offer__avatar-wrapper',
 		offer?.host.isPro && 'offer__avatar-wrapper--pro',
@@ -74,28 +73,23 @@ function OfferPage(): React.JSX.Element {
 									<h1 className="offer__name">
 										{offer.title}
 									</h1>
-									<button className={bookmarkClass} type="button">
-										<svg className="offer__bookmark-icon" width={31} height={33}>
-											<use xlinkHref="#icon-bookmark" />
-										</svg>
-										<span className="visually-hidden">{favoriteLabel}</span>
-									</button>
+									<Bookmark block="offer" offerId={offer.id} isFavorite={offer.isFavorite}/>
 								</div>
 
 								<div className="offer__rating rating">
 									<div className="offer__stars rating__stars">
-										<span style={{ width: `${offer.rating * 20}%` }} />
+										<span style={{ width: `${Math.round(offer.rating) * 20}%` }} />
 										<span className="visually-hidden">Rating</span>
 									</div>
 									<span className="offer__rating-value rating__value">{offer.rating}</span>
 								</div>
 								<ul className="offer__features">
-									<li className="offer__feature offer__feature--entire">{offer.type}</li>
+									<li className="offer__feature offer__feature--entire">{capitalize(offer.type)}</li>
 									<li className="offer__feature offer__feature--bedrooms">
-										{offer.bedrooms} Bedrooms
+										{offer.bedrooms} {getPluralPlaces(offer.bedrooms, 'Bedroom')}
 									</li>
 									<li className="offer__feature offer__feature--adults">
-										Max {offer.maxAdults} adults
+										Max {offer.maxAdults} {getPluralPlaces(offer.maxAdults, 'adult')}
 									</li>
 								</ul>
 								<div className="offer__price">
@@ -140,6 +134,8 @@ function OfferPage(): React.JSX.Element {
 						<LeafletMap
 							block="offer"
 							neighborhoodOffers={neighbourPlaces}
+							baseOfferId={offer.id}
+							baseOffer={offer}
 						/>
 					</section>
 					<div className="container">
