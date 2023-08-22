@@ -82,8 +82,8 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 	return (
 		<article
 			className={`${block}__card place-card`}
-			onPointerEnter={handleCardPointerEnter}
-			onPointerLeave={handleCardPointerLeave}
+			onMouseEnter={handleCardPointerEnter}
+			onMouseLeave={handleCardPointerLeave}
 		>
 			{offer.isPremium && (
 				<div className="place-card__mark">
