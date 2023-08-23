@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthorizationStatus, RequestStatus } from '../../constants/common';
+import { AuthorizationStatus, MAX_COMMENTS, RequestStatus } from '../../constants/common';
 import { useAppSelector } from '../../hooks';
 import { getReviewDateString, getReviewDateTime } from '../../utils/formats';
 import NewCommentForm from '../new-comment-form/new-comment-form';
@@ -8,6 +8,7 @@ import { ErrorCause } from '../../constants/errors';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { getAuthorizationStatus } from '../../store/user/user.selectors';
 import { getReviews, getReviewsFetchingStatus } from '../../store/offer/offer.selectors';
+import { sortByDecDate } from '../../utils/common';
 
 type ReviewsProps = {
 	offerId: string;
@@ -15,7 +16,8 @@ type ReviewsProps = {
 
 function Reviews({offerId}: ReviewsProps): React.JSX.Element {
 	const fetchingStatus = useAppSelector(getReviewsFetchingStatus);
-	const reviews = useAppSelector(getReviews);
+	const rawReviews = useAppSelector(getReviews);
+	const reviews = rawReviews.slice().sort(sortByDecDate).slice(0, MAX_COMMENTS);
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -28,7 +30,7 @@ function Reviews({offerId}: ReviewsProps): React.JSX.Element {
 					<h2 className="reviews__title">
 						Reviews
 						{reviews?.length > 0 &&
-							<> · <span className="reviews__amount">{reviews.length}</span></>}
+							<> · <span className="reviews__amount">{rawReviews.length}</span></>}
 					</h2>
 					<ul className="reviews__list">
 						{reviews?.map((review) => (

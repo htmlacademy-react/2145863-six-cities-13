@@ -1,3 +1,5 @@
+import { ServerReview } from "../types/offer";
+
 /**
  * Cравнение строк для TS требует возврата чисел
  */
@@ -25,7 +27,7 @@ function filterDuplicates<T>(value: T, index: number, self: T[]): boolean {
  * Забрать случайные элементы из массива
  */
 function getRandomUniqueElementsFromArray(array: any[], count: number) {
-	const shuffledArray = array.slice(); // Создаем копию исходного массива
+	const shuffledArray = array.slice();
 	const randomElements = [];
 
 	while (randomElements.length < count && shuffledArray.length > 0) {
@@ -36,5 +38,15 @@ function getRandomUniqueElementsFromArray(array: any[], count: number) {
 
 	return randomElements;
 }
-export {stringCompare, filterDuplicates, getRandomUniqueElementsFromArray};
+function sortByDecDate(a: ServerReview, b: ServerReview): number {
+	const result = (new Date(a.date)) < (new Date(b.date)) ? 1 : -1;
+	return result;
+}
+
+export {
+	stringCompare,
+	filterDuplicates,
+	getRandomUniqueElementsFromArray,
+	sortByDecDate
+};
 

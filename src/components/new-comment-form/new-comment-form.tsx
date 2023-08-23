@@ -46,7 +46,6 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 		}));
 	}
 
-	// Возможно можно сделать, как-то по другому
 	if (reviewSendingStatus === RequestStatus.Error) {
 		if (isSending) {
 			setIsSending(false);
@@ -69,7 +68,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<Rating rating={formData.rating} handleFormChange={handleFormChange}/>
+			<Rating rating={formData.rating} handleFormChange={handleFormChange} isSending={isSending}/>
 			<textarea
 				className="reviews__textarea form__textarea"
 				id="review"
@@ -77,6 +76,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 				placeholder="Tell how was your stay, what you like and what can be improved"
 				value={formData.review}
 				onChange={handleFormChange}
+				disabled={isSending}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">
