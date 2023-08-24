@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import GalleryImage from '../../components/gallery-image/gallery-image';
-import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
+import { useActionCreators, useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import Card from '../../components/card/card';
 import clsx from 'clsx';
@@ -21,6 +21,7 @@ import { getRandomUniqueElementsFromArray } from '../../utils/common';
 import { ServerOffer } from '../../types/offer';
 
 function OfferPage(): React.JSX.Element {
+	const {dropOffer} = useActionCreators(offerActions);
 	const {id: offerId} = useParams();
 	const dispatch = useAppDispatch();
 	const offer = useAppSelector(getOffer);
@@ -38,9 +39,9 @@ function OfferPage(): React.JSX.Element {
 		}
 
 		return () => {
-			dispatch(offerActions.dropOffer());
+			dropOffer();
 		};
-	}, [offerId, dispatch]);
+	}, [offerId, dispatch, dropOffer]);
 
 	const hostAvatarClass = clsx(
 		'offer__avatar-wrapper',

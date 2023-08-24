@@ -3,7 +3,7 @@ import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
+import { useActionCreators, useAppSelector, useDocumentTitle } from '../../hooks';
 import { CITIES } from '../../constants';
 import clsx from 'clsx';
 import { DEFAULT_SORT, RequestStatus, SortMethod } from '../../constants/common';
@@ -21,8 +21,8 @@ import { useEffect } from 'react';
  * Компонент главного экрана
  */
 function MainPage(): React.JSX.Element {
-
 	useDocumentTitle('Main');
+	const {setCity, setSort} = useActionCreators(offersActions);
 
 	const cities = Array.from(CITIES);
 	const currentCity = useAppSelector(getCity);
@@ -38,16 +38,15 @@ function MainPage(): React.JSX.Element {
 	const [searchParams] = useSearchParams();
 	const initialCity = searchParams.get('filter') || cities[0];
 	const initialSort = searchParams.get('sort') || SortMethod[DEFAULT_SORT];
-	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		if (initialCity !== currentCity) {
-			dispatch(offersActions.setCity(initialCity));
+			setCity(initialCity);
 		}
 		if (initialSort !== currenSort) {
-			dispatch(offersActions.setSort(initialSort));
+			setSort(initialSort);
 		}
-	}, [initialCity, initialSort, currentCity, currenSort, dispatch]);
+	}, [initialCity, initialSort, currentCity, currenSort, setCity, setSort]);
 
 	const mainClass = clsx(
 		'page__main page__main--index',

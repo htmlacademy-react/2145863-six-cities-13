@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { ServerFullOffer } from '../../types/offer';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useActionCreators, useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user/user.selectors';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, FavoritesStatus } from '../../constants';
 import { sendFavoriteStatusApiAction } from '../../store/api-actions';
-import { offersActions } from '../../store/offers/offers.slice';
 import clsx from 'clsx';
+import { offersActions } from '../../store/offers/offers.slice';
 
 type BookmarkProps = {
 	offerId: ServerFullOffer['id'];
@@ -14,8 +14,8 @@ type BookmarkProps = {
 	block?: string;
 };
 
-
 function Bookmark({block = 'place-card', offerId, isFavorite}: BookmarkProps): React.JSX.Element {
+	const {setIsFavorite} = useActionCreators(offersActions);
 	const [bookmarked, setBookmarked] = useState(isFavorite);
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const navigate = useNavigate();
@@ -31,7 +31,6 @@ function Bookmark({block = 'place-card', offerId, isFavorite}: BookmarkProps): R
 		svgSize = {width:'31', height:'33'};
 	}
 
-
 	function handleBookmarkClick() {
 		(async () => {
 			if (authorizationStatus !== AuthorizationStatus.Auth) {
@@ -42,10 +41,10 @@ function Bookmark({block = 'place-card', offerId, isFavorite}: BookmarkProps): R
 				offerId,
 				status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
 			}));
-			dispatch(offersActions.setIsFavorite({
+			setIsFavorite({
 				offerId,
 				status: bookmarked ? FavoritesStatus.Removed : FavoritesStatus.Added
-			}));
+			});
 		})();
 	}
 

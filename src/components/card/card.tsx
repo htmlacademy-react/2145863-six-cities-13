@@ -1,7 +1,7 @@
 import type { ServerOffer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { ULink } from '../u-link/u-link';
-import { useAppDispatch } from '../../hooks';
+import { useActionCreators } from '../../hooks';
 import clsx from 'clsx';
 import { offersActions } from '../../store/offers/offers.slice';
 import React from 'react';
@@ -24,30 +24,22 @@ type CardProps = {
 }
 
 function Card({block, offer}: CardProps): React.JSX.Element {
-	const dispatch = useAppDispatch();
-	const placeCardInfoClass = clsx(
-		'place-card__info',
-		(block === 'favorites') && 'favorites__card-info',
-	);
-
-	const imageWrapperClass = clsx(
-		`${block}__image-wrapper`,
-		'place-card__image-wrapper'
-	);
+	const {setActiveOffer} = useActionCreators(offersActions);
+	const placeCardInfoClass = clsx('place-card__info', (block === 'favorites') && 'favorites__card-info');
+	const imageWrapperClass = clsx(`${block}__image-wrapper`, 'place-card__image-wrapper');
+	const offerHref = `${AppRoute.Offer}/${offer.id}`;
 
 	let imageSize = {width: '260', height: '200'};
 	if (block === 'favorites') {
 		imageSize = {width: '150', height: '110'};
 	}
 
-	const offerHref = `${AppRoute.Offer}/${offer.id}`;
-
 	function handleCardPointerEnter() {
-		dispatch(offersActions.setActiveOffer(offer.id));
+		setActiveOffer(offer.id);
 	}
 
 	function handleCardPointerLeave() {
-		dispatch(offersActions.setActiveOffer(null));
+		setActiveOffer(null);
 	}
 
 	return (
