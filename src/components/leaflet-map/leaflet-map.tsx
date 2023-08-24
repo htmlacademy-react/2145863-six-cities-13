@@ -42,13 +42,14 @@ function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer, off
 	// смена вида при смене города
 	useEffect(() => {
 		if (mapInstance) {
-			mapInstance.setView([
-				location.latitude,
-				location.longitude,
-			],
-			// 6
-			location.zoom,
-			);
+			mapInstance
+				.flyTo([
+					location.latitude,
+					location.longitude,
+				],
+				location.zoom,
+				{animate: true, duration: 1}
+				)
 		}
 	}, [mapInstance, location, block]);
 

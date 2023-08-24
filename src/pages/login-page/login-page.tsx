@@ -3,25 +3,28 @@ import CSS from './login-page.module.css';
 import Header from '../../components/header/header';
 import { ULink } from '../../components/u-link/u-link';
 import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { loginAction } from '../../store/api-actions';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../constants/validation';
 import { LoginData } from '../../types/user';
-import { RequestStatus } from '../../constants/common';
+import { CITIES, RequestStatus } from '../../constants/common';
 import { userActions } from '../../store/user/user.slice';
 import { toast } from 'react-toastify';
 import clsx from 'clsx';
 import { getLoginSendingStatus } from '../../store/user/user.selectors';
-
+import { getRandomInteger } from '../../utils/common';
+import { AppRoute } from '../../constants';
 
 function LoginPage(): React.JSX.Element {
 
+	const cities = Array.from(CITIES);
 	const dispatch = useAppDispatch();
 	const sendingStatus = useAppSelector(getLoginSendingStatus);
 	const [email, setEmail] = useState('');
 	const [isEmailTouched, setIsEmailTouched] = useState(false);
 	const [password, setPassword] = useState('');
 	const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+	const randomCity = useRef(cities[getRandomInteger(cities.length)]);
 
 	const isEmailValid = EMAIL_PATTERN.test(email);
 	const isPasswordValid = PASSWORD_PATTERN.test(password);
@@ -85,7 +88,6 @@ function LoginPage(): React.JSX.Element {
 							<div className="login__input-wrapper form__input-wrapper">
 								<label className="visually-hidden">Password</label>
 								<input
-									// className="login__input form__input"
 									className={clsx('login__input', 'form__input', {[CSS.fieldInvalid]: !isPasswordValid && isPasswordTouched})}
 									type="password"
 									name="password"
@@ -109,8 +111,8 @@ function LoginPage(): React.JSX.Element {
 					</section>
 					<section className="locations locations--login locations--current">
 						<div className="locations__item">
-							<ULink className="locations__item-link">
-								<span>Amsterdam</span>
+							<ULink className="locations__item-link" href={`${AppRoute.Main}?filter=${randomCity.current}`}>
+								<span>{randomCity.current}</span>
 							</ULink>
 						</div>
 					</section>

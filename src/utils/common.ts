@@ -38,6 +38,17 @@ function getRandomUniqueElementsFromArray(array: any[], count: number) {
 
 	return randomElements;
 }
+
+/**
+ * Возвращает случайных индекс
+ */
+function getRandomInteger(max: number): number {
+	return Math.floor(Math.random() * max);
+}
+
+/**
+ * сортировка по убыванию даты для reviews
+ */
 function sortByDecDate(a: ServerReview, b: ServerReview): number {
 	const result = (new Date(a.date)) < (new Date(b.date)) ? 1 : -1;
 	return result;
@@ -47,6 +58,7 @@ export {
 	stringCompare,
 	filterDuplicates,
 	getRandomUniqueElementsFromArray,
-	sortByDecDate
+	sortByDecDate,
+	getRandomInteger,
 };
 

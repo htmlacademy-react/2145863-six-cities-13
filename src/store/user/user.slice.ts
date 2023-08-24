@@ -6,9 +6,9 @@ import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { User } from '../../types/user';
 
 type UserState = {
-	authorizationStatus: AuthorizationStatus;					// есть
-	loginSendingStatus: RequestStatus;								// есть
-	user: User | null;																// есть
+	authorizationStatus: AuthorizationStatus;
+	loginSendingStatus: RequestStatus;
+	user: User | null;
 }
 
 const initialState: UserState = {

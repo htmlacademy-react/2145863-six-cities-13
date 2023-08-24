@@ -2,6 +2,7 @@ import { ServerLocation } from '../types/offer';
 
 const PROJECT_NAME = '6 Cities';
 const DEFAULT_CITY = 'Paris';
+const DEFAULT_SORT = 'Popular';
 const MAX_NEIGHBOUR = 3;
 const MAX_COMMENTS = 10;
 
@@ -48,11 +49,17 @@ const enum FavoritesStatus {
 	Added = 1,
 }
 
+// const SortMethod = {
+// 	['Popular']: 'popular',
+// 	['PriceToHight']: 'price-to-hight',
+// 	['PriceToLow']: 'price-to-low',
+// 	['TopRatedFirst']: 'top-rated-first',
+// } as const;
 const SortMethod = {
-	['Popular']: 'popular',
-	['PriceToHight']: 'price-to-hight',
-	['PriceToLow']: 'price-to-low',
-	['TopRatedFirst']: 'top-rated-first',
+	Popular: 'Popular',
+	PriceToHight: 'PriceToHight',
+	PriceToLow: 'PriceToLow',
+	TopRatedFirst: 'TopRatedFirst',
 } as const;
 
 export {
@@ -60,7 +67,7 @@ export {
 	CITIES, DEFAULT_CITY, CitiesGPS,
 	OFFER_TYPES,
 	MAX_NEIGHBOUR, MAX_COMMENTS,
-	SortMethod,
+	SortMethod, DEFAULT_SORT,
 	AuthorizationStatus,
 	RequestStatus,
 	FavoritesStatus,

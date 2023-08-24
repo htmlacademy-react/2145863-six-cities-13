@@ -3,16 +3,19 @@ import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import { useAppSelector, useDocumentTitle } from '../../hooks';
+import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
 import { CITIES } from '../../constants';
 import clsx from 'clsx';
-import { RequestStatus } from '../../constants/common';
+import { DEFAULT_SORT, RequestStatus, SortMethod } from '../../constants/common';
 import LoadingScreen from '../loading-screen/loading-screen';
 import ErrorElement, { ErrorMessage } from '../../components/error-element/error-element';
 import { ErrorCause } from '../../constants/errors';
 import { toast } from 'react-toastify';
 import { getAllOffers, getAllOffersFetchingStatus, getCity, getSort } from '../../store/offers/offers.selectors';
 import { SortMap, getPluralPlaces } from '../../utils/convert';
+import { useSearchParams } from 'react-router-dom';
+import { offersActions } from '../../store/offers/offers.slice';
+import { useEffect } from 'react';
 
 /**
  * Компонент главного экрана
@@ -20,29 +23,31 @@ import { SortMap, getPluralPlaces } from '../../utils/convert';
 function MainPage(): React.JSX.Element {
 
 	useDocumentTitle('Main');
+
 	const cities = Array.from(CITIES);
 	const currentCity = useAppSelector(getCity);
+	const currenSort = useAppSelector(getSort);
 
 	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
 	const rawOffers = useAppSelector(getAllOffers).slice();
-	const sort = useAppSelector(getSort);
 	const offers = rawOffers
 		.filter((offer) => offer.city.name === currentCity)
-		.sort(SortMap[sort].sortFunc);
+		.sort(SortMap[currenSort].sortFunc);
 	const isEmpty = offers.length === 0;
 
-	// const [searchParams, setSearchParams] = useSearchParams();
-	// TODO: надо переделать инициализацию с учётом store.city
-	// const initialCity = searchParams.get('filter') || cities[0];
+	const [searchParams, _setSearchParams] = useSearchParams();
+	const initialCity = searchParams.get('filter') || cities[0];
+	const initialSort = searchParams.get('sort') || SortMethod[DEFAULT_SORT];
+	const dispatch = useAppDispatch();
 
-	// На данный момент не вызывается
-	// function handleTabClick(city: string) {
-	// TODO: вызывает двойную перерисовку страницы
-	// setSearchParams({...searchParams, filter: city});
-	// setCurrentCity(city);
-	// }
-	// eslint-disable-next-line no-console
-	// console.log('re-draw. current city: ', currentCity);
+	useEffect(() => {
+		if (initialCity !== currentCity) {
+			dispatch(offersActions.setCity(initialCity));
+		}
+		if (initialSort !== currenSort) {
+			dispatch(offersActions.setSort(initialSort));
+		}
+	}, [initialCity, initialSort ]);
 
 	const mainClass = clsx(
 		'page__main page__main--index',

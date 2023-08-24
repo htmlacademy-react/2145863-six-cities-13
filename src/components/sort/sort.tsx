@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { SortMethod } from '../../constants';
-import { useDispatch } from 'react-redux';
-import { offersActions } from '../../store/offers/offers.slice';
 import { useAppSelector } from '../../hooks';
 import { SortMap } from '../../utils/convert';
 import clsx from 'clsx';
 import { getSort } from '../../store/offers/offers.selectors';
+import { useSearchParams } from 'react-router-dom';
 
 function Sort() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [searchParams, setSearchParams] = useSearchParams();
 	const iconStyle = {
 		transform: `translateY(-50%) ${isOpen ? 'rotate(180deg)' : ''}`,
 	};
@@ -16,7 +16,6 @@ function Sort() {
 		'places__options places__options--custom',
 		isOpen && 'places__options--opened'
 	);
-	const dispatch = useDispatch();
 
 	function handleKeydown(evt: React.KeyboardEvent<HTMLFormElement>) {
 		if (evt.key === 'Escape' && isOpen) {
@@ -25,10 +24,11 @@ function Sort() {
 		}
 	}
 
-	type SortMethodType = typeof SortMethod[keyof typeof SortMethod];
+	type SortMethodType = keyof typeof SortMethod;
 
 	function handleSortingItemClick(type: SortMethodType) {
-		dispatch(offersActions.setSort(type));
+		const onlyParams = Object.fromEntries(searchParams);
+		setSearchParams({...onlyParams, sort: type});
 		setIsOpen(false);
 	}
 
