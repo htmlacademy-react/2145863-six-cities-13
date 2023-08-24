@@ -38,7 +38,7 @@ const SortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => num
 };
 
 function getPluralPlaces(amount: number, word: string) {
-	return amount === 1 ? word : word + 's';
+	return amount === 1 ? word : `${word }s`;
 }
 
 function capitalize(str: string): string {

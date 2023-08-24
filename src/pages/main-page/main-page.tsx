@@ -35,7 +35,7 @@ function MainPage(): React.JSX.Element {
 		.sort(SortMap[currenSort].sortFunc);
 	const isEmpty = offers.length === 0;
 
-	const [searchParams, _setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const initialCity = searchParams.get('filter') || cities[0];
 	const initialSort = searchParams.get('sort') || SortMethod[DEFAULT_SORT];
 	const dispatch = useAppDispatch();
@@ -47,7 +47,7 @@ function MainPage(): React.JSX.Element {
 		if (initialSort !== currenSort) {
 			dispatch(offersActions.setSort(initialSort));
 		}
-	}, [initialCity, initialSort ]);
+	}, [initialCity, initialSort, currentCity, currenSort, dispatch]);
 
 	const mainClass = clsx(
 		'page__main page__main--index',

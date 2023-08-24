@@ -1,4 +1,4 @@
-import { ServerReview } from "../types/offer";
+import { ServerReview } from '../types/offer';
 
 /**
  * Cравнение строк для TS требует возврата чисел
@@ -26,14 +26,14 @@ function filterDuplicates<T>(value: T, index: number, self: T[]): boolean {
 /**
  * Забрать случайные элементы из массива
  */
-function getRandomUniqueElementsFromArray(array: any[], count: number) {
+function getRandomUniqueElementsFromArray<T>(array: T[], count: number): T[] {
 	const shuffledArray = array.slice();
 	const randomElements = [];
 
 	while (randomElements.length < count && shuffledArray.length > 0) {
-			const randomIndex = Math.floor(Math.random() * shuffledArray.length);
-			randomElements.push(shuffledArray[randomIndex]);
-			shuffledArray.splice(randomIndex, 1);
+		const randomIndex = Math.floor(Math.random() * shuffledArray.length);
+		randomElements.push(shuffledArray[randomIndex]);
+		shuffledArray.splice(randomIndex, 1);
 	}
 
 	return randomElements;

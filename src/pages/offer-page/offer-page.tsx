@@ -18,6 +18,7 @@ import { getNeighborPlaces, getOffer, getOfferFetchingStatus } from '../../store
 import { capitalize, getPluralPlaces } from '../../utils/convert';
 import Bookmark from '../../components/bookmark/bookmark';
 import { getRandomUniqueElementsFromArray } from '../../utils/common';
+import { ServerOffer } from '../../types/offer';
 
 function OfferPage(): React.JSX.Element {
 	const {id: offerId} = useParams();
@@ -25,7 +26,7 @@ function OfferPage(): React.JSX.Element {
 	const offer = useAppSelector(getOffer);
 	const fetchingStatus = useAppSelector(getOfferFetchingStatus);
 	let neighbourPlaces = useAppSelector(getNeighborPlaces);
-	neighbourPlaces = getRandomUniqueElementsFromArray(neighbourPlaces, MAX_NEIGHBOUR);
+	neighbourPlaces = getRandomUniqueElementsFromArray<ServerOffer>(neighbourPlaces, MAX_NEIGHBOUR);
 
 	useDocumentTitle(`Place: ${offer?.title || ''}`);
 

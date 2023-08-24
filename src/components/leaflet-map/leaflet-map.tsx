@@ -49,7 +49,7 @@ function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer, off
 				],
 				location.zoom,
 				{animate: true, duration: 1}
-				)
+				);
 		}
 	}, [mapInstance, location, block]);
 

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { ServerFullOffer } from "../../types/offer";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { getAuthorizationStatus } from "../../store/user/user.selectors";
-import { useNavigate } from "react-router-dom";
-import { AppRoute, AuthorizationStatus, FavoritesStatus } from "../../constants";
-import { sendFavoriteStatusApiAction } from "../../store/api-actions";
-import { offersActions } from "../../store/offers/offers.slice";
-import clsx from "clsx";
+import { useState } from 'react';
+import { ServerFullOffer } from '../../types/offer';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user/user.selectors';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, FavoritesStatus } from '../../constants';
+import { sendFavoriteStatusApiAction } from '../../store/api-actions';
+import { offersActions } from '../../store/offers/offers.slice';
+import clsx from 'clsx';
 
 type BookmarkProps = {
 	offerId: ServerFullOffer['id'];
@@ -15,8 +15,7 @@ type BookmarkProps = {
 };
 
 
-
-function Bookmark({block='place-card', offerId, isFavorite}: BookmarkProps): React.JSX.Element {
+function Bookmark({block = 'place-card', offerId, isFavorite}: BookmarkProps): React.JSX.Element {
 	const [bookmarked, setBookmarked] = useState(isFavorite);
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 	const navigate = useNavigate();
