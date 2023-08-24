@@ -23,7 +23,6 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	const reviewSendingStatus = useAppSelector(getReviewSendingStatus);
 	const dispatch = useAppDispatch();
 
-	// function checkValidity(formData: {review: string; rating: number}) {
 	function checkValidity({review, rating}: {review: string; rating: number}) {
 		const ratingValidity = 1 <= rating && rating <= 5;
 		const commentValidity = 50 <= review.length && review.length <= 300;

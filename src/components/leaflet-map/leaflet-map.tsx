@@ -39,7 +39,7 @@ function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer, off
 
 	const highlightedId = (block === 'offer') ? baseOfferId : activeCard;
 
-	// смена вида при смене города
+	/** смена вида при смене города */
 	useEffect(() => {
 		if (mapInstance) {
 			mapInstance
@@ -53,7 +53,7 @@ function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer, off
 		}
 	}, [mapInstance, location, block]);
 
-	// отрисовка пинов
+	/** отрисовка пинов */
 	useEffect(() => {
 		if (mapInstance && offers) {
 			const markerLayer = new LayerGroup().addTo(mapInstance);

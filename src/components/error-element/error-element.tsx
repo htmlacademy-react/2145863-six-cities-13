@@ -22,7 +22,6 @@ type ErrorElementProps = {
 
 type ErrorFunctionType = {
 	[key in ErrorCause]: () => Promise<void> | void;
-	// [key in ErrorCause]: () => Promise<ServerOffer[]> | Promise<ServerFullOffer>| void;
 };
 
 function ErrorElement({cause, offerId}: ErrorElementProps) {
