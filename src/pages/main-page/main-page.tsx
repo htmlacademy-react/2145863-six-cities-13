@@ -19,7 +19,7 @@ import { useOffers } from '../../hooks/use-offers/use-offers';
  */
 function MainPage(): React.JSX.Element {
 	useDocumentTitle('Main');
-	const {cities, currentCity, currentSort } = useCities();
+	const {cities, currentCity, currentSort }: {cities: string[]; currentCity: string; currentSort: string} = useCities();
 	const {offers, isEmpty} = useOffers(currentCity, currentSort);
 	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
 

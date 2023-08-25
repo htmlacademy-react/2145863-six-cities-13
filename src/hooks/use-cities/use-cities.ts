@@ -6,7 +6,7 @@ import { getCity, getSort } from '../../store/offers/offers.selectors';
 import { DEFAULT_SORT, SortMethod } from '../../constants/common';
 import { useEffect } from 'react';
 
-export function useCities() {
+export function useCities(): {cities: string[]; currentCity: string; currentSort: string} {
 	const [searchParams] = useSearchParams();
 	const cities = Array.from(CITIES);
 	const {setCity, setSort} = useActionCreators(offersActions);
