@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Rating from '../rating/rating';
 import { store } from '../../store';
 import { sendReviewApiAction } from '../../store/api-actions';
-import { useActionCreators, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toast } from 'react-toastify';
 import { getReviewSendingStatus } from '../../store/offer/offer.selectors';
 import { RequestStatus } from '../../constants/common';
@@ -14,7 +14,6 @@ type NewCommentFormProps = {
 }
 
 function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
-	const {dropReviewSendingStatus} = useActionCreators(offerActions);
 	const [formData, setFormData] = useState({
 		rating: 0,
 		review: '',
@@ -22,6 +21,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	const [isValid, setIsValid] = useState(false);
 	const [isSending, setIsSending] = useState(false);
 	const reviewSendingStatus = useAppSelector(getReviewSendingStatus);
+	const dispatch = useAppDispatch();
 
 	function checkValidity({review, rating}: {review: string; rating: number}) {
 		const ratingValidity = 1 <= rating && rating <= 5;
@@ -50,7 +50,8 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 			setIsSending(false);
 			toast.warn('Failed to submit form. Please try again!');
 		}
-		dropReviewSendingStatus();
+		dispatch(offerActions.dropReviewSendingStatus);
+
 	}
 	if (reviewSendingStatus === RequestStatus.Success) {
 		if (isSending) {
