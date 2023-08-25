@@ -6,6 +6,8 @@ import clsx from 'clsx';
 import { getSort } from '../../store/offers/offers.selectors';
 import { useSearchParams } from 'react-router-dom';
 
+type SortMethodType = keyof typeof SortMethod;
+
 function Sort() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -23,8 +25,6 @@ function Sort() {
 			setIsOpen(false);
 		}
 	}
-
-	type SortMethodType = keyof typeof SortMethod;
 
 	function handleSortingItemClick(type: SortMethodType) {
 		const onlyParams = Object.fromEntries(searchParams);

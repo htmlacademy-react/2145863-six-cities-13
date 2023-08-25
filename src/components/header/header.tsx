@@ -17,9 +17,7 @@ function handleSignOutClick(evt: SyntheticEvent){
 	store.dispatch(logoutAction());
 }
 
-function Header({
-	hideNavigation = false,
-} : HeaderPops) {
+function Header({ hideNavigation = false,} : HeaderPops) {
 
 	const user = useAppSelector(getUser);
 	const favoriteAmount = useAppSelector(getFavoriteAmount);
