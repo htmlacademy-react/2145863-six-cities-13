@@ -28,7 +28,7 @@ function ErrorElement({cause, offerId}: ErrorElementProps) {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	// const ErrorFunction: Record<string, ()=> any> = {
+	// const ErrorFunction: Re	cord<string, ()=> any> = {
 	const ErrorFunction: ErrorFunctionType = {
 		[ErrorCause.FetchOffers]: () => dispatch(fetchOffersApiAction()) ,
 		[ErrorCause.FetchOffer]: () => offerId && dispatch(fetchOfferApiAction({offerId})),
