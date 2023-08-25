@@ -47,12 +47,12 @@ function Sort() {
 				className={listClass}
 			>
 				{
-					(Object.entries(SortMap) as [SortMethodType, (typeof SortMap)[SortMethodType]][])
+					(Object.entries(SortMap))
 						.map(([type, value]) => (
 							<li key={crypto.randomUUID()}
 								className={`places__option ${activeSort === type ? 'places__option--active' : ''}`}
 								tabIndex={0}
-								onClick={() => handleSortingItemClick(type)}
+								onClick={() => handleSortingItemClick(type as SortMethodType)}
 							>
 								{value.title}
 							</li>
