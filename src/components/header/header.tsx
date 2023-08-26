@@ -39,7 +39,7 @@ function Header({ hideNavigation = false,} : HeaderPops) {
 											<div className="header__avatar-wrapper user__avatar-wrapper">
 												{user && <img src={user.avatarUrl} style={{borderRadius: '50%'}}/>}
 											</div>
-											<span className="header__user-name user__name">{user.email}</span>
+											<span className="header__user-name user__name">{user?.email}</span>
 											<span className="header__favorite-count">{favoriteAmount}</span>
 										</ULink>
 									</li>

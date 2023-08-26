@@ -17,7 +17,6 @@ export const useAppSelector: TypedUseSelectorHook<State> = useSelector;
 
 /** привязывает диспатчи напрямую к экшенам (позволяет не писать dispatch)) */
 export function useActionCreators<Actions extends ActionCreatorsMapObject>(actions: Actions) {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	return useMemo(() => bindActionCreators(actions, dispatch), [actions, dispatch]);
 }
-

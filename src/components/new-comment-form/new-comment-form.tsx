@@ -14,6 +14,7 @@ type NewCommentFormProps = {
 }
 
 function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
+
 	const [formData, setFormData] = useState({
 		rating: 0,
 		review: '',
