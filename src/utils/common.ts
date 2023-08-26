@@ -1,3 +1,5 @@
+import { ServerReview } from '../types/offer';
+
 /**
  * Cравнение строк для TS требует возврата чисел
  */
@@ -24,17 +26,39 @@ function filterDuplicates<T>(value: T, index: number, self: T[]): boolean {
 /**
  * Забрать случайные элементы из массива
  */
-function getRandomUniqueElementsFromArray(array: any[], count: number) {
-	const shuffledArray = array.slice(); // Создаем копию исходного массива
+function getRandomUniqueElementsFromArray<T>(array: T[], count: number): T[] {
+	const shuffledArray = array.slice();
 	const randomElements = [];
 
 	while (randomElements.length < count && shuffledArray.length > 0) {
-			const randomIndex = Math.floor(Math.random() * shuffledArray.length);
-			randomElements.push(shuffledArray[randomIndex]);
-			shuffledArray.splice(randomIndex, 1);
+		const randomIndex = Math.floor(Math.random() * shuffledArray.length);
+		randomElements.push(shuffledArray[randomIndex]);
+		shuffledArray.splice(randomIndex, 1);
 	}
 
 	return randomElements;
 }
-export {stringCompare, filterDuplicates, getRandomUniqueElementsFromArray};
+
+/**
+ * Возвращает случайных индекс
+ */
+function getRandomInteger(max: number): number {
+	return Math.floor(Math.random() * max);
+}
+
+/**
+ * сортировка по убыванию даты для reviews
+ */
+function sortByDecDate(a: ServerReview, b: ServerReview): number {
+	const result = (new Date(a.date)) < (new Date(b.date)) ? 1 : -1;
+	return result;
+}
+
+export {
+	stringCompare,
+	filterDuplicates,
+	getRandomUniqueElementsFromArray,
+	sortByDecDate,
+	getRandomInteger,
+};
 

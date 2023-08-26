@@ -4,7 +4,7 @@ export type User = {
 	'isPro': boolean;
 	'email': string;
 	'token': string;
-}
+} | null
 
 export type LoginData = {
 	email: string;

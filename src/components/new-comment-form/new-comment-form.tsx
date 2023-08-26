@@ -14,6 +14,7 @@ type NewCommentFormProps = {
 }
 
 function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
+
 	const [formData, setFormData] = useState({
 		rating: 0,
 		review: '',
@@ -23,7 +24,6 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	const reviewSendingStatus = useAppSelector(getReviewSendingStatus);
 	const dispatch = useAppDispatch();
 
-	// function checkValidity(formData: {review: string; rating: number}) {
 	function checkValidity({review, rating}: {review: string; rating: number}) {
 		const ratingValidity = 1 <= rating && rating <= 5;
 		const commentValidity = 50 <= review.length && review.length <= 300;
@@ -46,13 +46,13 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 		}));
 	}
 
-	// Возможно можно сделать, как-то по другому
 	if (reviewSendingStatus === RequestStatus.Error) {
 		if (isSending) {
 			setIsSending(false);
 			toast.warn('Failed to submit form. Please try again!');
 		}
 		dispatch(offerActions.dropReviewSendingStatus);
+
 	}
 	if (reviewSendingStatus === RequestStatus.Success) {
 		if (isSending) {
@@ -69,7 +69,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 			<label className="reviews__label form__label" htmlFor="review">
 				Your review
 			</label>
-			<Rating rating={formData.rating} handleFormChange={handleFormChange}/>
+			<Rating rating={formData.rating} handleFormChange={handleFormChange} isSending={isSending}/>
 			<textarea
 				className="reviews__textarea form__textarea"
 				id="review"
@@ -77,6 +77,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 				placeholder="Tell how was your stay, what you like and what can be improved"
 				value={formData.review}
 				onChange={handleFormChange}
+				disabled={isSending}
 			/>
 			<div className="reviews__button-wrapper">
 				<p className="reviews__help">

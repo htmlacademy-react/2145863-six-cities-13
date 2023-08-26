@@ -1,4 +1,4 @@
-import type {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
+import type {AxiosError, AxiosInstance} from 'axios';
 import axios from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
@@ -16,8 +16,7 @@ const createAPI = (): AxiosInstance => {
 		timeout: REQUEST_TIMEOUT,
 	});
 
-	// здесь какая-то неочевидная проблема с типизацией
-	api.interceptors.request.use((config: AxiosRequestConfig) => {
+	api.interceptors.request.use((config) => {
 		const token = getToken();
 
 		if (token && config.headers) {

@@ -3,60 +3,30 @@ import LocationsList from '../../components/location-list/location-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/sort/sort';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
-import { useAppDispatch, useAppSelector, useDocumentTitle } from '../../hooks';
-import { CITIES } from '../../constants';
+import { useAppSelector, useCities, useDocumentTitle } from '../../hooks';
 import clsx from 'clsx';
-import { useEffect } from 'react';
-import { offersActions } from '../../store/offers/offers.slice';
 import { RequestStatus } from '../../constants/common';
 import LoadingScreen from '../loading-screen/loading-screen';
 import ErrorElement, { ErrorMessage } from '../../components/error-element/error-element';
 import { ErrorCause } from '../../constants/errors';
 import { toast } from 'react-toastify';
-import { getAllOffersFetchingStatus, getCity, getOfferList } from '../../store/offers/offers.selectors';
+import { getAllOffersFetchingStatus } from '../../store/offers/offers.selectors';
 import { getPluralPlaces } from '../../utils/convert';
+import { useOffers } from '../../hooks/use-offers/use-offers';
 
 /**
  * Компонент главного экрана
  */
 function MainPage(): React.JSX.Element {
-
-	const dispatch = useAppDispatch();
-
-	const cities = Array.from(CITIES);
-
-	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
-
 	useDocumentTitle('Main');
-
-	useEffect(() => {
-		if (offersLoadedStatus === RequestStatus.Success) {
-			dispatch(offersActions.fillOfferList());
-		}
-	}, [dispatch, offersLoadedStatus]);
-	const currentCity = useAppSelector(getCity);
-	const offers = useAppSelector(getOfferList);
-	const isEmpty = offers.length === 0 ;
-
-
-	// const [searchParams, setSearchParams] = useSearchParams();
-	// TODO: надо переделать инициализацию с учётом store.city
-	// const initialCity = searchParams.get('filter') || cities[0];
-
-	// На данный момент не вызывается
-	// function handleTabClick(city: string) {
-	// TODO: вызывает двойную перерисовку страницы
-	// setSearchParams({...searchParams, filter: city});
-	// setCurrentCity(city);
-	// }
-	// eslint-disable-next-line no-console
-	// console.log('re-draw. current city: ', currentCity);
+	const {cities, currentCity, currentSort }: {cities: string[]; currentCity: string; currentSort: string} = useCities();
+	const {offers, isEmpty} = useOffers(currentCity, currentSort);
+	const offersLoadedStatus = useAppSelector(getAllOffersFetchingStatus);
 
 	const mainClass = clsx(
 		'page__main page__main--index',
 		{'page__main--index-empty': isEmpty},
 	);
-
 	const containerClass = clsx (
 		'cities__places-container container',
 		{'cities__places-container--empty': isEmpty},
@@ -65,7 +35,6 @@ function MainPage(): React.JSX.Element {
 	if (offersLoadedStatus === RequestStatus.Error) {
 		toast.warn(ErrorMessage[ErrorCause.FetchOffers]);
 	}
-
 
 	return (
 		<div className="page page--gray page--main">
@@ -94,11 +63,12 @@ function MainPage(): React.JSX.Element {
 											<h2 className="visually-hidden">Places</h2>
 											<b className="places__found">{offers.length} {getPluralPlaces(offers.length, 'place')} to stay in {currentCity}</b>
 											<Sort />
-											<OfferList />
+											<OfferList offers={offers}/>
 										</section>
 										<div className="cities__right-section">
 											<LeafletMap
 												block="cities"
+												offers={offers}
 											/>
 										</div>
 									</>
@@ -117,7 +87,6 @@ function MainPage(): React.JSX.Element {
 					</div>
 				</main>
 			)}
-
 
 		</div>
 	);

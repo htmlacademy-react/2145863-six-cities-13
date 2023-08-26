@@ -17,9 +17,7 @@ function handleSignOutClick(evt: SyntheticEvent){
 	store.dispatch(logoutAction());
 }
 
-function Header({
-	hideNavigation = false,
-} : HeaderPops) {
+function Header({ hideNavigation = false,} : HeaderPops) {
 
 	const user = useAppSelector(getUser);
 	const favoriteAmount = useAppSelector(getFavoriteAmount);
@@ -41,7 +39,7 @@ function Header({
 											<div className="header__avatar-wrapper user__avatar-wrapper">
 												{user && <img src={user.avatarUrl} style={{borderRadius: '50%'}}/>}
 											</div>
-											<span className="header__user-name user__name">{user.email}</span>
+											<span className="header__user-name user__name">{user?.email}</span>
 											<span className="header__favorite-count">{favoriteAmount}</span>
 										</ULink>
 									</li>
@@ -52,19 +50,17 @@ function Header({
 									</li>
 								</ul>
 							) : (
-								<nav className="header__nav">
-									<ul className="header__nav-list">
-										<li className="header__nav-item user">
-											<ULink
-												className="header__nav-link header__nav-link--profile"
-												href={AppRoute.Login}
-											>
-												<div className="header__avatar-wrapper user__avatar-wrapper"></div>
-												<span className="header__login">Sign in</span>
-											</ULink>
-										</li>
-									</ul>
-								</nav>
+								<ul className="header__nav-list">
+									<li className="header__nav-item user">
+										<ULink
+											className="header__nav-link header__nav-link--profile"
+											href={AppRoute.Login}
+										>
+											<div className="header__avatar-wrapper user__avatar-wrapper"></div>
+											<span className="header__login">Sign in</span>
+										</ULink>
+									</li>
+								</ul>
 							)}
 						</nav>
 					)}

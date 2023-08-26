@@ -9,7 +9,7 @@ import css from './error-element.module.css';
 const ErrorMessage = {
 	[ErrorCause.FetchOffers]: 'Could not fetch offers!',
 	[ErrorCause.FetchOffer]: 'Could not fetch offer!',
-	[ErrorCause.FetchNearPlaces]: 'Could not fetch near palces!',
+	[ErrorCause.FetchNearPlaces]: 'Could not fetch near palaces!',
 	[ErrorCause.FetchReviews]: 'Could not fetch reviews!',
 	[ErrorCause.FetchFavorites]: 'Could not fetch favorites!',
 	[ErrorCause.Unknown]: 'Unknown error!',
@@ -22,7 +22,6 @@ type ErrorElementProps = {
 
 type ErrorFunctionType = {
 	[key in ErrorCause]: () => Promise<void> | void;
-	// [key in ErrorCause]: () => Promise<ServerOffer[]> | Promise<ServerFullOffer>| void;
 };
 
 function ErrorElement({cause, offerId}: ErrorElementProps) {

@@ -3,6 +3,7 @@ import React from 'react';
 
 type RatingProps = {
 	rating: number;
+	isSending: boolean;
 	handleFormChange: (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
@@ -14,7 +15,7 @@ const RATING_DATA = [
 	{n: 1, title: 'terribly'},
 ] as const;
 
-function Rating({rating, handleFormChange}: RatingProps) {
+function Rating({rating, handleFormChange, isSending}: RatingProps) {
 	return (
 		<div className="reviews__rating-form form__rating">
 			{RATING_DATA.map((item) => {
@@ -29,6 +30,7 @@ function Rating({rating, handleFormChange}: RatingProps) {
 							type="radio"
 							checked = {Number(rating) === n}
 							onChange={handleFormChange}
+							disabled={isSending}
 						/>
 						<label
 							htmlFor={`${n}-stars`}

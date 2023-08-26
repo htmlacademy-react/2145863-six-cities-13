@@ -4,13 +4,14 @@ import { Icon, LayerGroup, Marker } from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useAppSelector, useMap } from '../../hooks';
 import { CitiesGPS } from '../../constants';
-import { getActiveOffer, getCity, getOfferList } from '../../store/offers/offers.selectors';
+import { getActiveOffer, getCity } from '../../store/offers/offers.selectors';
 
 type LeafletMapProps = {
 	block: string;
 	neighborhoodOffers?: ServerOffer[];
 	baseOfferId?: ServerFullOffer['id'];
 	baseOffer?: ServerOffer | ServerFullOffer;
+	offers?: ServerOffer[];
 }
 
 const pinIcon = new Icon({
@@ -25,10 +26,8 @@ const pinIconActive = new Icon({
 	iconAnchor: [13, 39],
 });
 
-function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer}: LeafletMapProps): React.JSX.Element {
+function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer, offers}: LeafletMapProps): React.JSX.Element {
 	const currentCity = useAppSelector(getCity);
-	let offers = useAppSelector(getOfferList);
-
 	const mapRef = useRef(null);
 	const activeCard = useAppSelector(getActiveOffer);
 	const location = CitiesGPS[baseOffer?.city.name || currentCity];
@@ -40,22 +39,23 @@ function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer}: Le
 
 	const highlightedId = (block === 'offer') ? baseOfferId : activeCard;
 
-	// смена вида при смене города
+	/** смена вида при смене города */
 	useEffect(() => {
 		if (mapInstance) {
-			mapInstance.setView([
-				location.latitude,
-				location.longitude,
-			],
-			// 6
-			location.zoom,
-			);
+			mapInstance
+				.flyTo([
+					location.latitude,
+					location.longitude,
+				],
+				location.zoom,
+				{animate: true, duration: 1}
+				);
 		}
 	}, [mapInstance, location, block]);
 
-	// отрисовка пинов
+	/** отрисовка пинов */
 	useEffect(() => {
-		if (mapInstance) {
+		if (mapInstance && offers) {
 			const markerLayer = new LayerGroup().addTo(mapInstance);
 
 			offers.forEach((offer) => {

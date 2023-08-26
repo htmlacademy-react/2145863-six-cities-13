@@ -8,4 +8,3 @@ export const getSort = (state: State): string => state[NameSpace.Offers].sort;
 export const getActiveOffer = (state: State): string | null => state[NameSpace.Offers].activeOffer;
 export const getAllOffers = (state: State): ServerOffer[] => state[NameSpace.Offers].allOffers;
 export const getAllOffersFetchingStatus = (state: State): RequestStatus => state[NameSpace.Offers].allOffersFetchingStatus;
-export const getOfferList = (state: State): ServerOffer[] => state[NameSpace.Offers].offerList;

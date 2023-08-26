@@ -1,16 +1,16 @@
 import clsx from 'clsx';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { ULink } from '../u-link/u-link';
-import { offersActions } from '../../store/offers/offers.slice';
 import { getCity } from '../../store/offers/offers.selectors';
+import { useSearchParams } from 'react-router-dom';
 
 type LocationsListProps = {
 	cities: string[];
 }
 
 function LocationsList({cities}: LocationsListProps) {
-	const dispatch = useAppDispatch();
 	const currentCity = useAppSelector(getCity);
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	return (
 		<ul className="locations__list tabs__list">
@@ -24,7 +24,8 @@ function LocationsList({cities}: LocationsListProps) {
 						)}
 						onClick={(evt) => {
 							evt.preventDefault();
-							dispatch(offersActions.setCity(city));
+							const onlyParams = Object.fromEntries(searchParams);
+							setSearchParams({...onlyParams, filter: city});
 						}}
 						>
 							<span>{city}</span>

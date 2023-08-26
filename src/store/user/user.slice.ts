@@ -6,9 +6,9 @@ import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { User } from '../../types/user';
 
 type UserState = {
-	authorizationStatus: AuthorizationStatus;					// есть
-	loginSendingStatus: RequestStatus;								// есть
-	user: User | null;																// есть
+	authorizationStatus: AuthorizationStatus;
+	loginSendingStatus: RequestStatus;
+	user: User | null;
 }
 
 const initialState: UserState = {
@@ -27,7 +27,6 @@ const slice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			// check-auth
 			.addCase(checkAuthAction.pending, (store) => {
 				store.user = null;
 				store.authorizationStatus = AuthorizationStatus.Unknown;
@@ -40,7 +39,6 @@ const slice = createSlice({
 				store.user = null;
 				store.authorizationStatus = AuthorizationStatus.NoAuth;
 			})
-			// login-action
 			.addCase(loginAction.pending, (store) => {
 				store.loginSendingStatus = RequestStatus.Pending;
 			})

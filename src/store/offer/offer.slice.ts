@@ -35,7 +35,6 @@ const slice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			// offer
 			.addCase(fetchOfferApiAction.pending, (state) => {
 				state.offerFetchingStatus = RequestStatus.Pending;
 			})
@@ -46,11 +45,9 @@ const slice = createSlice({
 			.addCase(fetchOfferApiAction.rejected, (state) => {
 				state.offerFetchingStatus = RequestStatus.Error;
 			})
-			// neighbors
 			.addCase(fetchNeighborsApiAction.fulfilled, (state, action: PayloadAction<ServerOffer[]>) => {
 				state.neighborPlaces = action.payload;
 			})
-			// reviews
 			.addCase(fetchReviewsApiAction.pending, (state) => {
 				state.reviewsFetchingStatus = RequestStatus.Pending;
 			})

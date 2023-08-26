@@ -1,9 +1,11 @@
 import Card from '../card/card';
-import { useAppSelector } from '../../hooks';
-import { getOfferList } from '../../store/offers/offers.selectors';
+import { ServerOffer } from '../../types/offer';
 
-function OfferList(): React.JSX.Element {
-	const offers = useAppSelector(getOfferList);
+type OfferListProps = {
+	offers: ServerOffer[];
+}
+
+function OfferList({offers}: OfferListProps): React.JSX.Element {
 
 	return (
 		<div className="cities__places-list places__list tabs__content">
