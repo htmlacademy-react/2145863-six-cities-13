@@ -28,6 +28,7 @@ function ErrorElement({cause, offerId}: ErrorElementProps) {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	// TODO: Проблемная типизация:
 	// const ErrorFunction: Record<string, ()=> any> = {
 	const ErrorFunction: ErrorFunctionType = {
 		[ErrorCause.FetchOffers]: () => dispatch(fetchOffersApiAction()) ,
