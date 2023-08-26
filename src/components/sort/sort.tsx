@@ -49,8 +49,10 @@ function Sort() {
 				{
 					(Object.entries(SortMap))
 						.map(([type, value]) => (
-							<li key={crypto.randomUUID()}
-								className={`places__option ${activeSort === type ? 'places__option--active' : ''}`}
+							<li key={type}
+								className={clsx('places__option',{
+									'places__option--active': activeSort === type,
+								})}
 								tabIndex={0}
 								onClick={() => handleSortingItemClick(type as SortMethodType)}
 							>

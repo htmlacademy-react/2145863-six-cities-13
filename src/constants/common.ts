@@ -51,7 +51,7 @@ const enum FavoritesStatus {
 
 const SortMethod = {
 	Popular: 'Popular',
-	PriceToHight: 'PriceToHight',
+	PriceToHigh: 'PriceToHigh',
 	PriceToLow: 'PriceToLow',
 	TopRatedFirst: 'TopRatedFirst',
 } as const;

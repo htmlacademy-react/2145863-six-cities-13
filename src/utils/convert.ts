@@ -23,16 +23,16 @@ const SortMap: Record<string, {sortFunc: (a: ServerOffer, b: ServerOffer) => num
 		sortFunc: () => 0,
 		title: 'Popular'
 	},
-	[SortMethod.PriceToHight]: {
-		sortFunc: (a, b) => a.price > b.price ? 1 : -1,
+	[SortMethod.PriceToHigh]: {
+		sortFunc: (a, b) => a.price - b.price,
 		title: 'Price: low to high'
 	},
 	[SortMethod.PriceToLow]: {
-		sortFunc: (a, b) => a.price < b.price ? 1 : -1,
+		sortFunc: (a, b) => b.price - a.price,
 		title: 'Price: high to low'
 	},
 	[SortMethod.TopRatedFirst]: {
-		sortFunc: (a, b) => a.rating < b.rating ? 1 : -1,
+		sortFunc: (a, b) => b.rating - a.rating,
 		title: 'Top rated first'
 	},
 };
