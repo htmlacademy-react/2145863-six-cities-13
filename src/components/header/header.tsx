@@ -50,19 +50,17 @@ function Header({ hideNavigation = false,} : HeaderPops) {
 									</li>
 								</ul>
 							) : (
-								<nav className="header__nav">
-									<ul className="header__nav-list">
-										<li className="header__nav-item user">
-											<ULink
-												className="header__nav-link header__nav-link--profile"
-												href={AppRoute.Login}
-											>
-												<div className="header__avatar-wrapper user__avatar-wrapper"></div>
-												<span className="header__login">Sign in</span>
-											</ULink>
-										</li>
-									</ul>
-								</nav>
+								<ul className="header__nav-list">
+									<li className="header__nav-item user">
+										<ULink
+											className="header__nav-link header__nav-link--profile"
+											href={AppRoute.Login}
+										>
+											<div className="header__avatar-wrapper user__avatar-wrapper"></div>
+											<span className="header__login">Sign in</span>
+										</ULink>
+									</li>
+								</ul>
 							)}
 						</nav>
 					)}
