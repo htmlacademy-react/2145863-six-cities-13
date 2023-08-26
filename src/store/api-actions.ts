@@ -95,7 +95,7 @@ const loginAction = createAsyncThunk<User, LoginData, Extra>(
 	async ({email, password}, {dispatch, extra: api}) => {
 
 		const {data} = await api.post<User>(ApiRoute.Login, {email, password});
-		saveToken(data.token);
+		saveToken(data?.token || '');
 		dispatch(fetchFavoritesApiAction());
 
 		return data;

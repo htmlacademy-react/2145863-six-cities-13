@@ -1,6 +1,6 @@
-import { useAppSelector } from "..";
-import { getAllOffers } from "../../store/offers/offers.selectors";
-import { SortMap } from "../../utils/convert";
+import { useAppSelector } from '..';
+import { getAllOffers } from '../../store/offers/offers.selectors';
+import { SortMap } from '../../utils/convert';
 
 export function useOffers(currentCity: string, currentSort: string) {
 	const rawOffers = useAppSelector(getAllOffers).slice();
