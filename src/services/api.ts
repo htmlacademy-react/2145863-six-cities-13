@@ -2,8 +2,6 @@ import type {AxiosError, AxiosInstance} from 'axios';
 import axios from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
-
-import 'react-toastify/dist/ReactToastify.css';
 import { AppRoute } from '../constants';
 import browserHistory from '../browser-history';
 
