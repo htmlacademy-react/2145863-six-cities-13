@@ -34,19 +34,25 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 		imageSize = {width: '150', height: '110'};
 	}
 
-	function handleCardPointerEnter() {
-		setActiveOffer(offer.id);
+	const notNearby = block !== 'near-places';
+
+	function handleCardMouseEnter() {
+		if (notNearby) {
+			setActiveOffer(offer.id);
+		}
 	}
 
-	function handleCardPointerLeave() {
-		setActiveOffer(null);
+	function handleCardMouseLeave() {
+		if (notNearby) {
+			setActiveOffer(null);
+		}
 	}
 
 	return (
 		<article
 			className={`${block}__card place-card`}
-			onMouseEnter={handleCardPointerEnter}
-			onMouseLeave={handleCardPointerLeave}
+			onMouseEnter={handleCardMouseEnter}
+			onMouseLeave={handleCardMouseLeave}
 		>
 			{offer.isPremium && (
 				<div className="place-card__mark">
