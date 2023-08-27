@@ -1,17 +1,12 @@
 import Header from '../../components/header/header';
-import { ULink } from '../../components/u-link/u-link';
 import { useActionCreators, useDocumentTitle } from '../../hooks';
-import { useEffect, useRef } from 'react';
-import { CITIES } from '../../constants/common';
+import { useEffect } from 'react';
 import { userActions } from '../../store/user/user.slice';
-import { getRandomInteger } from '../../utils/common';
-import { AppRoute } from '../../constants';
 import LoginForm from '../../components/login-form/login-form';
+import RandomCity from '../../components/random-city/random-city';
 
 function LoginPage(): React.JSX.Element {
 	const {dropLoginSendingStatus} = useActionCreators(userActions);
-	const cities = Array.from(CITIES);
-	const randomCity = useRef(cities[getRandomInteger(cities.length)]);
 
 	useEffect(
 		() => () => {
@@ -32,11 +27,7 @@ function LoginPage(): React.JSX.Element {
 						<LoginForm />
 					</section>
 					<section className="locations locations--login locations--current">
-						<div className="locations__item">
-							<ULink className="locations__item-link" href={`${AppRoute.Main}?filter=${randomCity.current}`}>
-								<span>{randomCity.current}</span>
-							</ULink>
-						</div>
+						<RandomCity />
 					</section>
 				</div>
 			</main>
