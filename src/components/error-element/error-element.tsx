@@ -21,15 +21,13 @@ type ErrorElementProps = {
 }
 
 type ErrorFunctionType = {
-	[key in ErrorCause]: () => Promise<void> | void;
+	[key in ErrorCause]: () => unknown;
 };
 
 function ErrorElement({cause, offerId}: ErrorElementProps) {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	// TODO: Проблемная типизация:
-	// const ErrorFunction: Record<string, ()=> any> = {
 	const ErrorFunction: ErrorFunctionType = {
 		[ErrorCause.FetchOffers]: () => dispatch(fetchOffersApiAction()) ,
 		[ErrorCause.FetchOffer]: () => offerId && dispatch(fetchOfferApiAction({offerId})),

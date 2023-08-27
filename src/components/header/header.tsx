@@ -3,7 +3,7 @@ import { AppRoute, AuthorizationStatus } from '../../constants';
 import { ULink } from '../u-link/u-link';
 import { useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { SyntheticEvent } from 'react';
+import { MouseEvent } from 'react';
 import { store } from '../../store';
 import { getAuthorizationStatus, getUser } from '../../store/user/user.selectors';
 import { getFavoriteAmount } from '../../store/favorites/favorites.selectors';
@@ -12,8 +12,8 @@ type HeaderPops = {
 	hideNavigation?: boolean;
 }
 
-function handleSignOutClick(evt: SyntheticEvent){
-	evt.preventDefault();
+function handleSignOutClick(event: MouseEvent<HTMLAnchorElement>){
+	event.preventDefault();
 	store.dispatch(logoutAction());
 }
 
