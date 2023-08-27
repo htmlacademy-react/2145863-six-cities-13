@@ -20,9 +20,7 @@ type ErrorElementProps = {
 	offerId?: ServerFullOffer['id'];
 }
 
-type ErrorFunctionType = {
-	[key in ErrorCause]: () => unknown;
-};
+type ErrorFunctionType = Record<ErrorCause, () => string | void | Promise<unknown>>
 
 function ErrorElement({cause, offerId}: ErrorElementProps) {
 	const dispatch = useAppDispatch();
