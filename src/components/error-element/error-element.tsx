@@ -20,15 +20,12 @@ type ErrorElementProps = {
 	offerId?: ServerFullOffer['id'];
 }
 
-type ErrorFunctionType = {
-	[key in ErrorCause]: () => Promise<void> | void;
-};
+type ErrorFunctionType = Record<ErrorCause, () => string | void | Promise<unknown>>
 
 function ErrorElement({cause, offerId}: ErrorElementProps) {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	// const ErrorFunction: Record<string, ()=> any> = {
 	const ErrorFunction: ErrorFunctionType = {
 		[ErrorCause.FetchOffers]: () => dispatch(fetchOffersApiAction()) ,
 		[ErrorCause.FetchOffer]: () => offerId && dispatch(fetchOfferApiAction({offerId})),
