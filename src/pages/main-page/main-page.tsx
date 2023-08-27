@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { getAllOffersFetchingStatus } from '../../store/offers/offers.selectors';
 import { getPluralPlaces } from '../../utils/convert';
 import { useOffers } from '../../hooks/use-offers/use-offers';
+import EmptyMain from '../../components/empty-main/empty-main';
 
 /**
  * Компонент главного экрана
@@ -38,56 +39,44 @@ function MainPage(): React.JSX.Element {
 
 	return (
 		<div className="page page--gray page--main">
-
 			<Header />
 
-			{ offersLoadedStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffers} /> }
-			{ offersLoadedStatus === RequestStatus.Pending && <LoadingScreen/>}
-			{ offersLoadedStatus === RequestStatus.Success && (
+			{offersLoadedStatus === RequestStatus.Error && (
+				<ErrorElement cause={ErrorCause.FetchOffers} />
+			)}
+			{offersLoadedStatus === RequestStatus.Pending && <LoadingScreen />}
+			{offersLoadedStatus === RequestStatus.Success && (
 				<main className={mainClass}>
 					<h1 className="visually-hidden">Cities</h1>
 					<div className="tabs">
 						<section className="locations container">
-							<LocationsList
-								cities={cities}
-							/>
+							<LocationsList cities={cities} />
 						</section>
 					</div>
 					<div className="cities">
 						<div className={containerClass}>
-							{
-								!isEmpty
-									?
-									<>
-										<section className="cities__places places">
-											<h2 className="visually-hidden">Places</h2>
-											<b className="places__found">{offers.length} {getPluralPlaces(offers.length, 'place')} to stay in {currentCity}</b>
-											<Sort />
-											<OfferList offers={offers}/>
-										</section>
-										<div className="cities__right-section">
-											<LeafletMap
-												block="cities"
-												offers={offers}
-											/>
-										</div>
-									</>
-									:
-									<>
-										<section className="cities__no-places">
-											<div className="cities__status-wrapper tabs__content">
-												<b className="cities__status">No places to stay available</b>
-												<p className="cities__status-description">We could not find any property available at the moment in {currentCity}</p>
-											</div>
-										</section>
-										<div className="cities__right-section" />
-									</>
-							}
+							{!isEmpty ? (
+								<>
+									<section className="cities__places places">
+										<h2 className="visually-hidden">Places</h2>
+										<b className="places__found">
+											{offers.length} {getPluralPlaces(offers.length, 'place')}{' '}
+											to stay in {currentCity}
+										</b>
+										<Sort />
+										<OfferList offers={offers} />
+									</section>
+									<div className="cities__right-section">
+										<LeafletMap block="cities" offers={offers} />
+									</div>
+								</>
+							) : (
+								<EmptyMain city={currentCity} />
+							)}
 						</div>
 					</div>
 				</main>
 			)}
-
 		</div>
 	);
 }
