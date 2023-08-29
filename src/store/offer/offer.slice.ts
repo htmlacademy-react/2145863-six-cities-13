@@ -4,7 +4,7 @@ import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
 import { RequestStatus } from '../../constants/common';
 import { fetchNeighborsApiAction, fetchOfferApiAction, fetchReviewsApiAction, sendReviewApiAction } from '../api-actions';
 
-type OffersState = {
+type OfferState = {
 	offer: ServerFullOffer | null;
 	offerFetchingStatus: RequestStatus;
 	neighborPlaces: ServerOffer[];
@@ -13,7 +13,7 @@ type OffersState = {
 	reviewSendingStatus: RequestStatus;
 }
 
-const initialState: OffersState = {
+const initialState: OfferState = {
 	offer: null,
 	offerFetchingStatus: RequestStatus.Idle,
 	neighborPlaces: [],
