@@ -53,3 +53,4 @@ export const {
 	actions: favoritesActions,
 	reducer: favoritesReducer,
 } = slice;
+
