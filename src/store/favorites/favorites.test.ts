@@ -1,40 +1,15 @@
 import { describe } from 'vitest';
-import { RequestStatus } from '../../constants/common';
+import { FavoritesStatus, RequestStatus } from '../../constants/common';
 import { favoritesReducer } from './favorites.slice';
-import { ServerOffer } from '../../types/offer';
+import { createMockOffer } from '../../utils/mocks';
+import { fetchFavoritesApiAction, sendFavoriteStatusApiAction } from '../api-actions';
 
-describe ('Favorite slice (reducer)', () => {
-	const mockOffers = [
-		{
-			id: '6af6f711-c28d-4121-82cd-e0b462a27f00',
-			title: 'Beautiful & luxurious studio at great location',
-			type: 'apartment',
-			price: 120,
-			city: {
-				name: 'Amsterdam',
-				location: {
-					latitude: 52.35514938496378,
-					longitude: 4.673877537499948,
-					zoom: 8
-				}
-			},
-			location: {
-				latitude: 52.35514938496378,
-				longitude: 4.673877537499948,
-				zoom: 8
-			},
-			isFavorite: false,
-			isPremium: false,
-			rating: 4,
-			previewImage: 'https://url-to-image/image.png'
-		},
-	] as ServerOffer[];
-
-	const emptyAction = {type: ''};
+describe('Favorite slice (reducer)', () => {
+	const emptyAction = { type: '' };
 
 	it('Should return initial state with empty action', () => {
 		const expectedState = {
-			favorites: mockOffers,
+			favorites: [createMockOffer(), createMockOffer()],
 			favoritesFetchingStatus: RequestStatus.Pending,
 			favoriteAmount: 10,
 		};
@@ -55,4 +30,100 @@ describe ('Favorite slice (reducer)', () => {
 
 		expect(result).toEqual(expectedState);
 	});
+
+	it('should set "favoritesFetchingStatus" with "fetchFavoritesApiAction.pending" action', () => {
+		const expectedFavoritesFetchingStatus = RequestStatus.Pending;
+		const result = favoritesReducer(undefined, fetchFavoritesApiAction.pending);
+		expect(result.favoritesFetchingStatus).toBe(
+			expectedFavoritesFetchingStatus
+		);
+	});
+
+	it('should set right "favoritesFetchingStatus", "favorites" and "favoriteAmount" with "fetchFavoritesApiAction.fulfilled" action', () => {
+		const favorites = [createMockOffer(), createMockOffer()];
+		const expectedState = {
+			favorites,
+			favoritesFetchingStatus: RequestStatus.Success,
+			favoriteAmount: favorites.length,
+		};
+
+		const result = favoritesReducer(
+			undefined,
+			fetchFavoritesApiAction.fulfilled(favorites, '', undefined)
+		);
+
+		expect(result).toEqual(expectedState);
+	});
+
+	it('should set "favoritesFetchingStatus" with "fetchFavoritesApiAction.rejected" action', () => {
+		const expectedFavoritesFetchingStatus = RequestStatus.Error;
+		const result = favoritesReducer(undefined, fetchFavoritesApiAction.rejected);
+		expect(result.favoritesFetchingStatus).toBe(expectedFavoritesFetchingStatus);
+	});
+
+	it('should add element to "favorites" and increment "favoriteAmount" with "sendFavoriteStatusApiAction.fulfilled" action', () => {
+		const initialFavorites = [createMockOffer(), createMockOffer()];
+		const extraFavorite = createMockOffer();
+		const initialState = {
+			favorites: initialFavorites,
+			favoritesFetchingStatus: RequestStatus.Success,
+			favoriteAmount: initialFavorites.length,
+		};
+		const expectedState = {
+			favorites: [...initialFavorites, extraFavorite],
+			favoritesFetchingStatus: RequestStatus.Success,
+			favoriteAmount: initialFavorites.length + 1,
+		};
+
+		const result = favoritesReducer(
+			initialState,
+			sendFavoriteStatusApiAction.fulfilled(
+				{
+					offer: extraFavorite,
+					status: FavoritesStatus.Added,
+				},
+				'',
+				{
+					offerId: extraFavorite.id,
+					status: FavoritesStatus.Added,
+				}
+			)
+		);
+
+		expect(result).toEqual(expectedState);
+	});
+
+	it('should remove element from "favorites" and decrement "favoriteAmount" with "sendFavoriteStatusApiAction.fulfilled" action', () => {
+		const extraFavorite = createMockOffer();
+		const expectedFavorites = [createMockOffer(), createMockOffer()];
+		const initialFavorites = [...expectedFavorites, extraFavorite];
+		const initialState = {
+			favorites: initialFavorites,
+			favoritesFetchingStatus: RequestStatus.Success,
+			favoriteAmount: initialFavorites.length,
+		};
+		const expectedState = {
+			favorites: expectedFavorites,
+			favoritesFetchingStatus: RequestStatus.Success,
+			favoriteAmount: expectedFavorites.length,
+		};
+
+		const result = favoritesReducer(
+			initialState,
+			sendFavoriteStatusApiAction.fulfilled(
+				{
+					offer: extraFavorite,
+					status: FavoritesStatus.Removed,
+				},
+				'',
+				{
+					offerId: extraFavorite.id,
+					status: FavoritesStatus.Added,
+				}
+			)
+		);
+
+		expect(result).toEqual(expectedState);
+	});
+
 });
