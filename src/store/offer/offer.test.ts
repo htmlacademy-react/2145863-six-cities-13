@@ -79,7 +79,7 @@ describe ('Offer slice (reducer)', () => {
 	it('should set "offerFetchingStatus" to Pending with "fetchOfferApiAction.fulfilled" action', () => {
 		const expectedStatus = RequestStatus.Success;
 		const data = createFullMockOffer();
-		const payload = {offerId: 'test-offer-id'}
+		const payload = {offerId: 'test-offer-id'};
 
 		const result = offerReducer(undefined, fetchOfferApiAction.fulfilled(data, '', payload));
 
@@ -110,7 +110,7 @@ describe ('Offer slice (reducer)', () => {
 	it('should set "reviewsFetchingStatus" with "fetchReviewsApiAction.fulfilled" action', () => {
 		const expectedStatus = RequestStatus.Success;
 		const data = [createMockReview(), createMockReview()];
-		const payload = {offerId: 'test-offer-id'}
+		const payload = {offerId: 'test-offer-id'};
 
 		const result = offerReducer(undefined, fetchReviewsApiAction.fulfilled(data, '', payload));
 
