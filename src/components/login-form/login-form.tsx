@@ -1,5 +1,4 @@
 import CSS from './login-form.module.css';
-
 import clsx from 'clsx';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../constants/validation';
 import { loginAction } from '../../store/api-actions';
