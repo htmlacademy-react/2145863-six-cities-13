@@ -1,6 +1,18 @@
-import { CITIES, CitiesGPS, OFFER_TYPES } from '../constants';
 import type { ServerOffer,	Rating, ServerFullOffer, ServerReview } from '../types/offer';
+import { CITIES, CitiesGPS, OFFER_TYPES } from '../constants';
 import { faker } from '@faker-js/faker';
+import { State } from '../types/state';
+import { createAPI } from '../services/api';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+
+export type AppThunkDispatch = ThunkDispatch<
+	State,
+	ReturnType<typeof createAPI>,
+	Action
+>;
+
+export const extractActionsTypes = (actions: Action<string>[]) =>
+	actions.map(({ type }) => type);
 
 const LOCATION_RADIUS = 5;
 

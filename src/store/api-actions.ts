@@ -11,6 +11,7 @@ import { ApiRoute } from '../constants/routes';
 import { dropToken, saveToken } from '../services/token';
 import { LoginData, User } from '../types/user';
 import { FavoritesStatus } from '../constants/common';
+import { favoritesActions } from './favorites/favorites.slice';
 
 type Extra = {
 	dispatch?: AppDispatch;
@@ -82,8 +83,10 @@ const sendFavoriteStatusApiAction = createAsyncThunk<{offer: ServerOffer; status
 const checkAuthAction = createAsyncThunk<User, undefined, Extra>(
 	`${NameSpace.User}/checkAuth`,
 	async (_args, {dispatch, extra: api}) => {
-		const {data} = await api.get<User>(ApiRoute.Login);
-		dispatch(fetchFavoritesApiAction());
+		const {data, status} = await api.get<User>(ApiRoute.Login);
+		if (status === 200) {
+			dispatch(fetchFavoritesApiAction());
+		}
 
 		return data;
 	}
@@ -94,9 +97,12 @@ const loginAction = createAsyncThunk<User, LoginData, Extra>(
 	`${NameSpace.User}/login`,
 	async ({email, password}, {dispatch, extra: api}) => {
 
-		const {data} = await api.post<User>(ApiRoute.Login, {email, password});
+		const {data, status} = await api.post<User>(ApiRoute.Login, {email, password});
 		saveToken(data?.token || '');
-		dispatch(fetchFavoritesApiAction());
+		if (status === 201) {
+			dispatch(fetchOffersApiAction());
+			dispatch(fetchFavoritesApiAction());
+		}
 
 		return data;
 	}
@@ -104,9 +110,11 @@ const loginAction = createAsyncThunk<User, LoginData, Extra>(
 
 const logoutAction = createAsyncThunk<void, undefined, Extra>(
 	`${NameSpace.User}/logout`,
-	async (_args, {extra: api}) => {
+	async (_args, {dispatch, extra: api}) => {
 		await api.delete(ApiRoute.Logout);
 		dropToken();
+		dispatch(favoritesActions.dropFavorites());
+		dispatch(fetchOffersApiAction());
 	}
 );
 
