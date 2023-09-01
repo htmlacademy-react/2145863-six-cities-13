@@ -19,6 +19,7 @@ import { checkAuthAction, fetchFavoritesApiAction, fetchNeighborsApiAction, fetc
 import { ApiRoute } from '../constants/routes';
 import * as tokenStorage from '../services/token';
 import { FavoritesStatus } from '../constants';
+import { favoritesActions } from './favorites/favorites.slice';
 
 describe('Async actions', () => {
 	const axios = createAPI();
@@ -248,10 +249,11 @@ describe('Async actions', () => {
 			await store.dispatch(loginAction(mockAuthPayload));
 			const emittedActions = store.getActions();
 			const extractedActionsTypes = extractActionsTypes(emittedActions);
-			const loginActionFulfilled = emittedActions.at(2) as ReturnType<typeof loginAction.fulfilled>;
+			const loginActionFulfilled = emittedActions.at(3) as ReturnType<typeof loginAction.fulfilled>;
 
 			expect(extractedActionsTypes).toEqual([
 				loginAction.pending.type,
+				fetchOffersApiAction.pending.type,
 				fetchFavoritesApiAction.pending.type,
 				loginAction.fulfilled.type,
 			]);
@@ -286,6 +288,8 @@ describe('Async actions', () => {
 
 			expect(actions).toEqual([
 				logoutAction.pending.type,
+				favoritesActions.dropFavorites.type,
+				fetchOffersApiAction.pending.type,
 				logoutAction.fulfilled.type,
 			]);
 		});
