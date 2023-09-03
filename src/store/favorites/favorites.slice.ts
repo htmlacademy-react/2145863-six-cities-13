@@ -4,7 +4,7 @@ import { ServerOffer } from '../../types/offer';
 import { FavoritesStatus, RequestStatus } from '../../constants/common';
 import { fetchFavoritesApiAction, sendFavoriteStatusApiAction } from '../api-actions';
 
-type FavoritesState = {
+export type FavoritesState = {
 	favorites: ServerOffer[];
 	favoritesFetchingStatus: RequestStatus;
 	favoriteAmount: number;
@@ -19,7 +19,11 @@ const initialState: FavoritesState = {
 const slice = createSlice({
 	name: NameSpace.Favorites,
 	initialState,
-	reducers: {},
+	reducers: {
+		dropFavorites(state) {
+			state.favorites = [];
+		},
+	},
 	extraReducers: (builder) =>
 		builder
 			.addCase(fetchFavoritesApiAction.pending, (state) => {

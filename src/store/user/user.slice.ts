@@ -5,7 +5,7 @@ import { RequestStatus } from '../../constants/common';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { User } from '../../types/user';
 
-type UserState = {
+export type UserState = {
 	authorizationStatus: AuthorizationStatus;
 	loginSendingStatus: RequestStatus;
 	user: User | null;

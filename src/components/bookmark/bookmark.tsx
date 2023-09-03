@@ -35,6 +35,7 @@ function Bookmark({block = 'place-card', offerId, isFavorite}: BookmarkProps): R
 		(async () => {
 			if (authorizationStatus !== AuthorizationStatus.Auth) {
 				navigate(AppRoute.Login);
+				return;
 			}
 			setBookmarked((current) => !current);
 			await dispatch(sendFavoriteStatusApiAction({

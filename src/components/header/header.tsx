@@ -24,7 +24,7 @@ function Header({ hideNavigation = false,} : HeaderPops) {
 	const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
 	return (
-		<header className="header">
+		<header data-testid="header" className="header">
 			<div className="container">
 				<div className="header__wrapper">
 					<div className="header__left">
@@ -37,10 +37,10 @@ function Header({ hideNavigation = false,} : HeaderPops) {
 									<li className="header__nav-item user">
 										<ULink href={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
 											<div className="header__avatar-wrapper user__avatar-wrapper">
-												{user && <img src={user.avatarUrl} style={{borderRadius: '50%'}}/>}
+												{user && <img data-testid="avatar-id" src={user.avatarUrl} style={{borderRadius: '50%'}}/>}
 											</div>
 											<span className="header__user-name user__name">{user?.email}</span>
-											<span className="header__favorite-count">{favoriteAmount}</span>
+											<span data-testid="favorite-amount" className="header__favorite-count">{favoriteAmount}</span>
 										</ULink>
 									</li>
 									<li className="header__nav-item">

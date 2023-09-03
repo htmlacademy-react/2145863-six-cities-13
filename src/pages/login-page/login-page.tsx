@@ -14,7 +14,7 @@ function LoginPage(): React.JSX.Element {
 		<div className="page page--gray page--login">
 			<Header hideNavigation/>
 
-			<main className="page__main page__main--login">
+			<main data-testid="login-page" className="page__main page__main--login">
 				<div className="page__login-container container">
 					<section className="login">
 						<h1 className="login__title">Sign in</h1>

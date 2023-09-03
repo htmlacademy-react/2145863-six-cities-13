@@ -5,6 +5,7 @@ function Logo() {
 	return (
 
 		<NavLink
+			data-testid="link"
 			className={({isActive}) =>
 				isActive
 					? 'header__logo-link header__logo-link--active'
