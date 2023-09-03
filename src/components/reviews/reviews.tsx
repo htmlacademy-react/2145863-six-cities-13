@@ -34,7 +34,7 @@ function Reviews({offerId}: ReviewsProps): React.JSX.Element {
 					</h2>
 					<ul className="reviews__list">
 						{reviews?.map((review) => (
-							<li className="reviews__item" key={review.id}>
+							<li data-testid="review-test-id" className="reviews__item" key={review.id}>
 								<div className="reviews__user user">
 									<div className="reviews__avatar-wrapper user__avatar-wrapper">
 										<img

@@ -34,7 +34,7 @@ function FavoritesPage(): React.JSX.Element {
 		<div className={pageClass}>
 			<Header />
 
-			<main className={mainClass}>
+			<main data-testid="favorite-page" className={mainClass}>
 				<div className="page__favorites-container container">
 					{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchFavorites}/>}
 					{fetchingStatus === RequestStatus.Pending && <LoadingScreen />}

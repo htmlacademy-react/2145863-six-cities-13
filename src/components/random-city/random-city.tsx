@@ -13,7 +13,7 @@ function RandomCity(): React.JSX.Element {
 				className="locations__item-link"
 				href={`${AppRoute.Main}?filter=${randomCity.current}`}
 			>
-				<span>{randomCity.current}</span>
+				<span data-testid="random-city-id">{randomCity.current}</span>
 			</ULink>
 		</div>
 	);

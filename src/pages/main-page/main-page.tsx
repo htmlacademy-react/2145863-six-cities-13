@@ -38,7 +38,7 @@ function MainPage(): React.JSX.Element {
 	}
 
 	return (
-		<div className="page page--gray page--main">
+		<div data-testid="main-page" className="page page--gray page--main">
 			<Header />
 
 			{offersLoadedStatus === RequestStatus.Error && (

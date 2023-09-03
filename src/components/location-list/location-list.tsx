@@ -16,7 +16,7 @@ function LocationsList({cities}: LocationsListProps) {
 		<ul className="locations__list tabs__list">
 			{cities.map((city) =>
 				(
-					<li className="locations__item" key={city}>
+					<li data-testid="city-element" className="locations__item" key={city}>
 						<ULink href="#" className={clsx(
 							'locations__item-link',
 							city === currentCity && 'tabs__item--active',

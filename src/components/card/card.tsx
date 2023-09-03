@@ -50,6 +50,7 @@ function Card({block, offer}: CardProps): React.JSX.Element {
 
 	return (
 		<article
+			data-testid="card-id"
 			className={`${block}__card place-card`}
 			onMouseEnter={handleCardMouseEnter}
 			onMouseLeave={handleCardMouseLeave}
