@@ -9,7 +9,7 @@ function Page404(): React.JSX.Element {
 	return (
 		<>
 			<Header />
-			<div className={`${css.container} error`}>
+			<div data-testid="notfound-page" className={`${css.container} error`}>
 				<img className={css.image} src="img/404.svg" width="252" height="294" alt="Специалист озадачен." />
 				<h1 className={css.title}>404</h1>
 				<p className={css.description}>Sorry, the page you visited does not exist.</p>

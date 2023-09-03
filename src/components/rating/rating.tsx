@@ -24,6 +24,7 @@ function Rating({rating, handleFormChange, isSending}: RatingProps) {
 					<React.Fragment key={n}>
 						<input
 							className="form__rating-input visually-hidden"
+							data-testid="input-id"
 							name="rating"
 							value={n}
 							id={`${n}-stars`}
@@ -34,6 +35,7 @@ function Rating({rating, handleFormChange, isSending}: RatingProps) {
 						/>
 						<label
 							htmlFor={`${n}-stars`}
+							data-testid="label-id"
 							className="reviews__rating-label form__rating-label"
 							title={title}
 						>

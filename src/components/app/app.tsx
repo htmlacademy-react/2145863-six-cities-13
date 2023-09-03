@@ -15,56 +15,45 @@ import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 import './stable-width.css';
 
-function App(): React.JSX.Element {
+export type AppProps = {
+	isTestMode?: boolean;
+}
+
+function App({isTestMode = false}: AppProps): React.JSX.Element {
 	const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-	return (
-
-		<HistoryRouter history={browserHistory}>
-			<Routes>
+	const routes = (
+		<Routes>
+			<Route element={<ScrollToTop />}>
+				<Route path={AppRoute.Main} element={<MainPage />}></Route>
+				<Route path={`${AppRoute.Offer}/:id`} element={<OfferPage />} />
 				<Route
-					element={<ScrollToTop />}
+					path={AppRoute.Login}
+					element={<PublicRoute status={authorizationStatus} />}
 				>
-					<Route
-						path={AppRoute.Main}
-						element={<MainPage />}
-					>
-					</Route>
-					<Route
-						path={`${AppRoute.Offer}/:id`}
-						element={<OfferPage />}
-					/>
-					<Route
-						path={AppRoute.Login}
-						element={<PublicRoute status={authorizationStatus}/>}
-					>
-						<Route
-							index
-							element={<LoginPage />}
-						/>
-					</Route>
-					<Route
-						path={AppRoute.Favorites}
-						element={<PrivateRoute status={authorizationStatus}/>}
-					>
-						<Route
-							index
-							element={<FavoritesPage />}
-						/>
-					</Route>
-					<Route
-						path={AppRoute.NotFound}
-						element={<Page404 />}
-					/>
-					<Route
-						path="*"
-						element={<Page404 />}
-					/>
+					<Route index element={<LoginPage />} />
 				</Route>
+				<Route
+					path={AppRoute.Favorites}
+					element={<PrivateRoute status={authorizationStatus} />}
+				>
+					<Route index element={<FavoritesPage />} />
+				</Route>
+				<Route path={AppRoute.NotFound} element={<Page404 />} />
+				<Route path="*" element={<Page404 />} />
+			</Route>
+		</Routes>
+	);
 
-
-			</Routes>
-		</HistoryRouter>
+	return (
+		<>
+			{ !isTestMode && (
+				<HistoryRouter history={browserHistory}>
+					{routes}
+				</HistoryRouter>
+			)}
+			{ isTestMode && (routes)}
+		</>
 	);
 }
 

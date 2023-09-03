@@ -4,7 +4,7 @@ import { ServerFullOffer, ServerOffer, ServerReview } from '../../types/offer';
 import { RequestStatus } from '../../constants/common';
 import { fetchNeighborsApiAction, fetchOfferApiAction, fetchReviewsApiAction, sendReviewApiAction } from '../api-actions';
 
-type OfferState = {
+export type OfferState = {
 	offer: ServerFullOffer | null;
 	offerFetchingStatus: RequestStatus;
 	neighborPlaces: ServerOffer[];

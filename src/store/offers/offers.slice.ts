@@ -4,7 +4,7 @@ import { ServerFullOffer, ServerOffer } from '../../types/offer';
 import { FavoritesStatus, RequestStatus } from '../../constants/common';
 import { fetchOffersApiAction } from '../api-actions';
 
-type OffersState = {
+export type OffersState = {
 	city: string;
 	sort: string;
 	activeOffer: string | null;

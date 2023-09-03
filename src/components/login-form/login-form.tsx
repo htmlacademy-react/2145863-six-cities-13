@@ -52,6 +52,7 @@ function LoginForm(): React.JSX.Element {
 					className={clsx('login__input', 'form__input', {
 						[CSS.fieldInvalid]: !isEmailValid && isEmailTouched,
 					})}
+					data-testid="emailElement"
 					type="email"
 					name="email"
 					placeholder="Email"
@@ -76,6 +77,7 @@ function LoginForm(): React.JSX.Element {
 						[CSS.fieldInvalid]: !isPasswordValid && isPasswordTouched,
 					})}
 					type="password"
+					data-testid="passwordElement"
 					name="password"
 					placeholder="Password"
 					title="Пароль должен содержать не менее одной буквы и цифры"

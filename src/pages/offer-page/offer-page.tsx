@@ -1,5 +1,5 @@
-import Header from '../../components/header/header';
 import { useAppSelector, useDocumentTitle, useFetchOfferData } from '../../hooks';
+import Header from '../../components/header/header';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 import { useParams } from 'react-router-dom';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -17,6 +17,7 @@ function OfferPage(): React.JSX.Element {
 	const {id: offerId} = useParams();
 	const offer = useAppSelector(getOffer);
 	const fetchingStatus = useAppSelector(getOfferFetchingStatus);
+
 	let neighbourPlaces = useAppSelector(getNeighborPlaces);
 	neighbourPlaces = getRandomUniqueElementsFromArray<ServerOffer>(neighbourPlaces, MAX_NEIGHBOUR);
 
@@ -33,7 +34,7 @@ function OfferPage(): React.JSX.Element {
 			{fetchingStatus === RequestStatus.Error && <ErrorElement cause={ErrorCause.FetchOffer} offerId={offerId}/>}
 			{fetchingStatus === RequestStatus.Pending && <LoadingScreen />}
 			{fetchingStatus === RequestStatus.Success && offer && (
-				<main className="page__main page__main--offer">
+				<main data-testid="offer-page" className="page__main page__main--offer">
 					<section className="offer">
 						<OfferContent offer={offer} offerId={offerId}/>
 						<LeafletMap

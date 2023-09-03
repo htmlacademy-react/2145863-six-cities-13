@@ -19,7 +19,7 @@ function ULink({children, href, ...props}: ULinkProps) {
 
 	if (href === undefined) {
 		return (
-			<a {...props}>
+			<a data-testid="link-undefined-id" {...props}>
 				{children}
 			</a>
 		);
@@ -27,7 +27,7 @@ function ULink({children, href, ...props}: ULinkProps) {
 
 	if (isExternal) {
 		return (
-			<a href={href} rel="noreferrer noopener" target="_blank" {...props}>
+			<a data-testid="link-external-id" href={href} rel="noreferrer noopener" target="_blank" {...props}>
 				{children}
 			</a>
 		);
@@ -35,14 +35,14 @@ function ULink({children, href, ...props}: ULinkProps) {
 
 	if (isAnchor) {
 		return (
-			<a href={href} {...props}>
+			<a data-testid="link-anchor-id" href={href} {...props}>
 				{children}
 			</a>
 		);
 	}
 
 	return (
-		<RouterLink to={href} {...props}>
+		<RouterLink data-testid="link-router-id" to={href} {...props}>
 			{children}
 		</RouterLink>
 	);

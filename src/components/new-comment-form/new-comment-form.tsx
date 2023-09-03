@@ -63,7 +63,7 @@ function NewCommentForm({offerId}: NewCommentFormProps): React.JSX.Element {
 	}
 
 	return (
-		<form className="reviews__form form" action="#" method="post"
+		<form data-testid="comment-form-id" className="reviews__form form" action="#" method="post"
 			onSubmit={handleFormSubmit}
 		>
 			<label className="reviews__label form__label" htmlFor="review">

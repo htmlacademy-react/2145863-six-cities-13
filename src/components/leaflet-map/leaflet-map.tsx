@@ -81,6 +81,7 @@ function LeafletMap({block, neighborhoodOffers, baseOfferId = '', baseOffer, off
 
 	return (
 		<section
+			data-testid="leaflet-testid"
 			className={`${block}__map map`}
 			ref={mapRef}
 			style={{

@@ -1,6 +1,23 @@
-import { CITIES, CitiesGPS, OFFER_TYPES } from '../constants';
 import type { ServerOffer,	Rating, ServerFullOffer, ServerReview } from '../types/offer';
+import { AuthorizationStatus, CITIES, CitiesGPS, NameSpace, OFFER_TYPES } from '../constants';
 import { faker } from '@faker-js/faker';
+import { State } from '../types/state';
+import { createAPI } from '../services/api';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import { DEFAULT_CITY, RequestStatus, SortMethod } from '../constants/common';
+import { UserState } from '../store/user/user.slice';
+import { OffersState } from '../store/offers/offers.slice';
+import { OfferState } from '../store/offer/offer.slice';
+import { FavoritesState } from '../store/favorites/favorites.slice';
+
+export type AppThunkDispatch = ThunkDispatch<
+	State,
+	ReturnType<typeof createAPI>,
+	Action
+>;
+
+export const extractActionsTypes = (actions: Action<string>[]) =>
+	actions.map(({ type }) => type);
 
 const LOCATION_RADIUS = 5;
 
@@ -104,4 +121,33 @@ function createMockReview(): ServerReview {
 	};
 }
 
-export {createMockOffer, createFullMockOffer, createMockReview};
+const createFakeStore = (initialState?: Partial<State>): State => ({
+	[NameSpace.User]: {
+		authorizationStatus: AuthorizationStatus.Unknown,
+		loginSendingStatus: RequestStatus.Idle,
+		user: null,
+	} as UserState,
+	[NameSpace.Offers]: {
+		city: DEFAULT_CITY,
+		sort: SortMethod.Popular as string,
+		activeOffer: null,
+		allOffers: [],
+		allOffersFetchingStatus: RequestStatus.Idle,
+	} as OffersState,
+	[NameSpace.Offer]: {
+		offer: null,
+		offerFetchingStatus: RequestStatus.Idle,
+		neighborPlaces: [],
+		reviews: [],
+		reviewsFetchingStatus:  RequestStatus.Idle,
+		reviewSendingStatus:  RequestStatus.Idle,
+	} as OfferState,
+	[NameSpace.Favorites]: {
+		favorites: [],
+		favoritesFetchingStatus: RequestStatus.Idle,
+		favoriteAmount: 0,
+	} as FavoritesState,
+	...(initialState ?? {}),
+});
+
+export {createMockOffer, createFullMockOffer, createMockReview, createFakeStore};
